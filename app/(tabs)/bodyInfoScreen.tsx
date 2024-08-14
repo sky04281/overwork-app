@@ -1,12 +1,12 @@
 import { SafeAreaView, Text } from 'react-native'
 import React from 'react'
 
-const TableScreen = () => {
+const BodyInfoScreen = () => {
     return (
         <SafeAreaView>
-            <Text className="dark:text-white">過負荷量表</Text>
+            <Text className="dark:text-white">生理資訊接收介面</Text>
         </SafeAreaView>
     )
 }
 
-export default TableScreen
+export default BodyInfoScreen

@@ -28,9 +28,21 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="table"
+                name="overWorkTableScreen"
                 options={{
                     title: '量表',
+                }}
+            />
+            <Tabs.Screen
+                name="bodyInfoScreen"
+                options={{
+                    title: '生理資訊',
+                }}
+            />
+            <Tabs.Screen
+                name="basicInfoScreen"
+                options={{
+                    title: '基本資料',
                 }}
             />
         </Tabs>
