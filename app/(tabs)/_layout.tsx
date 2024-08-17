@@ -18,7 +18,7 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="index"
                 options={{
-                    title: '首頁',
+                    title: '健康儀表板',
                     tabBarIcon: ({ color, focused }) => (
                         <TabBarIcon
                             name={focused ? 'home' : 'home-outline'}
@@ -30,7 +30,7 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="overWorkTableScreen"
                 options={{
-                    title: '量表',
+                    title: '過負荷量表',
                 }}
             />
             <Tabs.Screen
