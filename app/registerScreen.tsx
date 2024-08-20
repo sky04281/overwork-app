@@ -4,9 +4,10 @@ import React from 'react'
 import { useRouter } from 'expo-router'
 import LoginFormField from '@/components/login/LoginFormField'
 
-const LoginScreen = () => {
+const RegisterScreen = () => {
     const router = useRouter()
     const [form, setForm] = React.useState({
+        userName: '',
         account: '',
         password: '',
     })
@@ -20,6 +21,14 @@ const LoginScreen = () => {
                         </Text>
                     </View>
                     <View className="w-full px-4">
+                        <LoginFormField
+                            title={'姓名'}
+                            value={form.userName}
+                            placeholder="在此輸入姓名"
+                            onChangeText={(e) => {
+                                setForm({ ...form, userName: e })
+                            }}
+                        />
                         <LoginFormField
                             title={'帳號'}
                             value={form.account}
@@ -41,20 +50,20 @@ const LoginScreen = () => {
                         <Pressable
                             className="bg-blue-400 h-10 w-full mt-5 mx-auto rounded-lg flex flex-row justify-center items-center"
                             onPress={() => {
-                                router.push('/(tabs)')
+                                router.push('/')
                             }}
                         >
-                            <Text className="text-white">登入</Text>
+                            <Text className="text-white">註冊</Text>
                         </Pressable>
                         <View className="flex flex-row justify-center mt-2">
-                            <Text className="text-black">沒有帳號？</Text>
+                            <Text className="text-black">已有帳號？</Text>
                             <Text
                                 className="text-blue-500 ml-1"
                                 onPress={() => {
-                                    router.push('/registerScreen')
+                                    router.push('/')
                                 }}
                             >
-                                註冊
+                                登入
                             </Text>
                         </View>
                     </View>
@@ -64,4 +73,4 @@ const LoginScreen = () => {
     )
 }
 
-export default LoginScreen
+export default RegisterScreen

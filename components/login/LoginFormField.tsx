@@ -1,5 +1,6 @@
 import { View, Text, TextInput, KeyboardTypeOptions } from 'react-native'
 import React, { useState } from 'react'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 
 interface LoginFormFieldProps {
     title: string
@@ -31,7 +32,19 @@ const LoginFormField = (props: LoginFormFieldProps) => {
                         className="text-blue-500 mx-1"
                         onPress={() => setIsHidden(!isHidden)}
                     >
-                        {isHidden ? '顯示' : '隱藏'}
+                        {isHidden ? (
+                            <MaterialCommunityIcons
+                                name="eye-off"
+                                size={20}
+                                color="black"
+                            />
+                        ) : (
+                            <MaterialCommunityIcons
+                                name="eye"
+                                size={20}
+                                color="black"
+                            />
+                        )}
                     </Text>
                 )}
             </View>
