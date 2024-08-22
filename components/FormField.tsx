@@ -2,7 +2,7 @@ import { View, Text, TextInput, KeyboardTypeOptions } from 'react-native'
 import React, { useState } from 'react'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 
-interface LoginFormFieldProps {
+interface FormFieldProps {
     title: string
     value: string
     placeholder: string
@@ -11,7 +11,7 @@ interface LoginFormFieldProps {
     onChangeText: (text: string) => void
 }
 
-const LoginFormField = (props: LoginFormFieldProps) => {
+const FormField = (props: FormFieldProps) => {
     const [isHidden, setIsHidden] = useState(true)
     return (
         <View className="w-full space-y-2 my-2">
@@ -52,4 +52,4 @@ const LoginFormField = (props: LoginFormFieldProps) => {
     )
 }
 
-export default LoginFormField
+export default FormField

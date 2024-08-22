@@ -4,16 +4,15 @@ import React from 'react'
 import { useRouter } from 'expo-router'
 import FormField from '@/components/FormField'
 
-const RegisterScreen = () => {
+const LoginScreen = () => {
     const router = useRouter()
     const [form, setForm] = React.useState({
-        userName: '',
         account: '',
         password: '',
     })
     const handleFormSubmit = () => {
         console.log(form)
-        router.push('/')
+        router.push('/(tabs)')
     }
     return (
         <SafeAreaView className="h-full">
@@ -25,14 +24,6 @@ const RegisterScreen = () => {
                         </Text>
                     </View>
                     <View className="w-full px-4">
-                        <FormField
-                            title={'姓名'}
-                            value={form.userName}
-                            placeholder="在此輸入姓名"
-                            onChangeText={(e) => {
-                                setForm({ ...form, userName: e })
-                            }}
-                        />
                         <FormField
                             title={'帳號'}
                             value={form.account}
@@ -54,20 +45,20 @@ const RegisterScreen = () => {
                         <Pressable
                             className="bg-blue-400 h-10 w-full mt-5 mx-auto rounded-lg flex flex-row justify-center items-center"
                             onPress={() => {
-                                router.push('/')
+                                handleFormSubmit()
                             }}
                         >
-                            <Text className="text-white">註冊</Text>
+                            <Text className="text-white">登入</Text>
                         </Pressable>
                         <View className="flex flex-row justify-center mt-2">
-                            <Text className="text-black">已有帳號？</Text>
+                            <Text className="text-black">沒有帳號？</Text>
                             <Text
                                 className="text-blue-500 ml-1"
                                 onPress={() => {
-                                    handleFormSubmit()
+                                    router.push('/registerScreen')
                                 }}
                             >
-                                登入
+                                註冊
                             </Text>
                         </View>
                     </View>
@@ -77,4 +68,4 @@ const RegisterScreen = () => {
     )
 }
 
-export default RegisterScreen
+export default LoginScreen
