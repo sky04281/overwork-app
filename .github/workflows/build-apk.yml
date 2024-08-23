@@ -1,8 +1,8 @@
 name: Build APK
 
 on:
-  pull_request:
-    types: [closed]
+  release:
+    types: [published]
     
 jobs:
   build:
