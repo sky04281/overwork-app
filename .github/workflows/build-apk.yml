@@ -43,5 +43,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: app-release
-          path: ${{ github.workspace }}/overworkapp${{ GITHUB_REF }}.apk
+          path: ${{ github.workspace }}/overworkapp.apk
     
