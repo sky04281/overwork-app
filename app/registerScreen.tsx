@@ -54,7 +54,7 @@ const RegisterScreen = () => {
                         <Pressable
                             className="bg-blue-400 h-10 w-full mt-5 mx-auto rounded-lg flex flex-row justify-center items-center"
                             onPress={() => {
-                                router.push('/')
+                                handleFormSubmit()
                             }}
                         >
                             <Text className="text-white">註冊</Text>
@@ -64,7 +64,7 @@ const RegisterScreen = () => {
                             <Text
                                 className="text-blue-500 ml-1"
                                 onPress={() => {
-                                    handleFormSubmit()
+                                    router.push('/')
                                 }}
                             >
                                 登入
