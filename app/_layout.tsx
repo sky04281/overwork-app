@@ -9,13 +9,16 @@ import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 import 'react-native-reanimated'
 
-import { useColorScheme } from '@/hooks/useColorScheme'
+import { useColorScheme } from 'nativewind'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-    const colorScheme = useColorScheme()
+    const { colorScheme, setColorScheme } = useColorScheme()
+    useEffect(() => {
+        setColorScheme('light')
+    }, [])
     const [loaded] = useFonts({
         SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     })
@@ -31,10 +34,8 @@ export default function RootLayout() {
     }
 
     return (
-        <ThemeProvider value={DefaultTheme}>
-            <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            </Stack>
-        </ThemeProvider>
+        <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
     )
 }

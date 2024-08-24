@@ -1,16 +1,31 @@
-import { FlatList, Pressable, SafeAreaView, Text, View } from 'react-native'
+import {
+    FlatList,
+    Pressable,
+    SafeAreaView,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
+} from 'react-native'
 import React from 'react'
 import BasicInfoField from '@/components/tabs/basicInfoField'
 import FormField from '@/components/FormField'
+import BirthDataPicker from '@/components/tabs/birthDataPicker'
 
 const BasicInfoScreen = () => {
     const [form, setForm] = React.useState({
         name: '王小明',
-        birthDay: '1990-01-01',
+        birthDate: '1990-01-01',
         height: '200',
         weight: '80',
-        workingTime: 8,
+        workingTime: '8',
     })
+    const handleDateChange = (date: Date) => {
+        setForm({
+            ...form,
+            birthDate: date.toLocaleDateString(),
+        })
+    }
     const [isEditable, setIsEditable] = React.useState(false)
     const handlePress = () => {
         if (isEditable) {
@@ -25,50 +40,66 @@ const BasicInfoScreen = () => {
     }
     return (
         <SafeAreaView className="h-full flex">
-            <View className="w-full flex-1 justify-center">
-                <BasicInfoField
-                    title="姓名"
-                    value={form.name}
-                    editable={isEditable}
-                    onChangeText={(e) => setForm({ ...form, name: e })}
-                />
-                <BasicInfoField
-                    title="生日"
-                    value={form.birthDay}
-                    editable={isEditable}
-                    onChangeText={(e) => setForm({ ...form, birthDay: e })}
-                />
-                <BasicInfoField
-                    title="身高(cm)"
-                    value={form.height}
-                    editable={isEditable}
-                    onChangeText={(e) => setForm({ ...form, height: e })}
-                />
-                <BasicInfoField
-                    title="體重(kg)"
-                    value={form.weight}
-                    editable={isEditable}
-                    onChangeText={(e) => setForm({ ...form, weight: e })}
-                />
-                <BasicInfoField
-                    title="工作時長(hr)"
-                    value={form.workingTime.toString()}
-                    editable={isEditable}
-                    onChangeText={(e) =>
-                        setForm({ ...form, workingTime: parseInt(e) })
-                    }
-                />
-                <View className="flex-row justify-center px-4">
-                    <Pressable
-                        className="bg-blue-400 h-10 w-1/2 mt-5 mx-auto rounded-lg flex flex-row justify-center items-center"
-                        onPress={() => handlePress()}
-                    >
-                        <Text className="text-white">
-                            {isEditable ? '儲存' : '編輯'}
-                        </Text>
-                    </Pressable>
+            <ScrollView contentContainerStyle={{ flex: 1 }}>
+                <View className="flex-row justify-center items-center py-4  border-y-[2rem]">
+                    <Text className="text-3xl font-bold">基本資料</Text>
                 </View>
-            </View>
+                <View className="flex-1 justify-center">
+                    <BasicInfoField
+                        title="姓名"
+                        value={form.name}
+                        editable={isEditable}
+                        onChangeText={(e) => setForm({ ...form, name: e })}
+                    />
+                    {/* <BasicInfoField
+                        title="生日"
+                        value={form.birthDay}
+                        editable={isEditable}
+                        onChangeText={(e) => setForm({ ...form, birthDay: e })}
+                    /> */}
+                    <BirthDataPicker
+                        value={form.birthDate}
+                        editable={isEditable}
+                        handleDateChange={handleDateChange}
+                    />
+                    <BasicInfoField
+                        title="身高(cm)"
+                        value={form.height}
+                        type="number-pad"
+                        editable={isEditable}
+                        onChangeText={(e) => setForm({ ...form, height: e })}
+                    />
+                    <BasicInfoField
+                        title="體重(kg)"
+                        value={form.weight}
+                        type="number-pad"
+                        editable={isEditable}
+                        onChangeText={(e) => setForm({ ...form, weight: e })}
+                    />
+                    <BasicInfoField
+                        title="工作時長(hr)"
+                        value={form.workingTime.toString()}
+                        type="number-pad"
+                        editable={isEditable}
+                        onChangeText={(e) =>
+                            setForm({
+                                ...form,
+                                workingTime: e,
+                            })
+                        }
+                    />
+                    <View className="flex-row justify-center px-4">
+                        <Pressable
+                            className="bg-blue-400 h-10 w-1/2 mt-5 mx-auto rounded-lg flex flex-row justify-center items-center"
+                            onPress={() => handlePress()}
+                        >
+                            <Text className="text-white">
+                                {isEditable ? '儲存' : '編輯'}
+                            </Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </ScrollView>
         </SafeAreaView>
     )
 }

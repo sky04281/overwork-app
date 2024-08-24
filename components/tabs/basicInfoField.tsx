@@ -1,9 +1,10 @@
-import { View, Text, TextInput } from 'react-native'
-import React from 'react'
+import { View, Text, TextInput, KeyboardType, Keyboard } from 'react-native'
+import React, { Key } from 'react'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 interface BasicInfoFieldProps {
     title: string
     value: string
+    type?: KeyboardType
     editable?: boolean
     onChangeText?: (e: string) => void
 }
@@ -24,6 +25,7 @@ const BasicInfoField = ({ ...props }: BasicInfoFieldProps) => {
                 <TextInput
                     className="w-full h-full p-2 items-center font-medium text-base text-black focus:text-blue-500"
                     value={props.value}
+                    keyboardType={props.type ? props.type : 'default'}
                     editable={props.editable}
                     onChangeText={props.onChangeText}
                 />
