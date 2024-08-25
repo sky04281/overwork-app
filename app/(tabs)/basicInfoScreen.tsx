@@ -11,6 +11,7 @@ import React from 'react'
 import BasicInfoField from '@/components/tabs/basicInfoField'
 import FormField from '@/components/FormField'
 import BirthDataPicker from '@/components/tabs/birthDataPicker'
+import Header from '@/components/tabs/header'
 
 const BasicInfoScreen = () => {
     const [form, setForm] = React.useState({
@@ -41,9 +42,7 @@ const BasicInfoScreen = () => {
     return (
         <SafeAreaView className="h-full flex">
             <ScrollView contentContainerStyle={{ flex: 1 }}>
-                <View className="flex-row justify-center items-center py-4  border-y-[2rem]">
-                    <Text className="text-3xl font-bold">基本資料</Text>
-                </View>
+                <Header title="基本資料" />
                 <View className="flex-1 justify-center">
                     <BasicInfoField
                         title="姓名"
@@ -51,17 +50,17 @@ const BasicInfoScreen = () => {
                         editable={isEditable}
                         onChangeText={(e) => setForm({ ...form, name: e })}
                     />
-                    {/* <BasicInfoField
+                    <BasicInfoField
                         title="生日"
-                        value={form.birthDay}
+                        value={form.birthDate}
                         editable={isEditable}
-                        onChangeText={(e) => setForm({ ...form, birthDay: e })}
-                    /> */}
-                    <BirthDataPicker
+                        onChangeText={(e) => setForm({ ...form, birthDate: e })}
+                    />
+                    {/* <BirthDataPicker
                         value={form.birthDate}
                         editable={isEditable}
                         handleDateChange={handleDateChange}
-                    />
+                    /> */}
                     <BasicInfoField
                         title="身高(cm)"
                         value={form.height}
