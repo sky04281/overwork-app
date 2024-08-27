@@ -41,20 +41,7 @@ export default function InfoModal({
                     </Pressable>
                 </View>
                 <View className="mx-[5vw] h-[45vh]">
-                    <Text className="text-base">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Ut temporibus perferendis explicabo. Quaerat consequatur
-                        nemo voluptatibus provident minus, dicta ea aperiam
-                        architecto explicabo molestias maxime accusantium sunt
-                        aliquid distinctio velit sit, iusto illo voluptatum aut?
-                        Dolorum dolor nostrum excepturi hic maiores saepe
-                        obcaecati similique praesentium repudiandae cumque harum
-                        esse voluptatibus porro at, eligendi iusto tempora
-                        delectus aperiam neque nesciunt quos quibusdam, placeat
-                        quidem? Aspernatur perferendis saepe provident aut eum
-                        totam corporis laboriosam suscipit et hic? Mollitia qui
-                        harum repellendus quibusdam.
-                    </Text>
+                    <Text className="text-base">內容內容內容內容內容內容</Text>
                 </View>
             </View>
         </Modal>

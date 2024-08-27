@@ -26,8 +26,24 @@ export default function HealthInfo({
                       title: '資訊一',
                       content: '內容內容內容內容內容內容',
                   },
+                  {
+                      title: '資訊一',
+                      content: '內容內容內容內容內容內容',
+                  },
+                  {
+                      title: '資訊一',
+                      content: '內容內容內容內容內容內容',
+                  },
               ]
             : [
+                  {
+                      title: '資訊二',
+                      content: '內容內容內容內容內容內容',
+                  },
+                  {
+                      title: '資訊二',
+                      content: '內容內容內容內容內容內容',
+                  },
                   {
                       title: '資訊二',
                       content: '內容內容內容內容內容內容',
@@ -43,10 +59,13 @@ export default function HealthInfo({
               ]
 
     return (
-        <View className="flex justify-center items-center">
+        <View className="flex justify-center items-center mt-[1.5vh]">
             {info.map((info, index) => {
-                return index / 2 === 0 ? (
-                    <View className="flex h-[15vh] w-[80vw] mb-[5vh] mr-[5vh] border border-solid rounded-[15px]">
+                return (index + 1) % 2 === 1 ? (
+                    <View
+                        className="flex h-[15vh] w-[80vw] mb-[5vh] mr-[5vh] border border-solid rounded-[15px]"
+                        key={index}
+                    >
                         <View className="flex flex-row justify-between items-center mx-[3vw] mt-[1vh]">
                             <Text className="text-xl font-semibold text-indigo-700">
                                 {info.title}
@@ -66,7 +85,10 @@ export default function HealthInfo({
                         </View>
                     </View>
                 ) : (
-                    <View className="flex h-[15vh] w-[80vw] mb-[5vh] ml-[5vh] border border-solid rounded-[15px]">
+                    <View
+                        className="flex h-[15vh] w-[80vw] mb-[5vh] ml-[5vh] border border-solid rounded-[15px]"
+                        key={index}
+                    >
                         <View className="flex flex-row justify-between items-center mx-[3vw] mt-[1vh]">
                             <Pressable onPress={handlePressInfo}>
                                 <AntDesign
