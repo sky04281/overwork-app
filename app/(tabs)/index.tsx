@@ -42,7 +42,7 @@ export default function HomeScreen() {
                                 <Text className="text-red-600">High</Text>
                                 <Text className="text-green-600">Low</Text>
                             </View>
-                            <Battery />
+                            <Battery score={69}/>
                         </View>
                         <View className="h-[35vh] w-[50vw]">
                             <Text>right</Text>
