@@ -1,8 +1,8 @@
 import { View, Text, SafeAreaView, StyleSheet, ScrollView } from 'react-native'
 import { useState } from 'react'
-import InfoModal from '@/components/InfoModal'
-import RatingBattery from '@/components/RatingBattery'
-import HealthInfo from '@/components/HealthInfo'
+import InfoModal from '@/components/HealthDashboard/InfoModal'
+import RatingBattery from '@/components/HealthDashboard/RatingBattery'
+import HealthInfo from '@/components/HealthDashboard/HealthInfo'
 
 export default function HomeScreen() {
     const [infoModalVisible, setInfoModalVisible] = useState(false)
@@ -59,7 +59,7 @@ export default function HomeScreen() {
                                 <RatingBattery score={overworkScore} />
                             </View>
                             <View className="flex flex-row justify-center items-center w-[50vw] h-[5vh]">
-                                <Text>過負荷評分為</Text>
+                                <Text>個人評分為</Text>
                                 <Text className={overworkRate.style}>
                                     {overworkRate.level}
                                 </Text>
@@ -79,7 +79,7 @@ export default function HomeScreen() {
                                 </View>
                             </View>
                             <View className="flex flex-row justify-center items-center w-[50vw] h-[5vh]">
-                                <Text>生活評分為</Text>
+                                <Text>工作評分為</Text>
                                 <Text className={lifeRate.style}>
                                     {lifeRate.level}
                                 </Text>
