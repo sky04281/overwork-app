@@ -16,6 +16,7 @@ import Header from '@/components/tabs/header'
 const BasicInfoScreen = () => {
     const [form, setForm] = React.useState({
         name: '王小明',
+        sex: '男',
         birthDate: '1990-01-01',
         height: '200',
         weight: '80',
@@ -41,14 +42,20 @@ const BasicInfoScreen = () => {
     }
     return (
         <SafeAreaView className="h-full flex">
+            <Header title="基本資料" />
             <ScrollView contentContainerStyle={{ flex: 1 }}>
-                <Header title="基本資料" />
                 <View className="flex-1 justify-center">
                     <BasicInfoField
                         title="姓名"
                         value={form.name}
                         editable={isEditable}
                         onChangeText={(e) => setForm({ ...form, name: e })}
+                    />
+                    <BasicInfoField
+                        title="生理性別"
+                        value={form.sex}
+                        editable={isEditable}
+                        onChangeText={(e) => setForm({ ...form, sex: e })}
                     />
                     <BasicInfoField
                         title="生日"

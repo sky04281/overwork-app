@@ -28,8 +28,12 @@ const BodyInfoScreen = () => {
                     </Text>
                     <FontAwesome name="plus" size={28} color="black" />
                 </View>
-                <View className="flex-1 items-start justify-start p-2">
+                <View className="flex-1  items-center justify-center">
                     <FlatList
+                        contentContainerStyle={{
+                            flex: 1,
+                            marginTop: 10,
+                        }}
                         data={bodyInfoList}
                         renderItem={({ item }) => (
                             <BodyInfoListItem title={item.key} />

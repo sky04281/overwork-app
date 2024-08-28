@@ -10,7 +10,7 @@
         "web": "expo start --web",
         "test": "jest --watchAll",
         "lint": "expo lint",
-        "commit": "cz",
+        "commit": "git add . && cz",
         "release": "standard-version"
     },
     "jest": {
