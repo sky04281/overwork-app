@@ -7,7 +7,7 @@ export default function OverworkTable({
     setQuestionIndex,
     selectedAnswer,
     setSelectedAnswer,
-    send
+    send,
 }: {
     questionIndex: number
     setQuestionIndex: React.Dispatch<React.SetStateAction<number>>
@@ -100,50 +100,52 @@ export default function OverworkTable({
     const data = questions.filter((element) => element.key === questionIndex)[0]
 
     return (
-        <View className="h-[35vh] w-[80vw] bg-orange-400">
-            <View className="flex justify-center items-center w-[75vw] m-[5vw]">
-                <Text className="font-bold text-lg">
-                    {data.key + '. ' + data.question}
-                </Text>
+        <View className="h-[45vh] w-[95vw]">
+            <View className="flex m-5 h-[10vh]">
+                <View className="m-5">
+                    <Text className="font-bold text-lg">
+                        {data && data.key + '. ' + data.question}
+                    </Text>
+                </View>
             </View>
-            <View>
-                {data.answer.map((answer, index) => {
-                    return (
-                        <View key={index}>
-                            <Pressable
-                                onPress={() => {
-                                    setSelectedAnswer(
-                                        selectedAnswer.with(
-                                            questionIndex,
-                                            index
+            <View className="h-[30vh]">
+                {data &&
+                    data.answer.map((answer, index) => {
+                        return (
+                            <View key={index}>
+                                <Pressable
+                                    onPress={() => {
+                                        setSelectedAnswer(
+                                            selectedAnswer.with(
+                                                questionIndex,
+                                                index
+                                            )
                                         )
-                                    )
-                                }}
-                            >
-                                <View className="flex flex-row items-center">
-                                    <View
-                                        className={
-                                            'h-[2px] w-[2px] rounded-full border-solid' +
-                                            (index ===
-                                                selectedAnswer[questionIndex] &&
-                                                ' bg-cyan-300 ')
-                                        }
-                                    ></View>
-                                    <Text>{answer}</Text>
-                                </View>
-                            </Pressable>
-                        </View>
-                    )
-                })}
+                                    }}
+                                >
+                                    <View className="flex flex-row items-center">
+                                        <View
+                                            className={
+                                                'h-5 w-5 rounded-full border' +
+                                                (index ===
+                                                    selectedAnswer[
+                                                        questionIndex
+                                                    ] && ' bg-cyan-300 ')
+                                            }
+                                        ></View>
+                                        <Text>{answer}</Text>
+                                    </View>
+                                </Pressable>
+                            </View>
+                        )
+                    })}
             </View>
-            <View className="flex flex-row justify-between items-center">
+            <View className="flex flex-row justify-between items-center h-[5vh]">
                 <Pressable onPress={() => setQuestionIndex(questionIndex - 1)}>
                     <AntDesign name="leftcircleo" size={24} color="black" />
                 </Pressable>
-                {questionIndex === 12 && (
-                    <Pressable
-                        onPress={() => send()}
-                    >
+                {questionIndex === 13 && (
+                    <Pressable onPress={() => send()}>
                         <Text>送出</Text>
                     </Pressable>
                 )}

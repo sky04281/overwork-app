@@ -2,11 +2,7 @@ import { useState } from 'react'
 import { TouchableOpacity, View, Text } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign'
 
-export default function OverworkRecordListItem({
-    title
-}: {
-    title: string
-}) {
+export default function OverworkRecordListItem({ title }: { title: string }) {
     const [show, setShow] = useState(false)
 
     return (
@@ -22,7 +18,7 @@ export default function OverworkRecordListItem({
                     />
                 </View>
                 {show && (
-                    <View className="flex-col items-start space-y-1">
+                    <View className="flex-col items-start space-y-1 mb-2">
                         <Text className="text-base">個人評分: 55</Text>
                         <Text className="text-base">工作評分: 66</Text>
                     </View>
