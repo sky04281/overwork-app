@@ -97,60 +97,87 @@ export default function OverworkTable({
             answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
         },
     ]
-    const data = questions.filter((element) => element.key === questionIndex)[0]
+    const data = questions.filter(
+        (element) => element.key === questionIndex + 1
+    )[0]
 
     return (
-        <View className="h-[45vh] w-[95vw]">
-            <View className="flex m-5 h-[10vh]">
-                <View className="m-5">
-                    <Text className="font-bold text-lg">
-                        {data && data.key + '. ' + data.question}
-                    </Text>
-                </View>
+        <View className="h-[45vh] w-[95vw] mt-[5vh]">
+            <View className="flex m-5">
+                <Text className="font-bold text-lg">
+                    {data.key + '. ' + data.question}
+                </Text>
             </View>
-            <View className="h-[30vh]">
-                {data &&
-                    data.answer.map((answer, index) => {
-                        return (
-                            <View key={index}>
-                                <Pressable
-                                    onPress={() => {
-                                        setSelectedAnswer(
-                                            selectedAnswer.with(
-                                                questionIndex,
-                                                index
-                                            )
+            <View className="m-5">
+                {data.answer.map((answer, index) => {
+                    return (
+                        <View key={index}>
+                            <Pressable
+                                onPress={() => {
+                                    setSelectedAnswer(
+                                        selectedAnswer.with(
+                                            questionIndex,
+                                            index
                                         )
-                                    }}
-                                >
-                                    <View className="flex flex-row items-center">
-                                        <View
-                                            className={
-                                                'h-5 w-5 rounded-full border' +
-                                                (index ===
-                                                    selectedAnswer[
-                                                        questionIndex
-                                                    ] && ' bg-cyan-300 ')
-                                            }
-                                        ></View>
-                                        <Text>{answer}</Text>
-                                    </View>
-                                </Pressable>
-                            </View>
-                        )
-                    })}
+                                    )
+                                }}
+                            >
+                                <View className="flex flex-row items-center">
+                                    <View
+                                        className={
+                                            'h-3 w-3 rounded-full border border-solid' +
+                                            (index ===
+                                                selectedAnswer[questionIndex] &&
+                                                ' bg-black ')
+                                        }
+                                    ></View>
+                                    <Text className="font-bold text-xl ml-[5vw]">
+                                        {answer}
+                                    </Text>
+                                </View>
+                            </Pressable>
+                        </View>
+                    )
+                })}
             </View>
-            <View className="flex flex-row justify-between items-center h-[5vh]">
-                <Pressable onPress={() => setQuestionIndex(questionIndex - 1)}>
-                    <AntDesign name="leftcircleo" size={24} color="black" />
+            <View className="flex flex-row justify-between items-center mx-[5vw] mt-[5vh]">
+                <Pressable
+                    onPress={() => {
+                        if (questionIndex > 0) {
+                            setQuestionIndex(questionIndex - 1)
+                        }
+                    }}
+                >
+                    {questionIndex !== 0 && (
+                        <AntDesign
+                            className={questionIndex === 0 ? 'hidden' : ''}
+                            name="leftcircleo"
+                            size={24}
+                            color="black"
+                        />
+                    )}
                 </Pressable>
-                {questionIndex === 13 && (
-                    <Pressable onPress={() => send()}>
+                {questionIndex === 15 && (
+                    <Pressable
+                        className="p-2 border rounded"
+                        onPress={() => send()}
+                    >
                         <Text>送出</Text>
                     </Pressable>
                 )}
-                <Pressable onPress={() => setQuestionIndex(questionIndex + 1)}>
-                    <AntDesign name="rightcircleo" size={24} color="black" />
+                <Pressable
+                    onPress={() => {
+                        if (questionIndex < 15) {
+                            setQuestionIndex(questionIndex + 1)
+                        }
+                    }}
+                >
+                    <AntDesign
+                        className={questionIndex === 15 ? 'hidden' : ''}
+                        name="rightcircleo"
+                        size={24}
+                        color="black"
+                    />
                 </Pressable>
             </View>
         </View>
