@@ -8,10 +8,10 @@ export default function HomeScreen() {
     const [infoModalVisible, setInfoModalVisible] = useState(false)
 
     // 應該要 useState 的 但現在先不能改
-    const overworkScore = 9
+    const overworkScore = 19
     const lifeScore = 100
 
-    // 開會有提到 低於60 是低風險 其他還不確定
+    // 開會有提到 低於 60 是低風險 其他還不確定
     const overworkRate =
         overworkScore > 60
             ? overworkScore > 80

@@ -81,21 +81,6 @@ export default function OverworkTable({
             question: '問題13',
             answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
         },
-        {
-            key: 14,
-            question: '問題14',
-            answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
-        },
-        {
-            key: 15,
-            question: '問題15',
-            answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
-        },
-        {
-            key: 16,
-            question: '問題16',
-            answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
-        },
     ]
     const data = questions.filter(
         (element) => element.key === questionIndex + 1
@@ -157,7 +142,7 @@ export default function OverworkTable({
                         />
                     )}
                 </Pressable>
-                {questionIndex === 15 && (
+                {questionIndex === 12 && (
                     <Pressable
                         className="p-2 border rounded"
                         onPress={() => send()}
@@ -167,13 +152,13 @@ export default function OverworkTable({
                 )}
                 <Pressable
                     onPress={() => {
-                        if (questionIndex < 15) {
+                        if (questionIndex < 12) {
                             setQuestionIndex(questionIndex + 1)
                         }
                     }}
                 >
                     <AntDesign
-                        className={questionIndex === 15 ? 'hidden' : ''}
+                        className={questionIndex === 12 ? 'hidden' : ''}
                         name="rightcircleo"
                         size={24}
                         color="black"
