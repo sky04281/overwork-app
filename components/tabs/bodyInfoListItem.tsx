@@ -24,7 +24,7 @@ const BodyInfoListItem = ({ ...props }: BodyInfoListItemProps) => {
                 {show && (
                     <View className="flex-col items-start space-y-1">
                         <Text className="text-base">平均心率: 100 bpm</Text>
-                        <Text className="text-base">血壓: 120.80 mmHg</Text>
+                        <Text className="text-base">血壓: 120/80 mmHg</Text>
                         <Text className="text-base">步數: 10,000 steps</Text>
                         <Text className="text-base">睡眠時長: 6 hr</Text>
                     </View>
