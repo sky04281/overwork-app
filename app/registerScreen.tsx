@@ -3,6 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import React from 'react'
 import { useRouter } from 'expo-router'
 import FormField from '@/components/FormField'
+import { signUp } from '@/firebase/authService'
 
 const RegisterScreen = () => {
     const router = useRouter()
@@ -12,8 +13,15 @@ const RegisterScreen = () => {
         password: '',
     })
     const handleFormSubmit = () => {
-        console.log(form)
-        router.push('/')
+        try {
+            if (form.account === '' || form.password === '') {
+                throw new Error('帳號或密碼不得為空')
+            }
+            signUp(form.account, form.password)
+            router.push('/')
+        } catch (e) {
+            console.log(e)
+        }
     }
     return (
         <SafeAreaView className="h-full">

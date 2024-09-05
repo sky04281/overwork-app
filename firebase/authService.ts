@@ -3,25 +3,34 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     GoogleAuthProvider,
+    signOut,
 } from 'firebase/auth'
 
 // 第三方登入
 const googleAuthProvider = new GoogleAuthProvider()
 
 // TODO 信箱註冊
-const signUp = (email: string, password: string) => {
-    createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            const user = userCredential.user
-        })
-        .catch((e) => {
-            console.log(e)
-        })
+/**
+ * sing up with email and password
+ *
+ * @param email
+ * @param password
+ */
+const signUp = async (email: string, password: string) => {
+    try {
+        await createUserWithEmailAndPassword(auth, email, password).then(
+            (userCredential) => {
+                const user = userCredential.user
+            }
+        )
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 // TODO 信箱登入
-const logIn = (email: string, password: string) => {
-    signInWithEmailAndPassword(auth, email, password)
+const logIn = async (email: string, password: string) => {
+    await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential
         })
@@ -29,3 +38,9 @@ const logIn = (email: string, password: string) => {
             console.log(e)
         })
 }
+
+const logOut = async () => {
+    await signOut(auth)
+}
+
+export { signUp, logIn, logOut }
