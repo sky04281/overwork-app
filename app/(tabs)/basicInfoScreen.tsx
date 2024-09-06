@@ -1,4 +1,5 @@
 import {
+    Alert,
     FlatList,
     Pressable,
     SafeAreaView,
@@ -109,9 +110,21 @@ const BasicInfoScreen = () => {
                         <Pressable
                             className="bg-red-400 h-10 w-1/2 mt-5 mx-auto rounded-lg flex flex-row justify-center items-center"
                             onPress={() => {
-                                logOut().then(() => {
-                                    router.push('../')
-                                })
+                                Alert.alert('登出', '確定要登出嗎？', [
+                                    {
+                                        text: '取消',
+                                        onPress: () => {},
+                                        style: 'cancel',
+                                    },
+                                    {
+                                        text: '確定',
+                                        onPress: () => {
+                                            logOut().then(() => {
+                                                router.replace('/login')
+                                            })
+                                        },
+                                    },
+                                ])
                             }}
                         >
                             <Text className="text-white">登出</Text>

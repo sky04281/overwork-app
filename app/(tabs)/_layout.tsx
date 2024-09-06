@@ -1,14 +1,17 @@
-import { Tabs } from 'expo-router'
-import React from 'react'
+import { Redirect, Tabs } from 'expo-router'
+import React, { useEffect } from 'react'
 
 import { TabBarIcon } from '@/components/navigation/TabBarIcon'
 import { Colors } from '@/constants/Colors'
-import { useColorScheme } from '@/hooks/useColorScheme'
+
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
+import useAuth from '@/hooks/useAuth'
 
 export default function TabLayout() {
-    const colorScheme = useColorScheme()
-
+    const { user } = useAuth()
+    useEffect(() => {
+        console.log('tabs layout user: ', user)
+    }, [user])
     return (
         <Tabs
             screenOptions={{

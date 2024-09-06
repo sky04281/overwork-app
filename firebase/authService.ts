@@ -24,7 +24,7 @@ const signUp = async (email: string, password: string) => {
             }
         )
     } catch (e) {
-        console.log(e)
+        throw e
     }
 }
 
@@ -35,7 +35,7 @@ const logIn = async (email: string, password: string) => {
             const user = userCredential
         })
         .catch((e) => {
-            console.log(e)
+            throw e
         })
 }
 

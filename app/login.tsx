@@ -1,18 +1,25 @@
-import { View, Text, Pressable, ScrollView } from 'react-native'
+import { View, Text, Pressable, ScrollView, Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import React from 'react'
-import { useRouter } from 'expo-router'
+import { router } from 'expo-router'
 import FormField from '@/components/FormField'
+import { logIn } from '@/firebase/authService'
+import { FirebaseError } from 'firebase/app'
 
 const LoginScreen = () => {
-    const router = useRouter()
     const [form, setForm] = React.useState({
         account: '',
         password: '',
     })
     const handleFormSubmit = () => {
-        console.log(form)
-        router.push('/(tabs)')
+        logIn(form.account, form.password)
+            .then(() => {
+                router.push('/(tabs)')
+            })
+            .catch((e: FirebaseError) => {
+                Alert.alert('登入失敗', e.message)
+                console.log(e)
+            })
     }
     return (
         <SafeAreaView className="h-full">
@@ -55,7 +62,7 @@ const LoginScreen = () => {
                             <Text
                                 className="text-blue-500 ml-1"
                                 onPress={() => {
-                                    router.push('/registerScreen')
+                                    router.push('/register')
                                 }}
                             >
                                 註冊

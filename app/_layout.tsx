@@ -1,10 +1,5 @@
-import {
-    DarkTheme,
-    DefaultTheme,
-    ThemeProvider,
-} from '@react-navigation/native'
 import { useFonts } from 'expo-font'
-import { Stack } from 'expo-router'
+import { router, Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 import 'react-native-reanimated'
@@ -17,9 +12,16 @@ SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
     const { colorScheme, setColorScheme } = useColorScheme()
+    const { user } = useAuth()
+
     useEffect(() => {
         setColorScheme('light')
-    }, [])
+    })
+
+    useEffect(() => {
+        console.log('root layout user: ', user)
+    }, [user])
+
     const [loaded] = useFonts({
         SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     })
@@ -30,17 +32,15 @@ export default function RootLayout() {
         }
     }, [loaded])
 
-    const { user } = useAuth()
-    useEffect(() => {
-        console.log('user:', user)
-    }, [user])
     if (!loaded) {
         return null
     }
 
     return (
         <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="login" />
+            <Stack.Screen name="register" />
+            <Stack.Screen name="(tabs)" />
         </Stack>
     )
 }
