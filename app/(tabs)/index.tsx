@@ -8,8 +8,63 @@ export default function HomeScreen() {
     const [infoModalVisible, setInfoModalVisible] = useState(false)
 
     // 應該要 useState 的 但現在先不能改
-    const overworkScore = 19
+    const overworkScore = 9
     const lifeScore = 100
+
+    // 看要怎麼判斷去呈現衛教資訊
+    const healthInfo =
+        overworkScore + lifeScore > 100
+            ? [
+                  {
+                      title: '資訊一1',
+                      content: '內容內容內容內容內容內容',
+                  },
+                  {
+                      title: '資訊一2',
+                      content: '內容內容內容內容內容內容',
+                  },
+                  {
+                      title: '資訊一3',
+                      content: '內容內容內容內容內容內容',
+                  },
+                  {
+                      title: '資訊一4',
+                      content: '內容內容內容內容內容內容',
+                  },
+                  {
+                      title: '資訊一5',
+                      content: '內容內容內容內容內容內容',
+                  },
+              ]
+            : [
+                  {
+                      title: '資訊二1',
+                      content: '內容內容內容內容內容內容',
+                  },
+                  {
+                      title: '資訊二2',
+                      content: '內容內容內容內容內容內容',
+                  },
+                  {
+                      title: '資訊二3',
+                      content: '內容內容內容內容內容內容',
+                  },
+                  {
+                      title: '資訊二4',
+                      content: '內容內容內容內容內容內容',
+                  },
+                  {
+                      title: '資訊二5',
+                      content: '內容內容內容內容內容內容',
+                  },
+              ]
+
+    // 點擊 info icon 時的 index
+    const [infoModalIndex, setInfoModalIndex] = useState(0)
+    const handlePressInfo = (index: number) => {
+        setInfoModalIndex(index)
+        setInfoModalVisible(true)
+    }
 
     // 開會有提到 低於 60 是低風險 其他還不確定
     const overworkRate =
@@ -25,10 +80,6 @@ export default function HomeScreen() {
                 ? { style: 'text-[#e30019] font-bold italic', level: ' 高 ' }
                 : { style: 'text-[#f1a00b] font-bold italic', level: ' 中 ' }
             : { style: 'text-[#52c902] font-bold italic', level: ' 低 ' }
-
-    const handlePressInfo = () => {
-        setInfoModalVisible(true)
-    }
 
     return (
         <SafeAreaView>
@@ -89,20 +140,20 @@ export default function HomeScreen() {
                     </View>
                     <View className="flex justify-center items-center h-[15vh]">
                         <Text className="text-xl font-semibold">衛教資訊</Text>
-                        <Text className="text-xs">
+                        <Text className="text-s pt-[1vh]">
                             根據您的過負荷評分，提供以下資訊參考
                         </Text>
-                        <Text className="text-xs">
+                        <Text className="text-s">
                             若您的過負荷評分風險較高，請儘速尋求專業醫療協助
                         </Text>
                     </View>
                     <HealthInfo
-                        overworkScore={overworkScore}
-                        lifeScore={lifeScore}
+                        healthInfo={healthInfo}
                         handlePressInfo={handlePressInfo}
                     />
                 </View>
                 <InfoModal
+                    healthInfo={healthInfo[infoModalIndex]}
                     infoModalVisible={infoModalVisible}
                     setInfoModalVisible={setInfoModalVisible}
                 />
