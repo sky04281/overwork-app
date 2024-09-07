@@ -1,9 +1,12 @@
+import { FirebaseError } from 'firebase/app'
 import { auth } from './firebaseConfig'
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     GoogleAuthProvider,
     signOut,
+    UserCredential,
+    updateProfile,
 } from 'firebase/auth'
 
 // 第三方登入
@@ -16,16 +19,21 @@ const googleAuthProvider = new GoogleAuthProvider()
  * @param email
  * @param password
  */
-const signUp = async (email: string, password: string) => {
-    try {
-        await createUserWithEmailAndPassword(auth, email, password).then(
-            (userCredential) => {
-                const user = userCredential.user
-            }
-        )
-    } catch (e) {
-        throw e
-    }
+const signUp = async (
+    email: string,
+    password: string,
+    name: string
+): Promise<UserCredential> => {
+    return await createUserWithEmailAndPassword(auth, email, password).then(
+        (userCredential: UserCredential) => {
+            updateProfile(userCredential.user, {
+                displayName: name,
+            })
+            return new Promise((resolve) => {
+                resolve(userCredential)
+            })
+        }
+    )
 }
 
 // TODO 信箱登入

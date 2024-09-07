@@ -1,9 +1,13 @@
-import { View, Text, Pressable, ScrollView } from 'react-native'
+import { View, Text, Pressable, ScrollView, Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import React from 'react'
 import { useRouter } from 'expo-router'
 import FormField from '@/components/FormField'
-import { signUp } from '@/firebase/authService'
+import { logOut, signUp } from '@/firebase/authService'
+import { FirebaseError } from 'firebase/app'
+import BASICINFO from '@/types/basicInfo'
+import { createUserInDB } from '@/firebase/dbService'
+import useAuth from '@/hooks/useAuth'
 
 const RegisterScreen = () => {
     const router = useRouter()
@@ -13,15 +17,45 @@ const RegisterScreen = () => {
         password: '',
     })
     const handleFormSubmit = () => {
-        try {
-            if (form.account === '' || form.password === '') {
-                throw new Error('帳號或密碼不得為空')
-            }
-            signUp(form.account, form.password)
-            router.push('/')
-        } catch (e) {
-            console.log(e)
-        }
+        Alert.alert('即將註冊', '請確認資料無誤！', [
+            {
+                text: '確定',
+                onPress: () => {
+                    if (
+                        form.account === '' ||
+                        form.password === '' ||
+                        form.userName === ''
+                    ) {
+                        Alert.alert('註冊失敗', '任何欄位都不得為空')
+                        return
+                    }
+                    signUp(form.account, form.password, form.userName)
+                        .then((userCredential) => {
+                            const basicInfo: BASICINFO = {
+                                name: form.userName,
+                                sex: '',
+                                birthDate: '',
+                                height: 0,
+                                weight: 0,
+                                workingTime: 0,
+                            }
+
+                            createUserInDB(userCredential.user.uid, basicInfo)
+                            Alert.alert('註冊成功', '登入以使用過負荷APP')
+                            logOut().then(() => router.push('/login'))
+                        })
+                        .catch((e: FirebaseError) => {
+                            Alert.alert('註冊失敗', e.message)
+                            console.log(e)
+                        })
+                },
+            },
+            {
+                text: '取消',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+            },
+        ])
     }
     return (
         <SafeAreaView className="h-full">
@@ -72,7 +106,7 @@ const RegisterScreen = () => {
                             <Text
                                 className="text-blue-500 ml-1"
                                 onPress={() => {
-                                    router.push('/')
+                                    router.push('/login')
                                 }}
                             >
                                 登入
