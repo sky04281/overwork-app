@@ -81,8 +81,11 @@ const OverWorkTableScreen = () => {
                             </View>
                         </View>
                     ) : (
-                        <View className="flex justify-center items-center w-full">
-                            <View className="flex flex-row justify-end items-center h-[5vh] w-full mr-5">
+                        <View>
+                            <View className="flex flex-row justify-end items-center mt-[2.5vh] mb-[1vh] mx-[2vw] space-x-3">
+                                <Pressable className="p-2 border rounded">
+                                    <Text>走勢圖</Text>
+                                </Pressable>
                                 <Pressable
                                     className="p-2 border rounded"
                                     onPress={() => setQuestionToggle(true)}

@@ -18,7 +18,7 @@ export default function OverworkRecordListItem({ title }: { title: string }) {
                     />
                 </View>
                 {show && (
-                    <View className="flex-col items-start space-y-1 mb-1">
+                    <View className="flex-col items-start space-y-1 m-1">
                         <Text className="text-base">個人評分: 55</Text>
                         <Text className="text-base">工作評分: 66</Text>
                     </View>

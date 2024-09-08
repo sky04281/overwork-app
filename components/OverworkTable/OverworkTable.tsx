@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { View, Text, Pressable } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign'
 
@@ -18,8 +17,13 @@ export default function OverworkTable({
     const questions = [
         {
             key: 1,
-            question: '問題1',
-            answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
+            question: '問題問題問題問題問題問題問題問題問題問題問題1',
+            answer: [
+                'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                'B: bbb',
+                'C: ccc',
+                'D: ddd',
+            ],
         },
         {
             key: 2,
@@ -88,7 +92,7 @@ export default function OverworkTable({
 
     return (
         <View className="h-[45vh] w-[95vw] mt-[5vh]">
-            <View className="flex m-5">
+            <View className="flex mx-5 my-1 h-15">
                 <Text className="font-bold text-lg">
                     {data.key + '. ' + data.question}
                 </Text>
@@ -107,7 +111,7 @@ export default function OverworkTable({
                                     )
                                 }}
                             >
-                                <View className="flex flex-row items-center">
+                                <View className="flex flex-row items-center h-[7vh] w-[80vw]">
                                     <View
                                         className={
                                             'h-3 w-3 rounded-full border border-solid' +
@@ -116,16 +120,18 @@ export default function OverworkTable({
                                                 ' bg-black ')
                                         }
                                     ></View>
-                                    <Text className="font-bold text-xl ml-[5vw]">
-                                        {answer}
-                                    </Text>
+                                    <View className="ml-[5vw]">
+                                        <Text className="font-bold text-xl">
+                                            {answer}
+                                        </Text>
+                                    </View>
                                 </View>
                             </Pressable>
                         </View>
                     )
                 })}
             </View>
-            <View className="flex flex-row justify-between items-center mx-[5vw] mt-[5vh]">
+            <View className="flex flex-row justify-between items-center mx-[5vw]">
                 <Pressable
                     onPress={() => {
                         if (questionIndex > 0) {
@@ -134,12 +140,7 @@ export default function OverworkTable({
                     }}
                 >
                     {questionIndex !== 0 && (
-                        <AntDesign
-                            className={questionIndex === 0 ? 'hidden' : ''}
-                            name="leftcircleo"
-                            size={24}
-                            color="black"
-                        />
+                        <AntDesign name="leftcircleo" size={24} color="black" />
                     )}
                 </Pressable>
                 {questionIndex === 12 && (
@@ -157,12 +158,13 @@ export default function OverworkTable({
                         }
                     }}
                 >
-                    <AntDesign
-                        className={questionIndex === 12 ? 'hidden' : ''}
-                        name="rightcircleo"
-                        size={24}
-                        color="black"
-                    />
+                    {questionIndex !== 12 && (
+                        <AntDesign
+                            name="rightcircleo"
+                            size={24}
+                            color="black"
+                        />
+                    )}
                 </Pressable>
             </View>
         </View>
