@@ -1,4 +1,5 @@
 import {
+    Alert,
     FlatList,
     Pressable,
     SafeAreaView,
@@ -12,6 +13,8 @@ import BasicInfoField from '@/components/tabs/basicInfoField'
 import FormField from '@/components/FormField'
 import BirthDataPicker from '@/components/tabs/birthDataPicker'
 import Header from '@/components/tabs/header'
+import { logOut } from '@/firebase/authService'
+import { router } from 'expo-router'
 
 const BasicInfoScreen = () => {
     const [form, setForm] = React.useState({
@@ -40,6 +43,7 @@ const BasicInfoScreen = () => {
         }
         setIsEditable(!isEditable)
     }
+
     return (
         <SafeAreaView className="h-full flex">
             <Header title="基本資料" />
@@ -102,6 +106,28 @@ const BasicInfoScreen = () => {
                             <Text className="text-white">
                                 {isEditable ? '儲存' : '編輯'}
                             </Text>
+                        </Pressable>
+                        <Pressable
+                            className="bg-red-400 h-10 w-1/2 mt-5 mx-auto rounded-lg flex flex-row justify-center items-center"
+                            onPress={() => {
+                                Alert.alert('登出', '確定要登出嗎？', [
+                                    {
+                                        text: '取消',
+                                        onPress: () => {},
+                                        style: 'cancel',
+                                    },
+                                    {
+                                        text: '確定',
+                                        onPress: () => {
+                                            logOut().then(() => {
+                                                router.replace('/login')
+                                            })
+                                        },
+                                    },
+                                ])
+                            }}
+                        >
+                            <Text className="text-white">登出</Text>
                         </Pressable>
                     </View>
                 </View>
