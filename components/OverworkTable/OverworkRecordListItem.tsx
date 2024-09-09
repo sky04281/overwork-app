@@ -6,7 +6,7 @@ export default function OverworkRecordListItem({ title }: { title: string }) {
     const [show, setShow] = useState(false)
 
     return (
-        <View>
+        <View className="flex justify-center items-center">
             <TouchableOpacity onPress={() => setShow(!show)}>
                 <View className="flex-row items-center justify-between w-[95vw] space-x-1 border-b-[1px] pt-1">
                     <Text className="text-lg">{title}</Text>
@@ -18,7 +18,7 @@ export default function OverworkRecordListItem({ title }: { title: string }) {
                     />
                 </View>
                 {show && (
-                    <View className="flex-col items-start space-y-1 mb-2">
+                    <View className="flex-col items-start space-y-1 m-1">
                         <Text className="text-base">個人評分: 55</Text>
                         <Text className="text-base">工作評分: 66</Text>
                     </View>
