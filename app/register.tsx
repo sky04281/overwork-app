@@ -30,7 +30,7 @@ const RegisterScreen = () => {
                         return
                     }
                     signUp(form.account, form.password, form.userName)
-                        .then((userCredential) => {
+                        .then(async (userCredential) => {
                             const basicInfo: BASICINFO = {
                                 name: form.userName,
                                 sex: '',
@@ -40,7 +40,10 @@ const RegisterScreen = () => {
                                 workingTime: 0,
                             }
 
-                            createUserInDB(userCredential.user.uid, basicInfo)
+                            await createUserInDB(
+                                userCredential.user.uid,
+                                basicInfo
+                            )
                             Alert.alert('註冊成功', '登入以使用過負荷APP')
                             logOut().then(() => router.push('/login'))
                         })

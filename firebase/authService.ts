@@ -12,11 +12,10 @@ import {
 // 第三方登入
 const googleAuthProvider = new GoogleAuthProvider()
 
-// TODO 信箱註冊
 /**
  * sing up with email and password
  *
- * @param email
+ * @param email user email
  * @param password
  */
 const signUp = async (
