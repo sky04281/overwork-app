@@ -3,6 +3,7 @@ import { db } from './firebaseConfig'
 import {
     collection,
     doc,
+    getDoc,
     getDocs,
     query,
     setDoc,
@@ -22,7 +23,20 @@ const createUserInDB = async (uid: string, basicInfo: BASICINFO) => {
             working: 0,
         },
     }
-    await setDoc(doc(usersCollection, uid), userData)
+    return await setDoc(doc(usersCollection, uid), userData)
 }
 
+const getUserInDB = async (uid: string) => {
+    const userRef = doc(usersCollection, uid)
+    return await getDoc(userRef)
+}
+
+const updateBasicInfo = async (uid: string, basicInfo: BASICINFO) => {
+    const userRef = doc(usersCollection, uid)
+    return await setDoc(
+        userRef,
+        { basicInfo: { ...basicInfo } },
+        { merge: true }
+    )
+}
 export { createUserInDB }
