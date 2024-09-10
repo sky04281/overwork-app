@@ -30,7 +30,7 @@ const RegisterScreen = () => {
                         return
                     }
                     signUp(form.account, form.password, form.userName)
-                        .then(async (userCredential) => {
+                        .then((userCredential) => {
                             const basicInfo: BASICINFO = {
                                 name: form.userName,
                                 sex: '',
@@ -40,13 +40,16 @@ const RegisterScreen = () => {
                                 workingTime: 0,
                             }
 
-                            await createUserInDB(
+                            return createUserInDB(
                                 userCredential.user.uid,
                                 basicInfo
                             )
-                            Alert.alert('註冊成功', '登入以使用過負荷APP')
-                            logOut().then(() => router.push('/login'))
                         })
+                        .then(() => {
+                            Alert.alert('註冊成功', '登入以使用過負荷APP')
+                            return logOut()
+                        })
+                        .then(() => router.push('/login'))
                         .catch((e: FirebaseError) => {
                             Alert.alert('註冊失敗', e.message)
                             console.log(e)
