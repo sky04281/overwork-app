@@ -29,7 +29,6 @@ const signUp = async (email: string, password: string, name: string) => {
     )
 }
 
-// TODO 信箱登入
 const logIn = async (email: string, password: string) => {
     await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {

@@ -1,7 +1,6 @@
 interface OVERWORKTABLE {
     createDate: string
-    question: string
-    answer: [string]
+    answers: [string]
 }
 
 interface OVERWORKSCORE {
