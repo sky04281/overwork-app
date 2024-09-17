@@ -1,4 +1,3 @@
-import BASICINFO from '@/types/basicInfo'
 import { db } from './firebaseConfig'
 import {
     collection,
@@ -9,9 +8,12 @@ import {
     setDoc,
     where,
 } from 'firebase/firestore'
-import { USERDATA } from '@/types/userData'
+import BASICINFO from '@/types/basicInfo'
 import BODYINFO from '@/types/bodyInfo'
-import { OVERWORKSCORE, OVERWORKTABLE } from '@/types/overworkTable'
+import HEALTHEDUCATIONINFO from '@/types/healthEducationInfo'
+import OVERWORKSCORE from '@/types/overworkScore'
+import OVERWORKTABLE from '@/types/overworkTable'
+import USERDATA from '@/types/userData'
 
 const usersCollection = collection(db, 'Users')
 const serverDataCollection = collection(db, 'ServerData')
@@ -20,11 +22,7 @@ export const createUserInDB = async (uid: string, basicInfo: BASICINFO) => {
     const userData: USERDATA = {
         basicInfo: basicInfo,
         bodyInfo: [],
-        overworkTable: [],
-        overworkScore: {
-            personal: 0,
-            working: 0,
-        },
+        overworkScore: [],
     }
     return await setDoc(doc(usersCollection, uid), userData)
 }
@@ -39,18 +37,6 @@ export const updateBasicInfo = async (uid: string, basicInfo: BASICINFO) => {
     return await setDoc(
         userRef,
         { basicInfo: { ...basicInfo } },
-        { merge: true }
-    )
-}
-
-export const updateOverworkScore = async (
-    uid: string,
-    overworkScore: OVERWORKSCORE
-) => {
-    const userRef = doc(usersCollection, uid)
-    return await setDoc(
-        userRef,
-        { overworkScore: { ...overworkScore } },
         { merge: true }
     )
 }
@@ -77,14 +63,16 @@ export const addBodyInfo = async (uid: string, bodyInfo: BODYINFO) => {
 }
 
 /**
- * Update user's overworkTable field, add to the end of the array
+ * Adds an overwork score to the user's existing overwork scores in the database.
  *
- * @param uid Firebase uid
- * @param overworkTable new overworkTable
+ * @param uid - The unique identifier of the user.
+ * @param overworkScore - The overwork score to be added.
+ * @throws Will throw an error if the user is not found in the database.
+ * @returns A promise that resolves when the overwork score has been successfully added.
  */
-export const addOverworkTable = async (
+export const addOverworkScore = async (
     uid: string,
-    overworkTable: OVERWORKTABLE
+    overworkScore: OVERWORKSCORE
 ) => {
     const userRef = doc(usersCollection, uid)
     const userData = await getDoc(userRef)
@@ -92,59 +80,42 @@ export const addOverworkTable = async (
         throw new Error('user not found')
     }
 
-    const currentOverworkTable = userData.data().overworkTable as [
-        OVERWORKTABLE
+    const currentOverworkScore = userData.data().overworkScore as [
+        OVERWORKSCORE
     ]
     return await setDoc(
         userRef,
-        { overworkTable: [...currentOverworkTable, overworkTable] },
+        { overworkScore: [...currentOverworkScore, overworkScore] },
         { merge: true }
     )
 }
 
 /**
- * Get questions for overworkTable
+ * Get questions and answers for the overwork table.
  *
- * @returns {Promise<[string]>} A promise that resolves to an array of questions.
- * @throws {Error} If the `overworkTable` document does not exist.
+ * @returns {Promise<OVERWORKTABLE>} A promise that resolves to the data of the overwork table document.
+ * @throws {Error} If the overwork table document does not exist.
  */
-export const getQuestions = async () => {
+export const getOverworkTable = async () => {
     const overworkTableRef = doc(serverDataCollection, 'overworkTable')
     const overworkTableDoc = await getDoc(overworkTableRef)
-    if (overworkTableDoc.exists()) {
-        return overworkTableDoc.data().qeuestions as [string]
-    } else {
-        throw new Error('questions not found')
+    if (!overworkTableDoc.exists()) {
+        throw new Error('overworkTable not found')
     }
+    return overworkTableDoc.data() as OVERWORKTABLE
 }
 
 /**
- * Get options of overworkTable.
+ * Fetches the health education information from the Firestore database.
  *
- * @returns {Promise<[string]>} A promise that resolves to an array of answers.
- * @throws {Error} If the `overworkTable` document does not exist.
- */
-export const getAnswers = async () => {
-    const overworkTableRef = doc(serverDataCollection, 'overworkTable')
-    const overworkTableDoc = await getDoc(overworkTableRef)
-    if (overworkTableDoc.exists()) {
-        return overworkTableDoc.data().answers as [string]
-    } else {
-        throw new Error('answers not found')
-    }
-}
-
-/**
- * Get health education information.
- *
- * @returns {Promise<HEALTHINFO>} A promise that resolves to the health education information.
- * @throws {Error} If the `healthEducationInfo` document does not exist.
+ * @returns {Promise<HEALTHEDUCATIONINFO>} A promise that resolves to the health education information.
+ * @throws {Error} If the health education information document does not exist.
  */
 export const getHealthEducationInfo = async () => {
     const healthInfoRef = doc(serverDataCollection, 'healthEducationInfo')
     const healthInfoDoc = await getDoc(healthInfoRef)
     if (healthInfoDoc.exists()) {
-        return healthInfoDoc.data() as HEALTHINFO
+        return healthInfoDoc.data() as HEALTHEDUCATIONINFO
     } else {
         throw new Error('healthInfo not found')
     }

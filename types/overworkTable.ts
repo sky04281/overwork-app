@@ -1,11 +1,4 @@
-interface OVERWORKTABLE {
-    createDate: string
-    answers: [string]
+export default interface OVERWORKTABLE {
+    answers: string[]
+    questions: string[]
 }
-
-interface OVERWORKSCORE {
-    personal: number
-    working: number
-}
-
-export { OVERWORKTABLE, OVERWORKSCORE }
