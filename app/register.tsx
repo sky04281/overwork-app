@@ -34,7 +34,7 @@ const RegisterScreen = () => {
                             const basicInfo: BASICINFO = {
                                 name: form.userName,
                                 sex: '',
-                                birthDate: '',
+                                birthday: '',
                                 height: 0,
                                 weight: 0,
                                 workingTime: 0,

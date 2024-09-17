@@ -1,5 +1,8 @@
 import { View, Text, Pressable } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign'
+import OVERWORKTABLE from '@/types/overworkTable'
+import { useEffect, useState } from 'react'
+import { getOverworkTable } from '@/firebase/dbService'
 
 export default function OverworkTable({
     questionIndex,
@@ -14,6 +17,18 @@ export default function OverworkTable({
     setSelectedAnswer: React.Dispatch<React.SetStateAction<number[]>>
     send: () => void
 }) {
+    // 你可以拿這個 overworkTable 來渲染題目
+    const [overworkTable, setOverworkTable] = useState<OVERWORKTABLE>()
+    useEffect(() => {
+        getOverworkTable()
+            .then((data) => {
+                setOverworkTable(data)
+                console.log('overwork table:', data)
+            })
+            .catch((error) => {
+                console.error('Error getting overwork table:', error.message)
+            })
+    }, [])
     const questions = [
         {
             key: 1,
