@@ -18,10 +18,6 @@ export default function RootLayout() {
         setColorScheme('light')
     })
 
-    useEffect(() => {
-        console.log('root layout user: ', user)
-    }, [user])
-
     const [loaded] = useFonts({
         SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     })
@@ -29,6 +25,7 @@ export default function RootLayout() {
     useEffect(() => {
         if (loaded) {
             SplashScreen.hideAsync()
+            console.log('account : test@gmail.com password : test123')
         }
     }, [loaded])
 

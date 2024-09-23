@@ -1,11 +1,9 @@
 import BASICINFO from './basicInfo'
 import BODYINFO from './bodyInfo'
-import { OVERWORKTABLE, OVERWORKSCORE } from './overworkTable'
+import OVERWORKSCORE from './overworkScore'
 
-interface USERDATA {
+export default interface USERDATA {
     basicInfo: BASICINFO
     bodyInfo: BODYINFO[]
-    overworkTable: OVERWORKTABLE[]
-    overworkScore: OVERWORKSCORE
+    overworkScore: OVERWORKSCORE[]
 }
-export { USERDATA }

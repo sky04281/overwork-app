@@ -8,36 +8,51 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BasicInfoField from '@/components/tabs/basicInfoField'
 import FormField from '@/components/FormField'
 import BirthDataPicker from '@/components/tabs/birthDataPicker'
 import Header from '@/components/tabs/header'
 import { logOut } from '@/firebase/authService'
 import { router } from 'expo-router'
+import useAuth from '@/hooks/useAuth'
+import BASICINFO from '@/types/basicInfo'
+import { updateBasicInfo } from '@/firebase/dbService'
 
 const BasicInfoScreen = () => {
-    const [form, setForm] = React.useState({
-        name: '王小明',
-        sex: '男',
-        birthDate: '1990-01-01',
-        height: '200',
-        weight: '80',
-        workingTime: '8',
+    const { user, userData } = useAuth()
+    const [form, setForm] = useState<BASICINFO>({
+        name: 'null',
+        sex: 'null',
+        birthday: 'null',
+        height: 0,
+        weight: 0,
+        workingTime: 0,
     })
-    const handleDateChange = (date: Date) => {
-        setForm({
-            ...form,
-            birthDate: date.toLocaleDateString(),
-        })
-    }
     const [isEditable, setIsEditable] = React.useState(false)
+    useEffect(() => {
+        if (userData) {
+            const basicInfo = userData.basicInfo
+            setForm({
+                ...basicInfo,
+            })
+        }
+    }, [userData])
+    // const handleDateChange = (date: Date) => {
+    //     setForm({
+    //         ...form,
+    //         birthday: date.toLocaleDateString(),
+    //     })
+    // }
     const handlePress = () => {
         if (isEditable) {
             // compare with previous form
             // if different save form
             // else do nothing
-            console.log('new form', form)
+            console.log('saving', form)
+            updateBasicInfo(user!.uid, form).catch((error) => {
+                console.error('Error updating basic info:', error.message)
+            })
         } else {
             console.log('editing')
         }
@@ -63,9 +78,9 @@ const BasicInfoScreen = () => {
                     />
                     <BasicInfoField
                         title="生日"
-                        value={form.birthDate}
+                        value={form.birthday}
                         editable={isEditable}
-                        onChangeText={(e) => setForm({ ...form, birthDate: e })}
+                        onChangeText={(e) => setForm({ ...form, birthday: e })}
                     />
                     {/* <BirthDataPicker
                         value={form.birthDate}
@@ -74,17 +89,27 @@ const BasicInfoScreen = () => {
                     /> */}
                     <BasicInfoField
                         title="身高(cm)"
-                        value={form.height}
+                        value={form.height.toString()}
                         type="number-pad"
                         editable={isEditable}
-                        onChangeText={(e) => setForm({ ...form, height: e })}
+                        onChangeText={(e) =>
+                            setForm({
+                                ...form,
+                                height: e === '' ? 0 : parseInt(e),
+                            })
+                        }
                     />
                     <BasicInfoField
                         title="體重(kg)"
-                        value={form.weight}
+                        value={form.weight.toString()}
                         type="number-pad"
                         editable={isEditable}
-                        onChangeText={(e) => setForm({ ...form, weight: e })}
+                        onChangeText={(e) =>
+                            setForm({
+                                ...form,
+                                weight: e === '' ? 0 : parseInt(e),
+                            })
+                        }
                     />
                     <BasicInfoField
                         title="工作時長(hr)"
@@ -94,7 +119,7 @@ const BasicInfoScreen = () => {
                         onChangeText={(e) =>
                             setForm({
                                 ...form,
-                                workingTime: e,
+                                workingTime: e === '' ? 0 : parseInt(e),
                             })
                         }
                     />

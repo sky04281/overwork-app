@@ -1,11 +1,38 @@
 import { View, Text, SafeAreaView, StyleSheet, ScrollView } from 'react-native'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import InfoModal from '@/components/HealthDashboard/InfoModal'
 import RatingBattery from '@/components/HealthDashboard/RatingBattery'
 import HealthInfo from '@/components/HealthDashboard/HealthInfo'
+import OVERWORKSCORE from '@/types/overworkScore'
+import useAuth from '@/hooks/useAuth'
+import HEALTHEDUCATIONINFO from '@/types/healthEducationInfo'
+import { getHealthEducationInfo } from '@/firebase/dbService'
 
 export default function HomeScreen() {
     const [infoModalVisible, setInfoModalVisible] = useState(false)
+    const [latestOverworkScore, setLatestOverworkScore] =
+        useState<OVERWORKSCORE>({
+            createDate: '',
+            personal: 0,
+            working: 0,
+        })
+    const [healthEducationInfo, setHealthEducationInfo] =
+        useState<HEALTHEDUCATIONINFO>()
+    const { userData } = useAuth()
+    // 你可以用這個 lastestOverworkScore 來做新的顯示
+    useEffect(() => {
+        if (userData) {
+            setLatestOverworkScore(userData?.overworkScore.slice(-1)[0])
+            // 這邊是拿到全部衛教資訊
+            getHealthEducationInfo().then((data) => {
+                setHealthEducationInfo(data)
+            })
+        }
+    }, [userData])
+    useEffect(() => {
+        console.log('latestOverworkScore', latestOverworkScore)
+        console.log('healthEducationInfo', healthEducationInfo)
+    }, [healthEducationInfo])
 
     // 應該要 useState 的 但現在先不能改
     const overworkScore = 9

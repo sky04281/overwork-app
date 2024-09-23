@@ -1,8 +1,10 @@
 import { FlatList, Pressable, SafeAreaView, Text, View } from 'react-native'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import OverworkTable from '@/components/OverworkTable/OverworkTable'
 import OverworkRecordListItem from '@/components/OverworkTable/OverworkRecordListItem'
 import Header from '@/components/tabs/header'
+import OVERWORKSCORE from '@/types/overworkScore'
+import useAuth from '@/hooks/useAuth'
 
 const OverWorkTableScreen = () => {
     const [questionToggle, setQuestionToggle] = useState(true)
@@ -10,6 +12,15 @@ const OverWorkTableScreen = () => {
     const [selectedAnswer, setSelectedAnswer] = useState([
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ])
+
+    // 你可以拿 overworkScore 來做紀錄顯示
+    const { userData } = useAuth()
+    const [overworkScore, setOverworkScore] = useState<OVERWORKSCORE[]>()
+    useEffect(() => {
+        setOverworkScore(userData?.overworkScore)
+        console.log(userData?.overworkScore)
+    }, [questionToggle])
+
     const records = [
         { key: '2024-08-20' },
         { key: '2024-08-21' },
