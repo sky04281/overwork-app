@@ -21,7 +21,7 @@ export default function HomeScreen() {
     const { userData } = useAuth()
     // 你可以用這個 lastestOverworkScore 來做新的顯示
     useEffect(() => {
-        if (userData) {
+        if (userData?.overworkScore) {
             setLatestOverworkScore(userData?.overworkScore.slice(-1)[0])
             // 這邊是拿到全部衛教資訊
             getHealthEducationInfo().then((data) => {
@@ -29,6 +29,7 @@ export default function HomeScreen() {
             })
         }
     }, [userData])
+
     useEffect(() => {
         console.log('latestOverworkScore', latestOverworkScore)
         console.log('healthEducationInfo', healthEducationInfo)

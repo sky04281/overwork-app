@@ -5,44 +5,62 @@ import OverworkRecordListItem from '@/components/OverworkTable/OverworkRecordLis
 import Header from '@/components/tabs/header'
 import OVERWORKSCORE from '@/types/overworkScore'
 import useAuth from '@/hooks/useAuth'
+import { addOverworkScore } from '@/firebase/dbService'
 
 const OverWorkTableScreen = () => {
     const [questionToggle, setQuestionToggle] = useState(true)
     const [questionIndex, setQuestionIndex] = useState(0)
     const [selectedAnswer, setSelectedAnswer] = useState([
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ])
 
     // 你可以拿 overworkScore 來做紀錄顯示
-    const { userData } = useAuth()
-    const [overworkScore, setOverworkScore] = useState<OVERWORKSCORE[]>()
+    const { user, userData } = useAuth()
+    const [overworkScore, setOverworkScore] = useState<OVERWORKSCORE[]>([
+        {
+            createDate: '2024-09-21',
+            personal: 0,
+            working: 0,
+        },
+    ])
     useEffect(() => {
-        setOverworkScore(userData?.overworkScore)
-        console.log(userData?.overworkScore)
+        userData ? setOverworkScore(userData.overworkScore) : ''
+        console.log(userData)
     }, [questionToggle])
 
-    const records = [
-        { key: '2024-08-20' },
-        { key: '2024-08-21' },
-        { key: '2024-08-22' },
-        { key: '2024-08-23' },
-        { key: '2024-08-24' },
-        { key: '2024-08-25' },
-        { key: '2024-08-26' },
-        { key: '2024-08-27' },
-        { key: '2024-09-23' },
-        { key: '2024-09-24' },
-        { key: '2024-09-25' },
-        { key: '2024-09-26' },
-        { key: '2024-09-27' },
-        { key: '2024-09-28' },
-        { key: '2024-09-29' },
-        { key: '2024-09-30' },
-        { key: '2024-09-31' },
-    ]
-    const recentRecords = records.filter((record) => record)
-    const send = () => {
-        console.log(selectedAnswer)
+    const recentRecords = overworkScore.filter((record) => record.createDate)
+
+    const countScore = (selectedAnswer: number[]): OVERWORKSCORE => {
+        let personal = 0,
+            working = 0
+
+        selectedAnswer.map((answer, index) => {
+            if (index < 6) {
+                personal += (4 - answer) * 25
+            } else if (index < 12) {
+                working += (5 - answer) * 25
+            } else {
+                working += answer * 25
+            }
+        })
+
+        return {
+            createDate: new Date()
+                .toLocaleDateString('zh-TW', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                })
+                .replaceAll('/', '-'),
+            personal: Math.round(personal / 6),
+            working: Math.round(working / 7),
+        }
+    }
+
+    const send = async () => {
+        user &&
+            user.uid &&
+            (await addOverworkScore(user?.uid, countScore(selectedAnswer)))
         setQuestionToggle(false)
     }
 
@@ -69,10 +87,10 @@ const OverWorkTableScreen = () => {
                             </Text>
                             <View className="h-[23vh] mb-[2vh] w-full">
                                 <FlatList
-                                    data={recentRecords}
+                                    data={overworkScore}
                                     renderItem={({ item }) => (
                                         <OverworkRecordListItem
-                                            title={item.key}
+                                            title={item.createDate}
                                         />
                                     )}
                                 />
@@ -82,10 +100,10 @@ const OverWorkTableScreen = () => {
                             </Text>
                             <View className="h-[35vh]">
                                 <FlatList
-                                    data={records}
+                                    data={recentRecords}
                                     renderItem={({ item }) => (
                                         <OverworkRecordListItem
-                                            title={item.key}
+                                            title={item.createDate}
                                         />
                                     )}
                                 />
