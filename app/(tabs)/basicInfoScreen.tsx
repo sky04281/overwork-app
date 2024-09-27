@@ -46,9 +46,6 @@ const BasicInfoScreen = () => {
     // }
     const handlePress = () => {
         if (isEditable) {
-            // compare with previous form
-            // if different save form
-            // else do nothing
             console.log('saving', form)
             updateBasicInfo(user!.uid, form).catch((error) => {
                 console.error('Error updating basic info:', error.message)
@@ -62,7 +59,17 @@ const BasicInfoScreen = () => {
     return (
         <SafeAreaView className="h-full flex">
             <Header title="基本資料" />
-            <ScrollView contentContainerStyle={{ flex: 1 }}>
+            <View className="flex-row justify-end items-center m-5 mt-[5vh]">
+                <Pressable
+                    className="bg-blue-300 h-[5vh] w-[20vw] rounded-lg flex justify-center items-center"
+                    onPress={() => handlePress()}
+                >
+                    <Text className="text-lg">
+                        {isEditable ? '儲存' : '編輯'}
+                    </Text>
+                </Pressable>
+            </View>
+            <ScrollView>
                 <View className="flex-1 justify-center">
                     <BasicInfoField
                         title="姓名"
@@ -123,40 +130,32 @@ const BasicInfoScreen = () => {
                             })
                         }
                     />
-                    <View className="flex-row justify-center px-4">
-                        <Pressable
-                            className="bg-blue-400 h-10 w-1/2 mt-5 mx-auto rounded-lg flex flex-row justify-center items-center"
-                            onPress={() => handlePress()}
-                        >
-                            <Text className="text-white">
-                                {isEditable ? '儲存' : '編輯'}
-                            </Text>
-                        </Pressable>
-                        <Pressable
-                            className="bg-red-400 h-10 w-1/2 mt-5 mx-auto rounded-lg flex flex-row justify-center items-center"
-                            onPress={() => {
-                                Alert.alert('登出', '確定要登出嗎？', [
-                                    {
-                                        text: '取消',
-                                        onPress: () => {},
-                                        style: 'cancel',
-                                    },
-                                    {
-                                        text: '確定',
-                                        onPress: () => {
-                                            logOut().then(() => {
-                                                router.replace('/login')
-                                            })
-                                        },
-                                    },
-                                ])
-                            }}
-                        >
-                            <Text className="text-white">登出</Text>
-                        </Pressable>
-                    </View>
                 </View>
             </ScrollView>
+            <View className="flex-row justify-center items-center my-[5vh]">
+                <Pressable
+                    className="bg-red-500 h-[5vh] w-[35vw] rounded-lg flex justify-center items-center"
+                    onPress={() => {
+                        Alert.alert('登出', '確定要登出嗎？', [
+                            {
+                                text: '取消',
+                                onPress: () => {},
+                                style: 'cancel',
+                            },
+                            {
+                                text: '確定',
+                                onPress: () => {
+                                    logOut().then(() => {
+                                        router.replace('/login')
+                                    })
+                                },
+                            },
+                        ])
+                    }}
+                >
+                    <Text className="text-white text-lg">登出</Text>
+                </Pressable>
+            </View>
         </SafeAreaView>
     )
 }

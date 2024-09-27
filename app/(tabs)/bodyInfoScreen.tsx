@@ -1,28 +1,27 @@
-import { FlatList, SafeAreaView, ScrollView, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import { FlatList, SafeAreaView, Text, View } from 'react-native'
+import { useEffect, useState } from 'react'
 import Header from '@/components/tabs/header'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import BodyInfoListItem from '@/components/tabs/bodyInfoListItem'
+import useAuth from '@/hooks/useAuth'
+import BODYINFO from '@/types/bodyInfo'
 
 const BodyInfoScreen = () => {
-    const [bodyInfoList, setBodyInfoList] = React.useState<{ key: string }[]>(
-        []
-    )
+    const { userData } = useAuth()
+    const [bodyInfoList, setBodyInfoList] = useState<BODYINFO[]>([])
     useEffect(() => {
-        // fetch body info list
-        setBodyInfoList([
-            { key: '2024-08-23' },
-            { key: '2024-08-24' },
-            { key: '2024-08-25' },
-            { key: '2024-08-26' },
-            { key: '2024-08-27' },
-        ])
-    }, [])
+        if (userData) {
+            const bodyInfo = userData.bodyInfo
+            setBodyInfoList({
+                ...bodyInfo,
+            })
+        }
+    }, [userData])
     return (
         <SafeAreaView className="h-full">
             <Header title="生理資訊" />
             <View className="w-full h-full justify-center">
-                <View className="w-full flex-row justify-between items-center mt-5 px-2 border-b-[2rem] border-black">
+                <View className="flex-row justify-between items-center mt-[5vh] mx-[5vw]">
                     <Text className="text-xl font-medium">
                         個人生理資訊紀錄
                     </Text>
@@ -36,7 +35,7 @@ const BodyInfoScreen = () => {
                         }}
                         data={bodyInfoList}
                         renderItem={({ item }) => (
-                            <BodyInfoListItem title={item.key} />
+                            <BodyInfoListItem title={item.createDate} />
                         )}
                     />
                 </View>
