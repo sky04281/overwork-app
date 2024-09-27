@@ -8,9 +8,11 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import useAuth from '@/hooks/useAuth'
 
 export default function TabLayout() {
-    const { user } = useAuth()
+    const { user, setLoading } = useAuth()
     useEffect(() => {
-        console.log('tabs layout user: ', user)
+        if (user) {
+            console.log('has user ' + user.uid)
+        }
     }, [user])
     return (
         <Tabs

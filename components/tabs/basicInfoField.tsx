@@ -19,7 +19,7 @@ const BasicInfoField = ({ ...props }: BasicInfoFieldProps) => {
             <View
                 className={`w-[50vw] h-[5vh] flex justify-center pb-1 ${
                     props.editable
-                        ? 'border border-black focus:border-blue-500 rounded-md'
+                        ? 'border focus:border-blue-500 rounded-md'
                         : ''
                 }`}
             >

@@ -15,7 +15,7 @@ const OverWorkTableScreen = () => {
     ])
 
     // 你可以拿 overworkScore 來做紀錄顯示
-    const { user, userData } = useAuth()
+    const { user, userData, setLoading } = useAuth()
     const [overworkScore, setOverworkScore] = useState<OVERWORKSCORE[]>([
         {
             createDate: '2024-09-21',
@@ -66,6 +66,7 @@ const OverWorkTableScreen = () => {
                 })
                 .finally(() => {
                     setQuestionToggle(!questionToggle)
+                    setLoading(true)
                 })
     }
 

@@ -30,10 +30,10 @@ export default function HomeScreen() {
         }
     }, [userData])
 
-    useEffect(() => {
-        console.log('latestOverworkScore', latestOverworkScore)
-        console.log('healthEducationInfo', healthEducationInfo)
-    }, [healthEducationInfo])
+    // useEffect(() => {
+    //     console.log('latestOverworkScore', latestOverworkScore)
+    //     console.log('healthEducationInfo', healthEducationInfo)
+    // }, [healthEducationInfo])
 
     // 看要怎麼判斷去呈現衛教資訊
 
