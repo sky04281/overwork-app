@@ -57,11 +57,16 @@ const OverWorkTableScreen = () => {
         }
     }
 
-    const send = async () => {
+    const send = () => {
         user &&
             user.uid &&
-            (await addOverworkScore(user?.uid, countScore(selectedAnswer)))
-        setQuestionToggle(false)
+            addOverworkScore(user?.uid, countScore(selectedAnswer))
+                .catch((e) => {
+                    console.log(e)
+                })
+                .finally(() => {
+                    setQuestionToggle(!questionToggle)
+                })
     }
 
     return (
@@ -77,7 +82,9 @@ const OverWorkTableScreen = () => {
                                 </Pressable>
                                 <Pressable
                                     className="p-2 border rounded"
-                                    onPress={() => setQuestionToggle(false)}
+                                    onPress={() =>
+                                        setQuestionToggle(!questionToggle)
+                                    }
                                 >
                                     <Text>新增量表</Text>
                                 </Pressable>
@@ -117,7 +124,9 @@ const OverWorkTableScreen = () => {
                                 </Pressable>
                                 <Pressable
                                     className="p-2 border rounded"
-                                    onPress={() => setQuestionToggle(true)}
+                                    onPress={() =>
+                                        setQuestionToggle(!questionToggle)
+                                    }
                                 >
                                     <Text>歷史紀錄</Text>
                                 </Pressable>
