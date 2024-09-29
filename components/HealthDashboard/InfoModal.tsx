@@ -11,13 +11,13 @@ import {
 import AntDesign from '@expo/vector-icons/AntDesign'
 
 export default function InfoModal({
-    healthInfo,
+    healthEducationInfo,
     infoModalVisible,
     setInfoModalVisible,
 }: {
-    healthInfo: {
-        title: string
-        content: string
+    healthEducationInfo: {
+        disease: string
+        description: string
     }
     infoModalVisible: boolean
     setInfoModalVisible: React.Dispatch<React.SetStateAction<boolean>>
@@ -32,7 +32,7 @@ export default function InfoModal({
                 <View className="flex flex-row justify-between items-center mx-[5vw] my-[1.5vh]">
                     <View>
                         <Text className="text-lg font-semibold">
-                            {healthInfo.title}
+                            {healthEducationInfo.disease}
                         </Text>
                     </View>
                     <Pressable
@@ -48,7 +48,9 @@ export default function InfoModal({
                     </Pressable>
                 </View>
                 <View className="mx-[5vw] h-[45vh]">
-                    <Text className="text-base">{healthInfo.content}</Text>
+                    <Text className="text-base">
+                        {healthEducationInfo.description}
+                    </Text>
                 </View>
             </View>
         </Modal>

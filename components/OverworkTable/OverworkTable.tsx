@@ -19,6 +19,8 @@ export default function OverworkTable({
 }) {
     // 你可以拿這個 overworkTable 來渲染題目
     const [overworkTable, setOverworkTable] = useState<OVERWORKTABLE>()
+    const question = overworkTable?.questions[questionIndex]
+
     useEffect(() => {
         getOverworkTable()
             .then((data) => {
@@ -29,124 +31,53 @@ export default function OverworkTable({
                 console.error('Error getting overwork table:', error.message)
             })
     }, [])
-    const questions = [
-        {
-            key: 1,
-            question: '問題問題問題問題問題問題問題問題問題問題問題1',
-            answer: [
-                'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-                'B: bbb',
-                'C: ccc',
-                'D: ddd',
-            ],
-        },
-        {
-            key: 2,
-            question: '問題2',
-            answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
-        },
-        {
-            key: 3,
-            question: '問題3',
-            answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
-        },
-        {
-            key: 4,
-            question: '問題4',
-            answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
-        },
-        {
-            key: 5,
-            question: '問題5',
-            answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
-        },
-        {
-            key: 6,
-            question: '問題6',
-            answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
-        },
-        {
-            key: 7,
-            question: '問題7',
-            answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
-        },
-        {
-            key: 8,
-            question: '問題8',
-            answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
-        },
-        {
-            key: 9,
-            question: '問題9',
-            answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
-        },
-        {
-            key: 10,
-            question: '問題10',
-            answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
-        },
-        {
-            key: 11,
-            question: '問題11',
-            answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
-        },
-        {
-            key: 12,
-            question: '問題12',
-            answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
-        },
-        {
-            key: 13,
-            question: '問題13',
-            answer: ['A: aaa', 'B: bbb', 'C: ccc', 'D: ddd'],
-        },
-    ]
-    const data = questions.filter(
-        (element) => element.key === questionIndex + 1
-    )[0]
 
     return (
         <View className="h-[45vh] w-[95vw] mt-[5vh]">
-            <View className="flex mx-5 my-1 h-15">
-                <Text className="font-bold text-lg">
-                    {data.key + '. ' + data.question}
-                </Text>
-            </View>
-            <View className="m-5">
-                {data.answer.map((answer, index) => {
-                    return (
-                        <View key={index}>
-                            <Pressable
-                                onPress={() => {
-                                    setSelectedAnswer(
-                                        selectedAnswer.with(
-                                            questionIndex,
-                                            index
-                                        )
-                                    )
-                                }}
-                            >
-                                <View className="flex flex-row items-center h-[7vh] w-[80vw]">
-                                    <View
-                                        className={
-                                            'h-3 w-3 rounded-full border border-solid' +
-                                            (index ===
-                                                selectedAnswer[questionIndex] &&
-                                                ' bg-black ')
-                                        }
-                                    ></View>
-                                    <View className="ml-[5vw]">
-                                        <Text className="font-bold text-xl">
-                                            {answer}
-                                        </Text>
-                                    </View>
+            <View className="h-[50vh]">
+                <View className="flex mx-5 my-1 h-15">
+                    <Text className="font-bold text-lg">
+                        {questionIndex + 1 + '. ' + question}
+                    </Text>
+                </View>
+                <View className="m-5">
+                    {overworkTable &&
+                        overworkTable.answers.map((answer, index) => {
+                            return (
+                                <View key={index}>
+                                    <Pressable
+                                        onPress={() => {
+                                            setSelectedAnswer(
+                                                selectedAnswer.with(
+                                                    questionIndex,
+                                                    index
+                                                )
+                                            )
+                                        }}
+                                    >
+                                        <View className="flex flex-row items-center h-[7vh] w-[80vw]">
+                                            <View
+                                                className={
+                                                    'h-3 w-3 rounded-full border border-solid' +
+                                                    (index ===
+                                                        selectedAnswer[
+                                                            questionIndex
+                                                        ] && ' bg-black ')
+                                                }
+                                            ></View>
+                                            <View className="ml-[5vw]">
+                                                <Text className="font-bold text-xl">
+                                                    {answer}
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    </Pressable>
                                 </View>
-                            </Pressable>
-                        </View>
-                    )
-                })}
+                            )
+                        })}
+                </View>
             </View>
-            <View className="flex flex-row justify-between items-center mx-[5vw]">
+            <View className="flex flex-row justify-between items-center mx-[10vw]">
                 <Pressable
                     onPress={() => {
                         if (questionIndex > 0) {

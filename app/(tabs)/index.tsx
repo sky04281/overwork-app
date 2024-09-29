@@ -21,7 +21,7 @@ export default function HomeScreen() {
     const { userData } = useAuth()
     // 你可以用這個 lastestOverworkScore 來做新的顯示
     useEffect(() => {
-        if (userData) {
+        if (userData?.overworkScore) {
             setLatestOverworkScore(userData?.overworkScore.slice(-1)[0])
             // 這邊是拿到全部衛教資訊
             getHealthEducationInfo().then((data) => {
@@ -29,62 +29,13 @@ export default function HomeScreen() {
             })
         }
     }, [userData])
-    useEffect(() => {
-        console.log('latestOverworkScore', latestOverworkScore)
-        console.log('healthEducationInfo', healthEducationInfo)
-    }, [healthEducationInfo])
 
-    // 應該要 useState 的 但現在先不能改
-    const overworkScore = 9
-    const lifeScore = 100
+    // useEffect(() => {
+    //     console.log('latestOverworkScore', latestOverworkScore)
+    //     console.log('healthEducationInfo', healthEducationInfo)
+    // }, [healthEducationInfo])
 
     // 看要怎麼判斷去呈現衛教資訊
-    const healthInfo =
-        overworkScore + lifeScore > 100
-            ? [
-                  {
-                      title: '資訊一1',
-                      content: '內容內容內容內容內容內容',
-                  },
-                  {
-                      title: '資訊一2',
-                      content: '內容內容內容內容內容內容',
-                  },
-                  {
-                      title: '資訊一3',
-                      content: '內容內容內容內容內容內容',
-                  },
-                  {
-                      title: '資訊一4',
-                      content: '內容內容內容內容內容內容',
-                  },
-                  {
-                      title: '資訊一5',
-                      content: '內容內容內容內容內容內容',
-                  },
-              ]
-            : [
-                  {
-                      title: '資訊二1',
-                      content: '內容內容內容內容內容內容',
-                  },
-                  {
-                      title: '資訊二2',
-                      content: '內容內容內容內容內容內容',
-                  },
-                  {
-                      title: '資訊二3',
-                      content: '內容內容內容內容內容內容',
-                  },
-                  {
-                      title: '資訊二4',
-                      content: '內容內容內容內容內容內容',
-                  },
-                  {
-                      title: '資訊二5',
-                      content: '內容內容內容內容內容內容',
-                  },
-              ]
 
     // 點擊 info icon 時的 index
     const [infoModalIndex, setInfoModalIndex] = useState(0)
@@ -94,16 +45,16 @@ export default function HomeScreen() {
     }
 
     // 開會有提到 低於 60 是低風險 其他還不確定
-    const overworkRate =
-        overworkScore > 60
-            ? overworkScore > 80
+    const workingRate =
+        latestOverworkScore.working > 60
+            ? latestOverworkScore.working > 80
                 ? { style: 'text-[#e30019] font-bold italic', level: ' 高 ' }
                 : { style: 'text-[#f1a00b] font-bold italic', level: ' 中 ' }
             : { style: 'text-[#52c902] font-bold italic', level: ' 低 ' }
 
-    const lifeRate =
-        lifeScore > 60
-            ? lifeScore > 80
+    const personalRate =
+        latestOverworkScore.personal > 60
+            ? latestOverworkScore.personal > 80
                 ? { style: 'text-[#e30019] font-bold italic', level: ' 高 ' }
                 : { style: 'text-[#f1a00b] font-bold italic', level: ' 中 ' }
             : { style: 'text-[#52c902] font-bold italic', level: ' 低 ' }
@@ -134,19 +85,23 @@ export default function HomeScreen() {
                                         Low
                                     </Text>
                                 </View>
-                                <RatingBattery score={overworkScore} />
+                                <RatingBattery
+                                    score={latestOverworkScore.personal}
+                                />
                             </View>
                             <View className="flex flex-row justify-center items-center w-[50vw] h-[5vh]">
                                 <Text>個人評分為</Text>
-                                <Text className={overworkRate.style}>
-                                    {overworkRate.level}
+                                <Text className={personalRate.style}>
+                                    {personalRate.level}
                                 </Text>
                                 <Text>風險</Text>
                             </View>
                         </View>
                         <View>
                             <View className="flex flex-row justify-center items-center h-[35vh] w-[50vw]">
-                                <RatingBattery score={lifeScore} />
+                                <RatingBattery
+                                    score={latestOverworkScore.working}
+                                />
                                 <View className="flex justify-between items-center h-[25vh] w-[20vw]">
                                     <Text className="text-[#e30019] font-bold text-lg">
                                         High
@@ -158,8 +113,8 @@ export default function HomeScreen() {
                             </View>
                             <View className="flex flex-row justify-center items-center w-[50vw] h-[5vh]">
                                 <Text>工作評分為</Text>
-                                <Text className={lifeRate.style}>
-                                    {lifeRate.level}
+                                <Text className={workingRate.style}>
+                                    {workingRate.level}
                                 </Text>
                                 <Text>風險</Text>
                             </View>
@@ -174,16 +129,22 @@ export default function HomeScreen() {
                             若您的過負荷評分風險較高，請儘速尋求專業醫療協助
                         </Text>
                     </View>
-                    <HealthInfo
-                        healthInfo={healthInfo}
-                        handlePressInfo={handlePressInfo}
-                    />
+                    {healthEducationInfo && healthEducationInfo.mild && (
+                        <HealthInfo
+                            healthEducationInfo={healthEducationInfo.mild}
+                            handlePressInfo={handlePressInfo}
+                        />
+                    )}
                 </View>
-                <InfoModal
-                    healthInfo={healthInfo[infoModalIndex]}
-                    infoModalVisible={infoModalVisible}
-                    setInfoModalVisible={setInfoModalVisible}
-                />
+                {healthEducationInfo && (
+                    <InfoModal
+                        healthEducationInfo={
+                            healthEducationInfo.mild[infoModalIndex]
+                        }
+                        infoModalVisible={infoModalVisible}
+                        setInfoModalVisible={setInfoModalVisible}
+                    />
+                )}
             </ScrollView>
         </SafeAreaView>
     )
