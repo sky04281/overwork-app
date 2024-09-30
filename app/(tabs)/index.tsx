@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, StyleSheet, ScrollView } from 'react-native'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import InfoModal from '@/components/HealthDashboard/InfoModal'
 import RatingBattery from '@/components/HealthDashboard/RatingBattery'
 import HealthInfo from '@/components/HealthDashboard/HealthInfo'
@@ -7,6 +7,7 @@ import OVERWORKSCORE from '@/types/overworkScore'
 import useAuth from '@/hooks/useAuth'
 import HEALTHEDUCATIONINFO from '@/types/healthEducationInfo'
 import { getHealthEducationInfo } from '@/firebase/dbService'
+import { useFocusEffect } from '@react-navigation/native'
 
 export default function HomeScreen() {
     const [infoModalVisible, setInfoModalVisible] = useState(false)
@@ -18,7 +19,24 @@ export default function HomeScreen() {
         })
     const [healthEducationInfo, setHealthEducationInfo] =
         useState<HEALTHEDUCATIONINFO>()
-    const { userData } = useAuth()
+    const { userData, setLoading } = useAuth()
+
+    const fetchData = useCallback(() => {
+        setLoading(true)
+        // if (userData?.overworkScore) {
+        //     setLatestOverworkScore(userData?.overworkScore.slice(-1)[0])
+        //     // 這邊是拿到全部衛教資訊
+        //     getHealthEducationInfo().then((data) => {
+        //         setHealthEducationInfo(data)
+        //     })
+        // }
+    }, [])
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchData()
+        }, [fetchData]) // 使用 fetchData 作為依賴
+    )
     // 你可以用這個 lastestOverworkScore 來做新的顯示
     useEffect(() => {
         if (userData?.overworkScore) {
@@ -29,13 +47,6 @@ export default function HomeScreen() {
             })
         }
     }, [userData])
-
-    // useEffect(() => {
-    //     console.log('latestOverworkScore', latestOverworkScore)
-    //     console.log('healthEducationInfo', healthEducationInfo)
-    // }, [healthEducationInfo])
-
-    // 看要怎麼判斷去呈現衛教資訊
 
     // 點擊 info icon 時的 index
     const [infoModalIndex, setInfoModalIndex] = useState(0)

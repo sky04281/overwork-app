@@ -16,19 +16,13 @@ const OverWorkTableScreen = () => {
 
     // 你可以拿 overworkScore 來做紀錄顯示
     const { user, userData, setLoading } = useAuth()
-    const [overworkScore, setOverworkScore] = useState<OVERWORKSCORE[]>([
-        {
-            createDate: '2024-09-21',
-            personal: 0,
-            working: 0,
-        },
-    ])
+    const [overworkScore, setOverworkScore] = useState<OVERWORKSCORE[]>()
     useEffect(() => {
         userData ? setOverworkScore(userData.overworkScore) : ''
         console.log(userData)
-    }, [questionToggle])
+    }, [userData])
 
-    const recentRecords = overworkScore.filter((record) => record.createDate)
+    const recentRecords = overworkScore?.filter((record) => record.createDate)
 
     const countScore = (selectedAnswer: number[]): OVERWORKSCORE => {
         let personal = 0,
@@ -38,7 +32,7 @@ const OverWorkTableScreen = () => {
             if (index < 6) {
                 personal += (4 - answer) * 25
             } else if (index < 12) {
-                working += (5 - answer) * 25
+                working += (4 - answer) * 25
             } else {
                 working += answer * 25
             }
@@ -66,86 +60,93 @@ const OverWorkTableScreen = () => {
                 })
                 .finally(() => {
                     setQuestionToggle(!questionToggle)
+                    setSelectedAnswer([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
                     setLoading(true)
                 })
     }
 
     return (
-        <SafeAreaView className="h-full">
-            <View className="flex justify-center items-center">
-                <Header title="過負荷量表" />
-                <View className="">
-                    {questionToggle ? (
-                        <View>
-                            <View className="flex flex-row justify-end items-center mt-[2.5vh] mb-[1vh] mx-[2vw] space-x-3">
-                                <Pressable className="p-2 border rounded">
-                                    <Text>走勢圖</Text>
-                                </Pressable>
-                                <Pressable
-                                    className="p-2 border rounded"
-                                    onPress={() =>
-                                        setQuestionToggle(!questionToggle)
-                                    }
-                                >
-                                    <Text>新增量表</Text>
-                                </Pressable>
-                            </View>
-                            <Text className="text-lg font-medium">
-                                近期紀錄（一個月內）
-                            </Text>
-                            <View className="h-[23vh] mb-[2vh] w-full">
-                                <FlatList
-                                    data={overworkScore}
-                                    renderItem={({ item }) => (
-                                        <OverworkRecordListItem
-                                            title={item.createDate}
-                                        />
-                                    )}
-                                />
-                            </View>
-                            <Text className="text-lg font-medium">
-                                歷史紀錄
-                            </Text>
-                            <View className="h-[35vh]">
-                                <FlatList
-                                    data={recentRecords}
-                                    renderItem={({ item }) => (
-                                        <OverworkRecordListItem
-                                            title={item.createDate}
-                                        />
-                                    )}
-                                />
-                            </View>
-                        </View>
-                    ) : (
-                        <View>
-                            <View className="flex flex-row justify-end items-center mt-[2.5vh] mb-[1vh] mx-[2vw] space-x-3">
-                                <Pressable className="p-2 border rounded">
-                                    <Text>走勢圖</Text>
-                                </Pressable>
-                                <Pressable
-                                    className="p-2 border rounded"
-                                    onPress={() =>
-                                        setQuestionToggle(!questionToggle)
-                                    }
-                                >
-                                    <Text>歷史紀錄</Text>
-                                </Pressable>
-                            </View>
+        overworkScore && (
+            <SafeAreaView className="h-full">
+                <View className="flex justify-center items-center">
+                    <Header title="過負荷量表" />
+                    <View className="">
+                        {questionToggle ? (
                             <View>
-                                <OverworkTable
-                                    questionIndex={questionIndex}
-                                    setQuestionIndex={setQuestionIndex}
-                                    selectedAnswer={selectedAnswer}
-                                    setSelectedAnswer={setSelectedAnswer}
-                                    send={send}
-                                />
+                                <View className="flex flex-row justify-end items-center mt-[2.5vh] mb-[1vh] mx-[2vw] space-x-3">
+                                    <Pressable className="p-2 border rounded">
+                                        <Text>走勢圖</Text>
+                                    </Pressable>
+                                    <Pressable
+                                        className="p-2 border rounded"
+                                        onPress={() =>
+                                            setQuestionToggle(!questionToggle)
+                                        }
+                                    >
+                                        <Text>新增量表</Text>
+                                    </Pressable>
+                                </View>
+                                <Text className="text-lg font-medium">
+                                    近期紀錄（一個月內）
+                                </Text>
+                                <View className="h-[23vh] mb-[2vh] w-full">
+                                    <FlatList
+                                        data={overworkScore}
+                                        renderItem={({ item }) => (
+                                            <OverworkRecordListItem
+                                                title={item.createDate}
+                                                personal={item.personal}
+                                                working={item.working}
+                                            />
+                                        )}
+                                    />
+                                </View>
+                                <Text className="text-lg font-medium">
+                                    歷史紀錄
+                                </Text>
+                                <View className="h-[35vh]">
+                                    <FlatList
+                                        data={overworkScore}
+                                        renderItem={({ item }) => (
+                                            <OverworkRecordListItem
+                                                title={item.createDate}
+                                                personal={item.personal}
+                                                working={item.working}
+                                            />
+                                        )}
+                                    />
+                                </View>
                             </View>
-                        </View>
-                    )}
+                        ) : (
+                            <View>
+                                <View className="flex flex-row justify-end items-center mt-[2.5vh] mb-[1vh] mx-[2vw] space-x-3">
+                                    <Pressable className="p-2 border rounded">
+                                        <Text>走勢圖</Text>
+                                    </Pressable>
+                                    <Pressable
+                                        className="p-2 border rounded"
+                                        onPress={() =>
+                                            setQuestionToggle(!questionToggle)
+                                        }
+                                    >
+                                        <Text>歷史紀錄</Text>
+                                    </Pressable>
+                                </View>
+                                <View>
+                                    <OverworkTable
+                                        questionIndex={questionIndex}
+                                        setQuestionIndex={setQuestionIndex}
+                                        selectedAnswer={selectedAnswer}
+                                        setSelectedAnswer={setSelectedAnswer}
+                                        send={send}
+                                    />
+                                </View>
+                            </View>
+                        )}
+                    </View>
                 </View>
-            </View>
-        </SafeAreaView>
+            </SafeAreaView>
+        )
     )
 }
 
