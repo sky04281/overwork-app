@@ -16,6 +16,7 @@ const OverWorkTableScreen = () => {
 
     // 你可以拿 overworkScore 來做紀錄顯示
     const { user, userData, setLoading } = useAuth()
+
     const [overworkScore, setOverworkScore] = useState<OVERWORKSCORE[]>()
     useEffect(() => {
         userData ? setOverworkScore(userData.overworkScore) : ''
@@ -50,6 +51,7 @@ const OverWorkTableScreen = () => {
             working: Math.round(working / 7),
         }
     }
+
 
     const send = () => {
         user &&
