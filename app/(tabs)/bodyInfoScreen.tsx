@@ -12,7 +12,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 import BodyInfoListItem from '@/components/tabs/bodyInfoListItem'
 import useAuth from '@/hooks/useAuth'
 import BODYINFO from '@/types/bodyInfo'
-import BodyInfoForm from '@/components/BodyInfo/bodyInfoForm'
+import BodyInfoForm from '@/components/BodyInfo/BodyInfoForm'
 import { addBodyInfo } from '@/firebase/dbService'
 
 const BodyInfoScreen = () => {

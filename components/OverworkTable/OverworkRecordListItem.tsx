@@ -1,8 +1,17 @@
 import { useState } from 'react'
 import { TouchableOpacity, View, Text } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign'
+import OVERWORKSCORE from '@/types/overworkScore'
 
-export default function OverworkRecordListItem({ title }: { title: string }) {
+export default function OverworkRecordListItem({
+    title,
+    personal,
+    working,
+}: {
+    title: string
+    personal: number
+    working: number
+}) {
     const [show, setShow] = useState(false)
 
     return (
@@ -19,8 +28,8 @@ export default function OverworkRecordListItem({ title }: { title: string }) {
                 </View>
                 {show && (
                     <View className="flex-col items-start space-y-1 m-1">
-                        <Text className="text-base">個人評分: 55</Text>
-                        <Text className="text-base">工作評分: 66</Text>
+                        <Text className="text-base">個人評分: {personal}</Text>
+                        <Text className="text-base">工作評分: {working}</Text>
                     </View>
                 )}
             </TouchableOpacity>
