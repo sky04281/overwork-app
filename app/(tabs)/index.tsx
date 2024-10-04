@@ -23,13 +23,6 @@ export default function HomeScreen() {
 
     const fetchData = useCallback(() => {
         setLoading(true)
-        // if (userData?.overworkScore) {
-        //     setLatestOverworkScore(userData?.overworkScore.slice(-1)[0])
-        //     // 這邊是拿到全部衛教資訊
-        //     getHealthEducationInfo().then((data) => {
-        //         setHealthEducationInfo(data)
-        //     })
-        // }
     }, [])
 
     useFocusEffect(
