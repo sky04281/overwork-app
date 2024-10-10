@@ -6,6 +6,7 @@ import Header from '@/components/tabs/header'
 import OVERWORKSCORE from '@/types/overworkScore'
 import useAuth from '@/hooks/useAuth'
 import { addOverworkScore } from '@/firebase/dbService'
+import { sendEmailToCarer, sendEmailToManager } from '@/services/emailService'
 
 const OverWorkTableScreen = () => {
     const [questionToggle, setQuestionToggle] = useState(true)
@@ -52,13 +53,31 @@ const OverWorkTableScreen = () => {
         }
     }
 
-
     const send = () => {
+        const score = countScore(selectedAnswer)
         user &&
             user.uid &&
-            addOverworkScore(user?.uid, countScore(selectedAnswer))
+            addOverworkScore(user?.uid, score)
                 .catch((e) => {
                     console.log(e)
+                })
+                .then(() => {
+                    if (score.personal > 70) {
+                        sendEmailToCarer(
+                            userData!.basicInfo.familyMember,
+                            userData!.basicInfo.name,
+                            score.personal,
+                            score.working
+                        )
+                    }
+                    if (score.working > 60) {
+                        sendEmailToManager(
+                            userData!.basicInfo.manager,
+                            userData!.basicInfo.name,
+                            score.personal,
+                            score.working
+                        )
+                    }
                 })
                 .finally(() => {
                     setQuestionToggle(!questionToggle)
