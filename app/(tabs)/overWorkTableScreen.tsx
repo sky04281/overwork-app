@@ -9,7 +9,6 @@ import { addOverworkScore } from '@/firebase/dbService'
 import { sendEmailToCarer, sendEmailToManager } from '@/services/emailService'
 import ChartModal from '@/components/tabs/ChartModal'
 
-
 const OverWorkTableScreen = () => {
     const [tableToggle, setTableToggle] = useState(false)
     const [chartKey, setChartKey] = useState(0)
@@ -25,7 +24,6 @@ const OverWorkTableScreen = () => {
     const [overworkScore, setOverworkScore] = useState<OVERWORKSCORE[]>()
     useEffect(() => {
         userData ? setOverworkScore(userData.overworkScore) : ''
-        console.log(userData)
     }, [userData])
 
     const thisMonthRecords = overworkScore?.filter((record) => {
