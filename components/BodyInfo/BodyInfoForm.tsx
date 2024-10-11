@@ -1,6 +1,6 @@
 import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
-import BasicInfoField from '../tabs/basicInfoField'
+import BasicInfoField from '../tabs/BasicInfoField'
 import BODYINFO from '@/types/bodyInfo'
 
 interface bodyInfoFormProps {
@@ -55,15 +55,23 @@ const BodyInfoForm = ({ setForm, form }: bodyInfoFormProps) => {
             value: form.sleepTime.toString(),
         },
     ]
+    const BMI = form.weight / (form.height / 100) ** 2
+    const roundedBMI = Math.round(BMI * 100) / 100
+
     return (
         <ScrollView>
             <View>
-                {formData.map((data) => {
+                {formData.map((data, index) => {
                     return (
                         <BasicInfoField
+                            key={index}
                             title={data.title}
-                            value={data.value}
-                            editable={true}
+                            value={
+                                data.title === 'BMI'
+                                    ? String(roundedBMI)
+                                    : data.value
+                            }
+                            editable={data.title !== 'BMI'}
                             onChangeText={(e) => {
                                 setForm({
                                     ...form,

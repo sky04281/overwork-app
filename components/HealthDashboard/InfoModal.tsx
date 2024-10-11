@@ -1,13 +1,4 @@
-import {
-    StyleSheet,
-    View,
-    Text,
-    Modal,
-    Button,
-    ImageBackground,
-    Pressable,
-    ScrollView,
-} from 'react-native'
+import { View, Text, Modal, Pressable, ScrollView } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign'
 
 export default function InfoModal({
@@ -28,7 +19,7 @@ export default function InfoModal({
             transparent={true}
             animationType="slide"
         >
-            <View className="h-[50vh] w-[70vw] mx-[15vw] my-[25vh] rounded-[15px] bg-white">
+            <View className="w-[70vw] mx-[15vw] mt-[25vh] rounded-[15px] bg-white">
                 <View className="flex flex-row justify-between items-center mx-[5vw] my-[1.5vh]">
                     <View>
                         <Text className="text-lg font-semibold">
@@ -47,11 +38,11 @@ export default function InfoModal({
                         />
                     </Pressable>
                 </View>
-                <View className="mx-[5vw] h-[45vh]">
+                <ScrollView className="max-h-[40.5vh] mx-[5vw] mb-[2.5vh]">
                     <Text className="text-base">
                         {healthEducationInfo.description}
                     </Text>
-                </View>
+                </ScrollView>
             </View>
         </Modal>
     )
