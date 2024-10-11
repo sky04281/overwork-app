@@ -7,19 +7,24 @@ import {
     View,
 } from 'react-native'
 import { useEffect, useState } from 'react'
-import Header from '@/components/tabs/header'
-import FontAwesome from '@expo/vector-icons/FontAwesome'
-import BodyInfoListItem from '@/components/tabs/bodyInfoListItem'
+import Header from '@/components/tabs/Header'
 import useAuth from '@/hooks/useAuth'
 import BODYINFO from '@/types/bodyInfo'
 import BodyInfoForm from '@/components/BodyInfo/BodyInfoForm'
 import { addBodyInfo } from '@/firebase/dbService'
+import BodyInfoListItem from '@/components/tabs/bodyInfoListItem'
 
 const BodyInfoScreen = () => {
     const { user, userData, setLoading } = useAuth()
     const [formToggle, setFormToggle] = useState(false)
     const [form, setForm] = useState<BODYINFO>({
-        createDate: new Date().toLocaleDateString(),
+        createDate: new Date()
+            .toLocaleDateString('zh-TW', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+            })
+            .replaceAll('/', '-'),
         heartRate: 0,
         SBP: 0,
         DBP: 0,
@@ -90,55 +95,50 @@ const BodyInfoScreen = () => {
     return (
         <SafeAreaView className="h-full">
             <Header title="生理資訊" />
-            <View className="w-full h-full justify-center">
-                <View className="flex-row justify-between items-center mt-[5vh] mx-[5vw]">
+            <View className="w-full justify-center">
+                <View className="flex-row justify-between items-center my-[2.5vh] mx-[5vw]">
                     <Text className="text-xl font-medium">
                         個人生理資訊紀錄
                     </Text>
                     {formToggle ? (
-                        <View className="flex-row gap-2">
+                        <View className="flex-row gap-3">
                             <Pressable
-                                className="p-2 border rounded"
+                                className="flex justify-center items-center h-[4vh] w-[15vw] border rounded bg-blue-400"
                                 onPress={() => setFormToggle(false)}
                             >
-                                <Text>返回</Text>
+                                <Text className="text-white text-[17.5px] font-bold">
+                                    返回
+                                </Text>
                             </Pressable>
                             <Pressable
-                                className="p-2 border rounded"
+                                className="flex justify-center items-center h-[4vh] w-[15vw] border rounded bg-red-500"
                                 onPress={() => onFormSubmit()}
                             >
-                                <Text>送出</Text>
+                                <Text className="text-white text-[17.5px] font-bold">
+                                    送出
+                                </Text>
                             </Pressable>
                         </View>
                     ) : (
                         <Pressable
-                            className="p-2 border rounded"
+                            className="flex justify-center items-center h-[4vh] w-[32.5vw] border rounded"
                             onPress={() => setFormToggle(true)}
                         >
-                            <Text>新增生理資訊</Text>
+                            <Text className="text-[17.5px]">新增生理資訊</Text>
                         </Pressable>
-                        // <FontAwesome
-                        //     name="plus"
-                        //     size={28}
-                        //     color="black"
-                        //     onPress={() => setFormToggle(!formToggle)}
-                        // />
                     )}
                 </View>
-                <View className="flex-1 h-[80vh]  items-center justify-center">
+                <View className="h-[65vh] items-center justify-center">
                     {formToggle ? (
                         <BodyInfoForm form={form} setForm={setForm} />
                     ) : (
                         <FlatList
-                            contentContainerStyle={{
-                                flex: 1,
-                                marginTop: 10,
-                            }}
                             data={bodyInfoList}
-                            renderItem={({ item }) => (
+                            renderItem={({ item, index }) => (
                                 <BodyInfoListItem
                                     title={item.createDate}
                                     bodyInfo={item}
+                                    key={index}
                                 />
                             )}
                         />
