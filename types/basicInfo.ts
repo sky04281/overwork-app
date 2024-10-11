@@ -5,4 +5,6 @@ export default interface BASICINFO {
     height: number
     weight: number
     workingTime: number
+    manager: string
+    familyMember: string
 }

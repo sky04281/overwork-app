@@ -1,18 +1,14 @@
 import {
     Alert,
-    FlatList,
     Pressable,
     SafeAreaView,
     ScrollView,
     Text,
-    TouchableOpacity,
     View,
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import BasicInfoField from '@/components/tabs/basicInfoField'
-import FormField from '@/components/FormField'
-import BirthDataPicker from '@/components/tabs/birthDataPicker'
-import Header from '@/components/tabs/header'
+import BasicInfoField from '@/components/tabs/BasicInfoField'
+import Header from '@/components/tabs/Header'
 import { logOut } from '@/firebase/authService'
 import { router } from 'expo-router'
 import useAuth from '@/hooks/useAuth'
@@ -28,8 +24,11 @@ const BasicInfoScreen = () => {
         height: 0,
         weight: 0,
         workingTime: 0,
+        manager: 'null',
+        familyMember: 'null',
     })
     const [isEditable, setIsEditable] = React.useState(false)
+
     useEffect(() => {
         if (userData) {
             const basicInfo = userData.basicInfo
@@ -38,12 +37,7 @@ const BasicInfoScreen = () => {
             })
         }
     }, [userData])
-    // const handleDateChange = (date: Date) => {
-    //     setForm({
-    //         ...form,
-    //         birthday: date.toLocaleDateString(),
-    //     })
-    // }
+
     const handlePress = () => {
         if (isEditable) {
             console.log('saving', form)
@@ -57,20 +51,24 @@ const BasicInfoScreen = () => {
     }
 
     return (
-        <SafeAreaView className="h-full flex">
+        <SafeAreaView className="h-full flex bg-white">
             <Header title="基本資料" />
-            <View className="flex-row justify-end items-center m-5 mt-[5vh]">
+            <View className="flex-row justify-end items-center my-[2vh] mr-[5vw]">
                 <Pressable
-                    className="bg-blue-300 h-[5vh] w-[20vw] rounded-lg flex justify-center items-center"
+                    className={
+                        isEditable
+                            ? 'h-[4.5vh] w-[20vw] rounded-lg borderflex justify-center items-center bg-red-500'
+                            : 'h-[4.5vh] w-[20vw] rounded-lg borderflex justify-center items-center bg-blue-400'
+                    }
                     onPress={() => handlePress()}
                 >
-                    <Text className="text-lg">
+                    <Text className="text-lg text-white font-bold">
                         {isEditable ? '儲存' : '編輯'}
                     </Text>
                 </Pressable>
             </View>
             <ScrollView>
-                <View className="flex-1 justify-center">
+                <View>
                     <BasicInfoField
                         title="姓名"
                         value={form.name}
@@ -89,11 +87,6 @@ const BasicInfoScreen = () => {
                         editable={isEditable}
                         onChangeText={(e) => setForm({ ...form, birthday: e })}
                     />
-                    {/* <BirthDataPicker
-                        value={form.birthDate}
-                        editable={isEditable}
-                        handleDateChange={handleDateChange}
-                    /> */}
                     <BasicInfoField
                         title="身高(cm)"
                         value={form.height.toString()}
@@ -130,9 +123,23 @@ const BasicInfoScreen = () => {
                             })
                         }
                     />
+                    <BasicInfoField
+                        title="聯絡主管(email)"
+                        value={form.manager}
+                        editable={isEditable}
+                        onChangeText={(e) => setForm({ ...form, manager: e })}
+                    />
+                    <BasicInfoField
+                        title="聯絡家屬(email)"
+                        value={form.familyMember}
+                        editable={isEditable}
+                        onChangeText={(e) =>
+                            setForm({ ...form, familyMember: e })
+                        }
+                    />
                 </View>
             </ScrollView>
-            <View className="flex-row justify-center items-center my-[5vh]">
+            <View className="flex-row justify-center items-center my-[3vh]">
                 <Pressable
                     className="bg-red-500 h-[5vh] w-[35vw] rounded-lg flex justify-center items-center"
                     onPress={() => {
@@ -153,7 +160,7 @@ const BasicInfoScreen = () => {
                         ])
                     }}
                 >
-                    <Text className="text-white text-lg">登出</Text>
+                    <Text className="text-white text-xl font-bold">登出</Text>
                 </Pressable>
             </View>
         </SafeAreaView>

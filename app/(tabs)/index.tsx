@@ -8,6 +8,7 @@ import useAuth from '@/hooks/useAuth'
 import HEALTHEDUCATIONINFO from '@/types/healthEducationInfo'
 import { getHealthEducationInfo } from '@/firebase/dbService'
 import { useFocusEffect } from '@react-navigation/native'
+import Header from '@/components/tabs/Header'
 
 export default function HomeScreen() {
     const [infoModalVisible, setInfoModalVisible] = useState(false)
@@ -73,11 +74,7 @@ export default function HomeScreen() {
                             : 'ease-in-out'
                     }
                 >
-                    <View className="flex justify-center items-center h-[10vh]">
-                        <Text className="text-xl font-semibold">
-                            過負荷評量
-                        </Text>
-                    </View>
+                    <Header title="過負荷評量" />
                     <View className="flex flex-row">
                         <View>
                             <View className="flex flex-row justify-center items-center h-[35vh] w-[50vw]">

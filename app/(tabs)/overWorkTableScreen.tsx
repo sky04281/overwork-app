@@ -2,13 +2,16 @@ import { FlatList, Pressable, SafeAreaView, Text, View } from 'react-native'
 import { useEffect, useState } from 'react'
 import OverworkTable from '@/components/OverworkTable/OverworkTable'
 import OverworkRecordListItem from '@/components/OverworkTable/OverworkRecordListItem'
-import Header from '@/components/tabs/header'
+import Header from '@/components/tabs/Header'
 import OVERWORKSCORE from '@/types/overworkScore'
 import useAuth from '@/hooks/useAuth'
 import { addOverworkScore } from '@/firebase/dbService'
+import ChartModal from '@/components/tabs/ChartModal'
 
 const OverWorkTableScreen = () => {
-    const [questionToggle, setQuestionToggle] = useState(true)
+    const [tableToggle, setTableToggle] = useState(false)
+    const [chartKey, setChartKey] = useState(0)
+    const [chartToggle, setChartToggle] = useState(false)
     const [questionIndex, setQuestionIndex] = useState(0)
     const [selectedAnswer, setSelectedAnswer] = useState([
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -23,7 +26,12 @@ const OverWorkTableScreen = () => {
         console.log(userData)
     }, [userData])
 
-    const recentRecords = overworkScore?.filter((record) => record.createDate)
+    const thisMonthRecords = overworkScore?.filter((record) => {
+        return (
+            Number(record.createDate.split('-')[1]) ===
+            new Date().getMonth() + 1
+        )
+    })
 
     const countScore = (selectedAnswer: number[]): OVERWORKSCORE => {
         let personal = 0,
@@ -52,7 +60,6 @@ const OverWorkTableScreen = () => {
         }
     }
 
-
     const send = () => {
         user &&
             user.uid &&
@@ -61,7 +68,7 @@ const OverWorkTableScreen = () => {
                     console.log(e)
                 })
                 .finally(() => {
-                    setQuestionToggle(!questionToggle)
+                    setTableToggle(!tableToggle)
                     setSelectedAnswer([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
                     setLoading(true)
                 })
@@ -72,81 +79,90 @@ const OverWorkTableScreen = () => {
             <SafeAreaView className="h-full">
                 <View className="flex justify-center items-center">
                     <Header title="過負荷量表" />
-                    <View className="">
-                        {questionToggle ? (
-                            <View>
-                                <View className="flex flex-row justify-end items-center mt-[2.5vh] mb-[1vh] mx-[2vw] space-x-3">
-                                    <Pressable className="p-2 border rounded">
-                                        <Text>走勢圖</Text>
-                                    </Pressable>
-                                    <Pressable
-                                        className="p-2 border rounded"
-                                        onPress={() =>
-                                            setQuestionToggle(!questionToggle)
-                                        }
-                                    >
-                                        <Text>新增量表</Text>
-                                    </Pressable>
-                                </View>
-                                <Text className="text-lg font-medium">
-                                    近期紀錄（一個月內）
+                    <View className="w-[90vw] flex flex-row justify-end items-center m-[20px] space-x-3">
+                        <Pressable
+                            className="flex justify-center items-center h-[4vh] w-[20vw] border rounded"
+                            onPress={() => {
+                                setChartKey(chartKey + 1)
+                                setChartToggle(!chartToggle)
+                            }}
+                        >
+                            <Text className="text-[17.5px]">走勢圖</Text>
+                        </Pressable>
+                        {tableToggle ? (
+                            <Pressable
+                                className="flex justify-center items-center h-[4vh] w-[32.5vw] border rounded"
+                                onPress={() => setTableToggle(!tableToggle)}
+                            >
+                                <Text className="text-[17.5px]">
+                                    返回歷史紀錄
                                 </Text>
-                                <View className="h-[23vh] mb-[2vh] w-full">
-                                    <FlatList
-                                        data={overworkScore}
-                                        renderItem={({ item }) => (
-                                            <OverworkRecordListItem
-                                                title={item.createDate}
-                                                personal={item.personal}
-                                                working={item.working}
-                                            />
-                                        )}
-                                    />
-                                </View>
-                                <Text className="text-lg font-medium">
-                                    歷史紀錄
-                                </Text>
-                                <View className="h-[35vh]">
-                                    <FlatList
-                                        data={overworkScore}
-                                        renderItem={({ item }) => (
-                                            <OverworkRecordListItem
-                                                title={item.createDate}
-                                                personal={item.personal}
-                                                working={item.working}
-                                            />
-                                        )}
-                                    />
-                                </View>
-                            </View>
+                            </Pressable>
                         ) : (
-                            <View>
-                                <View className="flex flex-row justify-end items-center mt-[2.5vh] mb-[1vh] mx-[2vw] space-x-3">
-                                    <Pressable className="p-2 border rounded">
-                                        <Text>走勢圖</Text>
-                                    </Pressable>
-                                    <Pressable
-                                        className="p-2 border rounded"
-                                        onPress={() =>
-                                            setQuestionToggle(!questionToggle)
-                                        }
-                                    >
-                                        <Text>歷史紀錄</Text>
-                                    </Pressable>
-                                </View>
-                                <View>
-                                    <OverworkTable
-                                        questionIndex={questionIndex}
-                                        setQuestionIndex={setQuestionIndex}
-                                        selectedAnswer={selectedAnswer}
-                                        setSelectedAnswer={setSelectedAnswer}
-                                        send={send}
-                                    />
-                                </View>
-                            </View>
+                            <Pressable
+                                className="flex justify-center items-center h-[4vh] w-[25vw] border rounded"
+                                onPress={() => setTableToggle(!tableToggle)}
+                            >
+                                <Text className="text-[17.5px]">新增量表</Text>
+                            </Pressable>
                         )}
                     </View>
+                    {tableToggle ? (
+                        <View>
+                            <OverworkTable
+                                questionIndex={questionIndex}
+                                setQuestionIndex={setQuestionIndex}
+                                selectedAnswer={selectedAnswer}
+                                setSelectedAnswer={setSelectedAnswer}
+                                send={send}
+                            />
+                        </View>
+                    ) : (
+                        <View>
+                            <Text className="text-lg font-medium">
+                                近期紀錄（一個月內）
+                            </Text>
+                            {thisMonthRecords?.length === 0 ? (
+                                <View className="flex justify-center items-center h-[7.5vh]">
+                                    <Text className="">無近期紀錄</Text>
+                                </View>
+                            ) : (
+                                <View className="h-[23vh] mb-[2vh] w-full">
+                                    <FlatList
+                                        data={thisMonthRecords}
+                                        renderItem={({ item }) => (
+                                            <OverworkRecordListItem
+                                                title={item.createDate}
+                                                personal={item.personal}
+                                                working={item.working}
+                                            />
+                                        )}
+                                    />
+                                </View>
+                            )}
+                            <Text className="text-lg font-medium">
+                                歷史紀錄
+                            </Text>
+                            <View className="h-[35vh]">
+                                <FlatList
+                                    data={overworkScore}
+                                    renderItem={({ item }) => (
+                                        <OverworkRecordListItem
+                                            title={item.createDate}
+                                            personal={item.personal}
+                                            working={item.working}
+                                        />
+                                    )}
+                                />
+                            </View>
+                        </View>
+                    )}
                 </View>
+                <ChartModal
+                    whosCall="workTable"
+                    chartToggle={chartToggle}
+                    key={chartKey}
+                />
             </SafeAreaView>
         )
     )

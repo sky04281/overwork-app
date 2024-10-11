@@ -10,14 +10,14 @@ interface BasicInfoFieldProps {
 
 const BasicInfoField = ({ ...props }: BasicInfoFieldProps) => {
     return (
-        <View className="w-full my-3 mr-[5vw] flex-row justify-center items-center">
-            <View className="flex justify-center h-[5vh] w-[40vw]">
+        <View className="w-full my-2 mr-[5vw] flex-row justify-center items-center">
+            <View className="flex justify-center h-[5vh] w-[42.5vw]">
                 <Text className="text-xl px-2 font-semibold">
                     {`${props.title}：`}
                 </Text>
             </View>
             <View
-                className={`w-[50vw] h-[5vh] flex justify-center pb-1 ${
+                className={`w-[47.5vw] h-[5vh] flex justify-center pb-1 ${
                     props.editable
                         ? 'border focus:border-blue-500 rounded-md'
                         : ''
