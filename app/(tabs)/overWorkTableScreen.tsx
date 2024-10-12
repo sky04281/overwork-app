@@ -92,11 +92,17 @@ const OverWorkTableScreen = () => {
                     setLoading(true)
                 })
     }
-
     return (
         overworkScore && (
-            <SafeAreaView className="h-full">
-                <View className="flex justify-center items-center">
+            <SafeAreaView>
+                <View
+                    className={
+                        'flex justify-center items-center' +
+                        (chartToggle
+                            ? 'bg-gray-400 opacity-40 ease-in-out'
+                            : 'ease-in-out')
+                    }
+                >
                     <Header title="過負荷量表" />
                     <View className="w-[90vw] flex flex-row justify-end items-center m-[20px] space-x-3">
                         <Pressable
@@ -138,9 +144,11 @@ const OverWorkTableScreen = () => {
                         </View>
                     ) : (
                         <View>
-                            <Text className="text-lg font-medium">
-                                近期紀錄（一個月內）
-                            </Text>
+                            <View className="ml-[2.5vw]">
+                                <Text className="text-lg font-medium">
+                                    近期紀錄（一個月內）
+                                </Text>
+                            </View>
                             {thisMonthRecords?.length === 0 ? (
                                 <View className="flex justify-center items-center h-[7.5vh]">
                                     <Text className="">無近期紀錄</Text>
@@ -159,9 +167,11 @@ const OverWorkTableScreen = () => {
                                     />
                                 </View>
                             )}
-                            <Text className="text-lg font-medium">
-                                歷史紀錄
-                            </Text>
+                            <View className="ml-[2.5vw]">
+                                <Text className="text-lg font-medium">
+                                    歷史紀錄
+                                </Text>
+                            </View>
                             <View className="h-[35vh]">
                                 <FlatList
                                     data={overworkScore}
@@ -180,6 +190,7 @@ const OverWorkTableScreen = () => {
                 <ChartModal
                     whosCall="workTable"
                     chartToggle={chartToggle}
+                    setChartToggle={setChartToggle}
                     key={chartKey}
                 />
             </SafeAreaView>
