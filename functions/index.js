@@ -23,7 +23,7 @@ exports.sendEmail = functions
             to: to,
             subject: subject,
             text: text,
-            https: text.replace(/\n/g, '<br>'),
+            html: text.replace(/\n/g, '<br>'),
         }
 
         transporter.sendMail(mailOptions, (error, info) => {

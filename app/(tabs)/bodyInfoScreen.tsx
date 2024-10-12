@@ -12,7 +12,7 @@ import useAuth from '@/hooks/useAuth'
 import BODYINFO from '@/types/bodyInfo'
 import BodyInfoForm from '@/components/BodyInfo/BodyInfoForm'
 import { addBodyInfo } from '@/firebase/dbService'
-import BodyInfoListItem from '@/components/tabs/bodyInfoListItem'
+import BodyInfoListItem from '@/components/tabs/BodyInfoListItem'
 
 const BodyInfoScreen = () => {
     const { user, userData, setLoading } = useAuth()

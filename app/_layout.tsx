@@ -6,13 +6,13 @@ import 'react-native-reanimated'
 
 import { useColorScheme } from 'nativewind'
 import useAuth from '@/hooks/useAuth'
+import { AuthContext, AuthProvider } from '@/components/AuthProvider'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
     const { colorScheme, setColorScheme } = useColorScheme()
-    const { user } = useAuth()
 
     useEffect(() => {
         setColorScheme('light')
@@ -34,10 +34,12 @@ export default function RootLayout() {
     }
 
     return (
-        <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="login" />
-            <Stack.Screen name="register" />
-            <Stack.Screen name="(tabs)" />
-        </Stack>
+        <AuthProvider>
+            <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="login" />
+                <Stack.Screen name="register" />
+                <Stack.Screen name="(tabs)" />
+            </Stack>
+        </AuthProvider>
     )
 }
