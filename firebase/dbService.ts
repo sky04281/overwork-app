@@ -55,6 +55,16 @@ export const addBodyInfo = async (uid: string, bodyInfo: BODYINFO) => {
     }
 
     const currentBodyInfo = userData.data().bodyInfo as [BODYINFO]
+    currentBodyInfo.forEach((info, index) => {
+        if (info.createDate === bodyInfo.createDate) {
+            currentBodyInfo[index] = bodyInfo
+            return setDoc(
+                userRef,
+                { bodyInfo: currentBodyInfo },
+                { merge: true }
+            )
+        }
+    })
     return await setDoc(
         userRef,
         { bodyInfo: [...currentBodyInfo, bodyInfo] },
@@ -83,6 +93,16 @@ export const addOverworkScore = async (
     const currentOverworkScore = userData.data().overworkScore as [
         OVERWORKSCORE
     ]
+    currentOverworkScore.forEach(async (score, index) => {
+        if (score.createDate === overworkScore.createDate) {
+            currentOverworkScore[index] = overworkScore
+            return await setDoc(
+                userRef,
+                { overworkScore: currentOverworkScore },
+                { merge: true }
+            )
+        }
+    })
     return await setDoc(
         userRef,
         { overworkScore: [...currentOverworkScore, overworkScore] },
