@@ -55,8 +55,8 @@ export const addBodyInfo = async (uid: string, bodyInfo: BODYINFO) => {
     }
 
     const currentBodyInfo = userData.data().bodyInfo as [BODYINFO]
-    const existingScoreIndex = currentBodyInfo.findIndex((basicInfo) => {
-        return basicInfo.createDate === bodyInfo.createDate
+    const existingScoreIndex = currentBodyInfo.findIndex((oldInfo) => {
+        return oldInfo.createDate === bodyInfo.createDate
     })
 
     if (existingScoreIndex !== -1) {
