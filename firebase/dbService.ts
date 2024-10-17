@@ -55,21 +55,19 @@ export const addBodyInfo = async (uid: string, bodyInfo: BODYINFO) => {
     }
 
     const currentBodyInfo = userData.data().bodyInfo as [BODYINFO]
-    currentBodyInfo.forEach((info, index) => {
-        if (info.createDate === bodyInfo.createDate) {
-            currentBodyInfo[index] = bodyInfo
-            return setDoc(
-                userRef,
-                { bodyInfo: currentBodyInfo },
-                { merge: true }
-            )
-        }
+    const existingScoreIndex = currentBodyInfo.findIndex((basicInfo) => {
+        return basicInfo.createDate === bodyInfo.createDate
     })
-    return await setDoc(
-        userRef,
-        { bodyInfo: [...currentBodyInfo, bodyInfo] },
-        { merge: true }
-    )
+
+    if (existingScoreIndex !== -1) {
+        currentBodyInfo[existingScoreIndex] = bodyInfo
+        console.log('body info updated')
+    } else {
+        currentBodyInfo.push(bodyInfo)
+        console.log('body info added')
+    }
+
+    return await setDoc(userRef, { bodyInfo: currentBodyInfo }, { merge: true })
 }
 
 /**
@@ -90,22 +88,23 @@ export const addOverworkScore = async (
         throw new Error('user not found')
     }
 
-    const currentOverworkScore = userData.data().overworkScore as [
-        OVERWORKSCORE
-    ]
-    currentOverworkScore.forEach(async (score, index) => {
-        if (score.createDate === overworkScore.createDate) {
-            currentOverworkScore[index] = overworkScore
-            return await setDoc(
-                userRef,
-                { overworkScore: currentOverworkScore },
-                { merge: true }
-            )
-        }
-    })
+    const currentOverworkScore = userData.data()
+        .overworkScore as OVERWORKSCORE[]
+    const existingScoreIndex = currentOverworkScore.findIndex(
+        (score) => score.createDate === overworkScore.createDate
+    )
+
+    if (existingScoreIndex !== -1) {
+        currentOverworkScore[existingScoreIndex] = overworkScore
+        console.log('overwork score updated')
+    } else {
+        currentOverworkScore.push(overworkScore)
+        console.log('overwork score added')
+    }
+
     return await setDoc(
         userRef,
-        { overworkScore: [...currentOverworkScore, overworkScore] },
+        { overworkScore: currentOverworkScore },
         { merge: true }
     )
 }
