@@ -55,11 +55,19 @@ export const addBodyInfo = async (uid: string, bodyInfo: BODYINFO) => {
     }
 
     const currentBodyInfo = userData.data().bodyInfo as [BODYINFO]
-    return await setDoc(
-        userRef,
-        { bodyInfo: [...currentBodyInfo, bodyInfo] },
-        { merge: true }
-    )
+    const existingScoreIndex = currentBodyInfo.findIndex((oldInfo) => {
+        return oldInfo.createDate === bodyInfo.createDate
+    })
+
+    if (existingScoreIndex !== -1) {
+        currentBodyInfo[existingScoreIndex] = bodyInfo
+        console.log('body info updated')
+    } else {
+        currentBodyInfo.push(bodyInfo)
+        console.log('body info added')
+    }
+
+    return await setDoc(userRef, { bodyInfo: currentBodyInfo }, { merge: true })
 }
 
 /**
@@ -80,12 +88,23 @@ export const addOverworkScore = async (
         throw new Error('user not found')
     }
 
-    const currentOverworkScore = userData.data().overworkScore as [
-        OVERWORKSCORE
-    ]
+    const currentOverworkScore = userData.data()
+        .overworkScore as OVERWORKSCORE[]
+    const existingScoreIndex = currentOverworkScore.findIndex(
+        (score) => score.createDate === overworkScore.createDate
+    )
+
+    if (existingScoreIndex !== -1) {
+        currentOverworkScore[existingScoreIndex] = overworkScore
+        console.log('overwork score updated')
+    } else {
+        currentOverworkScore.push(overworkScore)
+        console.log('overwork score added')
+    }
+
     return await setDoc(
         userRef,
-        { overworkScore: [...currentOverworkScore, overworkScore] },
+        { overworkScore: currentOverworkScore },
         { merge: true }
     )
 }
