@@ -1,4 +1,11 @@
-import { View, Text, SafeAreaView, StyleSheet, ScrollView } from 'react-native'
+import {
+    View,
+    Text,
+    SafeAreaView,
+    StyleSheet,
+    ScrollView,
+    Image,
+} from 'react-native'
 import { useCallback, useEffect, useState } from 'react'
 import InfoModal from '@/components/HealthDashboard/InfoModal'
 import RatingBattery from '@/components/HealthDashboard/RatingBattery'
@@ -51,15 +58,15 @@ export default function HomeScreen() {
 
     // 開會有提到 低於 60 是低風險 其他還不確定
     const workingRate =
-        latestOverworkScore.working > 60
-            ? latestOverworkScore.working > 80
+        latestOverworkScore.working > 45
+            ? latestOverworkScore.working > 60
                 ? { style: 'text-[#e30019] font-bold italic', level: ' 高 ' }
                 : { style: 'text-[#f1a00b] font-bold italic', level: ' 中 ' }
             : { style: 'text-[#52c902] font-bold italic', level: ' 低 ' }
 
     const personalRate =
-        latestOverworkScore.personal > 60
-            ? latestOverworkScore.personal > 80
+        latestOverworkScore.personal > 50
+            ? latestOverworkScore.personal > 70
                 ? { style: 'text-[#e30019] font-bold italic', level: ' 高 ' }
                 : { style: 'text-[#f1a00b] font-bold italic', level: ' 中 ' }
             : { style: 'text-[#52c902] font-bold italic', level: ' 低 ' }
@@ -130,14 +137,50 @@ export default function HomeScreen() {
                             若您的過負荷評分風險較高，請儘速尋求專業醫療協助
                         </Text>
                     </View>
-                    {healthEducationInfo && healthEducationInfo.mild && (
+                    <View className="flex justify-center">
+                        {latestOverworkScore.personal > 70 ||
+                        latestOverworkScore.working > 60 ? (
+                            <Image
+                                source={require('../../assets/images/高負荷-本人-紅燈_0.jpg')}
+                                style={{
+                                    width: '100%',
+                                    height: undefined,
+                                    aspectRatio: 1,
+                                }}
+                                resizeMode="contain"
+                            />
+                        ) : latestOverworkScore.personal > 50 ||
+                          latestOverworkScore.working > 45 ? (
+                            <Image
+                                source={require('../../assets/images/中負荷-本人-黃燈_0.jpg')}
+                                style={{
+                                    width: '100%',
+                                    height: undefined,
+                                    aspectRatio: 1,
+                                }}
+                                resizeMode="contain"
+                            />
+                        ) : (
+                            <Image
+                                source={require('../../assets/images/低負荷-本人-綠燈_0.jpg')}
+                                style={{
+                                    width: '100%',
+                                    height: undefined,
+                                    aspectRatio: 1,
+                                }}
+                                resizeMode="contain"
+                            />
+                        )}
+                    </View>
+
+                    {/* {healthEducationInfo && healthEducationInfo.mild && (
                         <HealthInfo
                             healthEducationInfo={healthEducationInfo.mild}
                             handlePressInfo={handlePressInfo}
                         />
-                    )}
+                    )} */}
                 </View>
-                {healthEducationInfo && (
+                {/* {healthEducationInfo && (
                     <InfoModal
                         healthEducationInfo={
                             healthEducationInfo.mild[infoModalIndex]
@@ -145,7 +188,7 @@ export default function HomeScreen() {
                         infoModalVisible={infoModalVisible}
                         setInfoModalVisible={setInfoModalVisible}
                     />
-                )}
+                )} */}
             </ScrollView>
         </SafeAreaView>
     )
