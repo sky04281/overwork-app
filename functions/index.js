@@ -16,14 +16,18 @@ const transporter = nodemailer.createTransport({
 exports.sendEmail = functions
     .region('asia-east1')
     .https.onRequest((req, res) => {
-        const { to, subject, text } = req.body
+        const { to, subject, text, imgUrl } = req.body
+
+        const htmlContent =
+            text.replace(/\n/g, '<br>') +
+            `<br><img src="${imgUrl}" alt="Embedded Image">`
 
         const mailOptions = {
             from: '"過負荷APP" <overwork.app@gmail.com>',
             to: to,
             subject: subject,
             text: text,
-            html: text.replace(/\n/g, '<br>'),
+            html: htmlContent,
         }
 
         transporter.sendMail(mailOptions, (error, info) => {

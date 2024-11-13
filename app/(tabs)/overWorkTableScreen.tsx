@@ -74,7 +74,16 @@ const OverWorkTableScreen = () => {
                             userData!.basicInfo.familyMember,
                             userData!.basicInfo.name,
                             score.personal,
-                            score.working
+                            score.working,
+                            'images/高負荷-家人-紅燈_0.jpg'
+                        )
+                    } else if (score.personal > 50) {
+                        sendEmailToCarer(
+                            userData!.basicInfo.familyMember,
+                            userData!.basicInfo.name,
+                            score.personal,
+                            score.working,
+                            'images/中負荷-家人-黃燈_0.jpg'
                         )
                     }
                     if (score.working > 60) {
@@ -82,7 +91,8 @@ const OverWorkTableScreen = () => {
                             userData!.basicInfo.manager,
                             userData!.basicInfo.name,
                             score.personal,
-                            score.working
+                            score.working,
+                            'images/高負荷-雇主-紅燈_0.jpg'
                         )
                     }
                 })
