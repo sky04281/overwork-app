@@ -94,7 +94,7 @@ export default function OverworkTable({
                         className="p-2 border rounded"
                         onPress={() => send()}
                     >
-                        <Text>送出</Text>
+                        <Text>Submit</Text>
                     </Pressable>
                 )}
                 <Pressable

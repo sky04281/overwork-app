@@ -38,6 +38,8 @@ const RegisterScreen = () => {
                                 height: 0,
                                 weight: 0,
                                 workingTime: 0,
+                                manager: '',
+                                familyMember: '',
                             }
 
                             return createUserInDB(

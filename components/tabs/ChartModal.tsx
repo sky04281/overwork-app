@@ -27,7 +27,9 @@ const ChartModal = ({
             <View className="w-[90vw] mx-[5vw] mt-[30vh] rounded-[15px] bg-white">
                 <View className="flex flex-row justify-between items-center mx-[5vw] my-[1.5vh]">
                     <View>
-                        <Text className="text-lg font-semibold">走勢圖</Text>
+                        <Text className="text-lg font-semibold">
+                            Trend chart
+                        </Text>
                     </View>
                     <Pressable
                         onPress={() => {

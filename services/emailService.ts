@@ -19,15 +19,16 @@ export const sendEmailToCarer = async (
                 },
                 body: JSON.stringify({
                     to: carerEmail,
-                    subject: '過負荷APP - 個人壓力警訊',
-                    text: `親愛的照顧者：
-                    ${name} 近期在過負荷APP中填寫過負荷量表
-                    他的個人壓力指數有風險，以下是他的壓力指數：
-                    個人壓力指數：${personal} 分 (0-100)
-                    工作壓力指數：${work} 分 (0-100)
-                    請適當減輕他的生活負荷，並提供協助。
+                    subject: 'Overwork App - Personal Stress Alert',
+                    text: `Dear Carer,
+                    ${name} recently completed the Overwork Assessment in the Overwork App.
+                    His/Her personal stress index shows potential risks. Below are the details:
+                    Personal Stress Index: ${personal} (0-100)
+                    Work Stress Index: ${work} (0-100)
+                    Please consider reducing their life load and providing assistance.
                     
-                    過負荷APP團隊敬上`,
+                    Sincerely,
+                    The Overwork App Team`,
                     imgUrl: url,
                 }),
             }
@@ -56,15 +57,16 @@ export const sendEmailToManager = async (
                 },
                 body: JSON.stringify({
                     to: managerEmail,
-                    subject: '過負荷APP - 工作壓力警訊',
-                    text: `親愛的主管：
-                    您的員工 ${name} 近期在過負荷APP中填寫過負荷量表
-                    他的工作壓力指數有風險，以下是他的壓力指數：
-                    工作壓力指數：${work} 分 (0-100)
-                    個人壓力指數：${personal} 分 (0-100)
-                    請適當減輕他的工作負荷，並提供協助。
+                    subject: 'Overwork App - Work Stress Alert',
+                    text: `Dear Manager,
+                    Your employee ${name} recently completed the Overwork Assessment in the Overwork App.
+                    Their work stress index shows potential risks. Below are the details:
+                    Work Stress Index: ${work} (0-100)
+                    Personal Stress Index: ${personal} (0-100)
+                    Please consider reducing their work load and providing assistance.
                     
-                    過負荷APP團隊敬上`,
+                    Sincerely,
+                    The Overwork App Team`,
                     imgUrl: url,
                 }),
             }

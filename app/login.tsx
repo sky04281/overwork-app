@@ -17,7 +17,7 @@ const LoginScreen = () => {
                 router.push('/(tabs)')
             })
             .catch((e: FirebaseError) => {
-                Alert.alert('登入失敗', e.message)
+                Alert.alert('Login Failed', e.message)
                 console.log(e)
             })
     }
@@ -27,23 +27,23 @@ const LoginScreen = () => {
                 <View className="w-full h-full flex items-center">
                     <View className="h-[25%] justify-center items-center">
                         <Text className="p-5 text-5xl font-bold">
-                            過負荷APP
+                            Overwork APP
                         </Text>
                     </View>
                     <View className="w-full px-4">
                         <FormField
-                            title={'帳號'}
+                            title={'Account'}
                             value={form.account}
-                            placeholder="在此輸入信箱"
+                            placeholder="Enter email here"
                             keyBoardType="email-address"
                             onChangeText={(e) => {
                                 setForm({ ...form, account: e })
                             }}
                         />
                         <FormField
-                            title={'密碼'}
+                            title={'Password'}
                             value={form.password}
-                            placeholder="在此輸入密碼"
+                            placeholder="Enter password here"
                             isPassword
                             onChangeText={(e) => {
                                 setForm({ ...form, password: e })
@@ -55,17 +55,19 @@ const LoginScreen = () => {
                                 handleFormSubmit()
                             }}
                         >
-                            <Text className="text-white">登入</Text>
+                            <Text className="text-white">Log In</Text>
                         </Pressable>
                         <View className="flex flex-row justify-center mt-2">
-                            <Text className="text-black">沒有帳號？</Text>
+                            <Text className="text-black">
+                                Don't have an account?
+                            </Text>
                             <Text
                                 className="text-blue-500 ml-1"
                                 onPress={() => {
                                     router.push('/register')
                                 }}
                             >
-                                註冊
+                                Register
                             </Text>
                         </View>
                     </View>

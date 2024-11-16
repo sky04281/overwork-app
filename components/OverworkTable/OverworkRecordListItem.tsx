@@ -28,8 +28,12 @@ export default function OverworkRecordListItem({
                 </View>
                 {show && (
                     <View className="flex-col items-start space-y-1 m-1">
-                        <Text className="text-base">個人評分: {personal}</Text>
-                        <Text className="text-base">工作評分: {working}</Text>
+                        <Text className="text-base">
+                            Personal score: {personal}
+                        </Text>
+                        <Text className="text-base">
+                            Working score: {working}
+                        </Text>
                     </View>
                 )}
             </TouchableOpacity>

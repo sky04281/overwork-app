@@ -26,29 +26,29 @@ const BodyInfoListItem = ({ bodyInfo, ...props }: BodyInfoListItemProps) => {
                 {show && (
                     <View className="flex-col items-start space-y-1 mt-2 ml-1">
                         <Text className="text-base">
-                            平均心率 : {bodyInfo.heartRate}
+                            Average Heart Rate: {bodyInfo.heartRate}
                         </Text>
                         <Text className="text-base">
-                            收縮壓 : {bodyInfo.SBP} mmHg
+                            Systolic BP: {bodyInfo.SBP} mmHg
                         </Text>
                         <Text className="text-base">
-                            舒張壓 : {bodyInfo.DBP} mmHg
+                            Diastolic BP: {bodyInfo.DBP} mmHg
                         </Text>
                         <Text className="text-base">
-                            血糖 : {bodyInfo.bloodSugar} mg/dL
+                            Blood Sugar: {bodyInfo.bloodSugar} mg/dL
                         </Text>
                         <Text className="text-base">
-                            身高 : {bodyInfo.height} cm
+                            Height: {bodyInfo.height} cm
                         </Text>
                         <Text className="text-base">
-                            體重 : {bodyInfo.weight} kg
+                            Weight: {bodyInfo.weight} kg
                         </Text>
-                        <Text className="text-base">BMI : {bodyInfo.BMI} </Text>
+                        <Text className="text-base">BMI: {bodyInfo.BMI}</Text>
                         <Text className="text-base">
-                            步數 : {bodyInfo.steps} steps
+                            Steps: {bodyInfo.steps} steps
                         </Text>
                         <Text className="text-base">
-                            睡眠時長 : {bodyInfo.sleepTime} hr
+                            Sleep Duration: {bodyInfo.sleepTime} hr
                         </Text>
                     </View>
                 )}

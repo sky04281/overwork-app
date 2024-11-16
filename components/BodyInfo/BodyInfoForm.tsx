@@ -10,12 +10,12 @@ interface bodyInfoFormProps {
 const BodyInfoForm = ({ setForm, form }: bodyInfoFormProps) => {
     const formData = [
         {
-            title: '身高',
+            title: 'Height',
             field: 'height',
             value: form.height.toString(),
         },
         {
-            title: '體重',
+            title: 'Weight',
             field: 'weight',
             value: form.weight.toString(),
         },
@@ -25,32 +25,32 @@ const BodyInfoForm = ({ setForm, form }: bodyInfoFormProps) => {
             value: form.BMI.toString(),
         },
         {
-            title: '心率',
+            title: 'Heart Rate',
             field: 'heartRate',
             value: form.heartRate.toString(),
         },
         {
-            title: '收縮壓',
+            title: 'SBP',
             field: 'SBP',
             value: form.SBP.toString(),
         },
         {
-            title: '舒張壓',
+            title: 'DBP',
             field: 'DBP',
             value: form.DBP.toString(),
         },
         {
-            title: '血糖',
+            title: 'Blood Sugar',
             field: 'bloodSugar',
             value: form.bloodSugar.toString(),
         },
         {
-            title: '步數',
+            title: 'Steps',
             field: 'steps',
             value: form.steps.toString(),
         },
         {
-            title: '睡眠時間',
+            title: 'Sleep Time',
             field: 'sleepTime',
             value: form.sleepTime.toString(),
         },

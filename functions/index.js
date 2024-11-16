@@ -23,7 +23,7 @@ exports.sendEmail = functions
             `<br><img src="${imgUrl}" alt="Embedded Image">`
 
         const mailOptions = {
-            from: '"過負荷APP" <overwork.app@gmail.com>',
+            from: '"Overwork APP" <overwork.app@gmail.com>',
             to: to,
             subject: subject,
             text: text,
