@@ -29,10 +29,10 @@ export default function OverworkRecordListItem({
                 {show && (
                     <View className="flex-col items-start space-y-1 m-1">
                         <Text className="text-base">
-                            Personal score: {personal}
+                            Personal rating: {personal}
                         </Text>
                         <Text className="text-base">
-                            Working score: {working}
+                            Working rating: {working}
                         </Text>
                     </View>
                 )}

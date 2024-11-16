@@ -20,7 +20,7 @@ export const sendEmailToCarer = async (
                 body: JSON.stringify({
                     to: carerEmail,
                     subject: 'Overwork App - Personal Stress Alert',
-                    text: `Dear Carer,
+                    text: `Dear Relative,
                     ${name} recently completed the Overwork Assessment in the Overwork App.
                     His/Her personal stress index shows potential risks. Below are the details:
                     Personal Stress Index: ${personal} (0-100)

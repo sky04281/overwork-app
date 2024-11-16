@@ -24,7 +24,7 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="index"
                 options={{
-                    title: 'Health Dashboard',
+                    title: 'Dashboard',
                     tabBarIcon: ({ color, focused }) => (
                         <TabBarIcon
                             name={focused ? 'home' : 'home-outline'}
@@ -36,7 +36,7 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="overWorkTableScreen"
                 options={{
-                    title: 'Overwork Assessment',
+                    title: 'Assessment',
                     tabBarIcon: ({ color, focused }) => (
                         <FontAwesome5
                             name={focused ? 'clipboard-list' : 'clipboard-list'}
@@ -49,7 +49,7 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="bodyInfoScreen"
                 options={{
-                    title: 'Body Information',
+                    title: 'Body Info',
                     tabBarIcon: ({ color, focused }) => (
                         <FontAwesome5
                             name={focused ? 'heartbeat' : 'heartbeat'}
@@ -62,7 +62,7 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="basicInfoScreen"
                 options={{
-                    title: 'Basic Information',
+                    title: 'Basic Info',
                     tabBarIcon: ({ color, focused }) => (
                         <FontAwesome5
                             name={focused ? 'user' : 'user'}

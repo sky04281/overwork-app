@@ -25,7 +25,6 @@ export default function OverworkTable({
         getOverworkTable()
             .then((data) => {
                 setOverworkTable(data)
-                console.log('overwork table:', data)
             })
             .catch((error) => {
                 console.error('Error getting overwork table:', error.message)

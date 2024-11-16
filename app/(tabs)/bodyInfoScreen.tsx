@@ -97,9 +97,7 @@ const BodyInfoScreen = () => {
             <Header title="Body Information" />
             <View className="w-full justify-center">
                 <View className="flex-row justify-between items-center my-[2.5vh] mx-[5vw]">
-                    <Text className="text-xl font-medium">
-                        Personal Body Information Records
-                    </Text>
+                    <Text className="text-xl font-medium">Records</Text>
                     {formToggle ? (
                         <View className="flex-row gap-3">
                             <Pressable
@@ -124,9 +122,7 @@ const BodyInfoScreen = () => {
                             className="flex justify-center items-center h-[4vh] w-[32.5vw] border rounded"
                             onPress={() => setFormToggle(true)}
                         >
-                            <Text className="text-[17.5px]">
-                                Add Body Information
-                            </Text>
+                            <Text className="text-[17.5px]">Add</Text>
                         </Pressable>
                     )}
                 </View>

@@ -112,7 +112,7 @@ const BasicInfoScreen = () => {
                         }
                     />
                     <BasicInfoField
-                        title="Working Hours (hr)"
+                        title="Working Hours"
                         value={form.workingTime.toString()}
                         type="number-pad"
                         editable={isEditable}
@@ -124,13 +124,13 @@ const BasicInfoScreen = () => {
                         }
                     />
                     <BasicInfoField
-                        title="Manager Contact (email)"
+                        title="Manager's Email"
                         value={form.manager}
                         editable={isEditable}
                         onChangeText={(e) => setForm({ ...form, manager: e })}
                     />
                     <BasicInfoField
-                        title="Family Member Contact (email)"
+                        title="Relative's Email"
                         value={form.familyMember}
                         editable={isEditable}
                         onChangeText={(e) =>

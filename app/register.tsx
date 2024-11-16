@@ -17,16 +17,19 @@ const RegisterScreen = () => {
         password: '',
     })
     const handleFormSubmit = () => {
-        Alert.alert('即將註冊', '請確認資料無誤！', [
+        Alert.alert('Registering', 'Please confirm your information!', [
             {
-                text: '確定',
+                text: 'Confirm',
                 onPress: () => {
                     if (
                         form.account === '' ||
                         form.password === '' ||
                         form.userName === ''
                     ) {
-                        Alert.alert('註冊失敗', '任何欄位都不得為空')
+                        Alert.alert(
+                            'Registration Failed',
+                            'No fields can be empty'
+                        )
                         return
                     }
                     signUp(form.account, form.password, form.userName)
@@ -48,18 +51,21 @@ const RegisterScreen = () => {
                             )
                         })
                         .then(() => {
-                            Alert.alert('註冊成功', '登入以使用過負荷APP')
+                            Alert.alert(
+                                'Registration Successful',
+                                'Log in to use the Overwork App'
+                            )
                             return logOut()
                         })
                         .then(() => router.push('/login'))
                         .catch((e: FirebaseError) => {
-                            Alert.alert('註冊失敗', e.message)
+                            Alert.alert('Registration Failed', e.message)
                             console.log(e)
                         })
                 },
             },
             {
-                text: '取消',
+                text: 'Cancel',
                 onPress: () => console.log('Cancel Pressed'),
                 style: 'cancel',
             },
@@ -71,31 +77,31 @@ const RegisterScreen = () => {
                 <View className="w-full h-full flex items-center">
                     <View className="h-[25%] justify-center items-center">
                         <Text className="p-5 text-5xl font-bold dark:text-white">
-                            過負荷APP
+                            Overwork App
                         </Text>
                     </View>
                     <View className="w-full px-4">
                         <FormField
-                            title={'姓名'}
+                            title={'Name'}
                             value={form.userName}
-                            placeholder="在此輸入姓名"
+                            placeholder="Enter your name here"
                             onChangeText={(e) => {
                                 setForm({ ...form, userName: e })
                             }}
                         />
                         <FormField
-                            title={'帳號'}
+                            title={'Account'}
                             value={form.account}
-                            placeholder="在此輸入信箱"
+                            placeholder="Enter your email here"
                             keyBoardType="email-address"
                             onChangeText={(e) => {
                                 setForm({ ...form, account: e })
                             }}
                         />
                         <FormField
-                            title={'密碼'}
+                            title={'Password'}
                             value={form.password}
-                            placeholder="在此輸入密碼"
+                            placeholder="Enter your password here"
                             isPassword
                             onChangeText={(e) => {
                                 setForm({ ...form, password: e })
@@ -107,17 +113,19 @@ const RegisterScreen = () => {
                                 handleFormSubmit()
                             }}
                         >
-                            <Text className="text-white">註冊</Text>
+                            <Text className="text-white">Register</Text>
                         </Pressable>
                         <View className="flex flex-row justify-center mt-2">
-                            <Text className="text-black">已有帳號？</Text>
+                            <Text className="text-black">
+                                Already have an account?
+                            </Text>
                             <Text
                                 className="text-blue-500 ml-1"
                                 onPress={() => {
                                     router.push('/login')
                                 }}
                             >
-                                登入
+                                Log In
                             </Text>
                         </View>
                     </View>

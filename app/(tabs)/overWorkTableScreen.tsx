@@ -121,25 +121,21 @@ const OverWorkTableScreen = () => {
                                 setChartToggle(!chartToggle)
                             }}
                         >
-                            <Text className="text-[17.5px]">Trend Chart</Text>
+                            <Text className="text-[17.5px]">Trend</Text>
                         </Pressable>
                         {tableToggle ? (
                             <Pressable
-                                className="flex justify-center items-center h-[4vh] w-[32.5vw] border rounded"
+                                className="flex justify-center items-center h-[4vh] w-[25vw] border rounded"
                                 onPress={() => setTableToggle(!tableToggle)}
                             >
-                                <Text className="text-[17.5px]">
-                                    Return to History
-                                </Text>
+                                <Text className="text-[17.5px]">History</Text>
                             </Pressable>
                         ) : (
                             <Pressable
                                 className="flex justify-center items-center h-[4vh] w-[25vw] border rounded"
                                 onPress={() => setTableToggle(!tableToggle)}
                             >
-                                <Text className="text-[17.5px]">
-                                    Add Record
-                                </Text>
+                                <Text className="text-[17.5px]">Add</Text>
                             </Pressable>
                         )}
                     </View>

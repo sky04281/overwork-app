@@ -26,13 +26,13 @@ const BodyInfoListItem = ({ bodyInfo, ...props }: BodyInfoListItemProps) => {
                 {show && (
                     <View className="flex-col items-start space-y-1 mt-2 ml-1">
                         <Text className="text-base">
-                            Average Heart Rate: {bodyInfo.heartRate}
+                            Average Heart Rate: {bodyInfo.heartRate} bpm
                         </Text>
                         <Text className="text-base">
-                            Systolic BP: {bodyInfo.SBP} mmHg
+                            SBP: {bodyInfo.SBP} mmHg
                         </Text>
                         <Text className="text-base">
-                            Diastolic BP: {bodyInfo.DBP} mmHg
+                            DBP: {bodyInfo.DBP} mmHg
                         </Text>
                         <Text className="text-base">
                             Blood Sugar: {bodyInfo.bloodSugar} mg/dL
@@ -45,7 +45,7 @@ const BodyInfoListItem = ({ bodyInfo, ...props }: BodyInfoListItemProps) => {
                         </Text>
                         <Text className="text-base">BMI: {bodyInfo.BMI}</Text>
                         <Text className="text-base">
-                            Steps: {bodyInfo.steps} steps
+                            Steps: {bodyInfo.steps}
                         </Text>
                         <Text className="text-base">
                             Sleep Duration: {bodyInfo.sleepTime} hr

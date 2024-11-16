@@ -84,7 +84,7 @@ export default function HomeScreen() {
                             : 'ease-in-out'
                     }
                 >
-                    <Header title="Overwork Assessment" />
+                    <Header title="Overwork Rating" />
                     <View className="flex flex-row">
                         <View>
                             <View className="flex flex-row justify-center items-center h-[35vh] w-[50vw]">
