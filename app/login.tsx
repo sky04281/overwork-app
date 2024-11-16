@@ -57,7 +57,7 @@ const LoginScreen = () => {
                         >
                             <Text className="text-white">Log In</Text>
                         </Pressable>
-                        <View className="flex flex-row justify-center mt-2">
+                        <View className="flex flex-row justify-center mt-3">
                             <Text className="text-black">
                                 Don't have an account?
                             </Text>

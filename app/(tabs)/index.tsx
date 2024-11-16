@@ -17,6 +17,27 @@ import { getHealthEducationInfo } from '@/firebase/dbService'
 import { useFocusEffect } from '@react-navigation/native'
 import Header from '@/components/tabs/Header'
 
+// 新增常量定義
+const RISK_LEVELS = {
+    HIGH: {
+        style: 'text-[#e30019] font-bold italic',
+        level: ' High ',
+        threshold: { personal: 70, working: 60 },
+    },
+    MEDIUM: {
+        style: 'text-[#f1a00b] font-bold italic',
+        level: ' Medium ',
+        threshold: { personal: 50, working: 45 },
+    },
+    LOW: { style: 'text-[#52c902] font-bold italic', level: ' Low ' },
+}
+
+const IMAGES = {
+    HIGH: require('../../assets/images/高負荷-本人-紅燈_0.jpg'),
+    MEDIUM: require('../../assets/images/中負荷-本人-黃燈_0.jpg'),
+    LOW: require('../../assets/images/低負荷-本人-綠燈_0.jpg'),
+}
+
 export default function HomeScreen() {
     const [infoModalVisible, setInfoModalVisible] = useState(false)
     const [latestOverworkScore, setLatestOverworkScore] =
@@ -54,133 +75,151 @@ export default function HomeScreen() {
         setInfoModalVisible(true)
     }
 
-    const workingRate =
-        latestOverworkScore.working > 45
-            ? latestOverworkScore.working > 60
-                ? { style: 'text-[#e30019] font-bold italic', level: ' High ' }
-                : {
-                      style: 'text-[#f1a00b] font-bold italic',
-                      level: ' Medium ',
+    // 優化評分計算邏輯
+    const calculateRiskRate = (score: number, type: 'personal' | 'working') => {
+        const thresholds =
+            type === 'personal'
+                ? {
+                      high: RISK_LEVELS.HIGH.threshold.personal,
+                      medium: RISK_LEVELS.MEDIUM.threshold.personal,
                   }
-            : { style: 'text-[#52c902] font-bold italic', level: ' Low ' }
+                : {
+                      high: RISK_LEVELS.HIGH.threshold.working,
+                      medium: RISK_LEVELS.MEDIUM.threshold.working,
+                  }
 
-    const personalRate =
-        latestOverworkScore.personal > 50
-            ? latestOverworkScore.personal > 70
-                ? { style: 'text-[#e30019] font-bold italic', level: ' High ' }
-                : {
-                      style: 'text-[#f1a00b] font-bold italic',
-                      level: ' Medium ',
-                  }
-            : { style: 'text-[#52c902] font-bold italic', level: ' Low ' }
+        if (score > thresholds.high) return RISK_LEVELS.HIGH
+        if (score > thresholds.medium) return RISK_LEVELS.MEDIUM
+        return RISK_LEVELS.LOW
+    }
+
+    const workingRate = calculateRiskRate(
+        latestOverworkScore.working,
+        'working'
+    )
+    const personalRate = calculateRiskRate(
+        latestOverworkScore.personal,
+        'personal'
+    )
+
+    // 優化圖片選擇邏輯
+    const getDisplayImage = () => {
+        if (
+            latestOverworkScore.personal >
+                RISK_LEVELS.HIGH.threshold.personal ||
+            latestOverworkScore.working > RISK_LEVELS.HIGH.threshold.working
+        ) {
+            return IMAGES.HIGH
+        }
+        if (
+            latestOverworkScore.personal >
+                RISK_LEVELS.MEDIUM.threshold.personal ||
+            latestOverworkScore.working > RISK_LEVELS.MEDIUM.threshold.working
+        ) {
+            return IMAGES.MEDIUM
+        }
+        return IMAGES.LOW
+    }
 
     return (
-        <SafeAreaView>
+        <SafeAreaView className="flex-1 bg-gray-200">
             <ScrollView>
                 <View
-                    className={
-                        infoModalVisible
-                            ? 'bg-gray-400 opacity-40 ease-in-out'
-                            : 'ease-in-out'
-                    }
+                    className={`${
+                        infoModalVisible ? 'opacity-40 bg-gray-400' : ''
+                    } transition-opacity duration-300`}
                 >
                     <Header title="Overwork Rating" />
-                    <View className="flex flex-row">
-                        <View>
-                            <View className="flex flex-row justify-center items-center h-[35vh] w-[50vw]">
-                                <View className="flex justify-between items-center h-[25vh] w-[20vw]">
-                                    <Text className="text-[#e30019] font-bold text-lg">
-                                        High
-                                    </Text>
-                                    <Text className="text-[#52c902] font-bold text-lg">
-                                        Low
-                                    </Text>
-                                </View>
-                                <RatingBattery
-                                    score={latestOverworkScore.personal}
-                                />
-                            </View>
-                            <View className="flex flex-row justify-center items-center w-[50vw] h-[5vh]">
-                                <Text>Personal rating is</Text>
-                                <Text className={personalRate.style}>
-                                    {personalRate.level}
-                                </Text>
-                                <Text>risk</Text>
-                            </View>
-                        </View>
-                        <View>
-                            <View className="flex flex-row justify-center items-center h-[35vh] w-[50vw]">
-                                <RatingBattery
-                                    score={latestOverworkScore.working}
-                                />
-                                <View className="flex justify-between items-center h-[25vh] w-[20vw]">
-                                    <Text className="text-[#e30019] font-bold text-lg">
-                                        High
-                                    </Text>
-                                    <Text className="text-[#52c902] font-bold text-lg">
-                                        Low
-                                    </Text>
-                                </View>
-                            </View>
-                            <View className="flex flex-row justify-center items-center w-[50vw] h-[5vh]">
-                                <Text>Work rating is</Text>
-                                <Text className={workingRate.style}>
-                                    {workingRate.level}
-                                </Text>
-                                <Text>risk</Text>
-                            </View>
-                        </View>
+
+                    {/* 評分展示區域 */}
+                    <View className="flex-row justify-between px-4 py-6">
+                        <RatingSection
+                            title="Personal Rating"
+                            score={latestOverworkScore.personal}
+                            riskRate={personalRate}
+                            alignment="left"
+                        />
+                        <RatingSection
+                            title="Work Rating"
+                            score={latestOverworkScore.working}
+                            riskRate={workingRate}
+                            alignment="right"
+                        />
                     </View>
-                    <View className="flex justify-center items-center h-[15vh]">
-                        <Text className="text-xl font-semibold">
+
+                    {/* 健康教育資訊區域 */}
+                    <View className="px-4 py-8 bg-white rounded-3xl shadow-sm mx-3 mb-4">
+                        <Text className="text-2xl font-bold text-center mb-4">
                             Health Education
                         </Text>
-                        <Text className="text-s pt-[1vh]">
-                            Based on your overwork assessment score, the
-                            following information is provided for reference
+                        <Text className="text-gray-600 text-center leading-6 mb-8">
+                            Based on your overwork assessment score{'\n'}
+                            the following information is provided for reference
+                            {'\n\n'}
+                            <Text className="text-red-600 font-semibold">
+                                * If your overwork risk level is high{'\n'}
+                                Please seek professional medical assistance
+                            </Text>
                         </Text>
-                        <Text className="text-s">
-                            If your overwork risk level is high, please seek
-                            professional medical assistance promptly
-                        </Text>
-                    </View>
-                    <View className="flex justify-center">
-                        {latestOverworkScore.personal > 70 ||
-                        latestOverworkScore.working > 60 ? (
+
+                        {/* 圖片展示區域 */}
+                        <View className="bg-white rounded-2xl shadow-lg overflow-hidden">
                             <Image
-                                source={require('../../assets/images/高負荷-本人-紅燈_0.jpg')}
-                                style={{
-                                    width: '100%',
-                                    height: undefined,
-                                    aspectRatio: 1,
-                                }}
+                                source={getDisplayImage()}
+                                className="w-full h-[450]"
                                 resizeMode="contain"
                             />
-                        ) : latestOverworkScore.personal > 50 ||
-                          latestOverworkScore.working > 45 ? (
-                            <Image
-                                source={require('../../assets/images/中負荷-本人-黃燈_0.jpg')}
-                                style={{
-                                    width: '100%',
-                                    height: undefined,
-                                    aspectRatio: 1,
-                                }}
-                                resizeMode="contain"
-                            />
-                        ) : (
-                            <Image
-                                source={require('../../assets/images/低負荷-本人-綠燈_0.jpg')}
-                                style={{
-                                    width: '100%',
-                                    height: undefined,
-                                    aspectRatio: 1,
-                                }}
-                                resizeMode="contain"
-                            />
-                        )}
+                        </View>
                     </View>
                 </View>
             </ScrollView>
         </SafeAreaView>
     )
 }
+// 新增可重用組件
+const RatingSection = ({
+    title,
+    score,
+    riskRate,
+    alignment,
+}: {
+    title: string
+    score: number
+    riskRate: { level: string; style: string }
+    alignment: 'left' | 'right'
+}) => (
+    <View className={`flex-1 items-${alignment}`}>
+        <View className="flex-row items-center justify-center h-[35vh]">
+            {alignment === 'right' ? (
+                <>
+                    <RatingBattery score={score} />
+                    <View className="h-[25vh] justify-between px-2">
+                        <Text className="text-[#e30019] font-bold text-lg">
+                            High
+                        </Text>
+                        <Text className="text-[#52c902] font-bold text-lg">
+                            Low
+                        </Text>
+                    </View>
+                </>
+            ) : (
+                <>
+                    <View className="h-[25vh] justify-between px-2">
+                        <Text className="text-[#e30019] font-bold text-lg">
+                            High
+                        </Text>
+                        <Text className="text-[#52c902] font-bold text-lg">
+                            Low
+                        </Text>
+                    </View>
+                    <RatingBattery score={score} />
+                </>
+            )}
+        </View>
+        <View className="flex-row items-center justify-center h-[5vh]">
+            <Text>{title}:</Text>
+            <Text className={riskRate.style}>{riskRate.level}</Text>
+            <Text>risk</Text>
+        </View>
+    </View>
+)

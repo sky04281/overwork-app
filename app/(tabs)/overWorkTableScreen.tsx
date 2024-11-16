@@ -1,4 +1,11 @@
-import { FlatList, Pressable, SafeAreaView, Text, View } from 'react-native'
+import {
+    FlatList,
+    Pressable,
+    SafeAreaView,
+    Text,
+    View,
+    ScrollView,
+} from 'react-native'
 import { useEffect, useState } from 'react'
 import OverworkTable from '@/components/OverworkTable/OverworkTable'
 import OverworkRecordListItem from '@/components/OverworkTable/OverworkRecordListItem'
@@ -19,8 +26,8 @@ const OverWorkTableScreen = () => {
     ])
 
     const { user, userData, setLoading } = useAuth()
-
     const [overworkScore, setOverworkScore] = useState<OVERWORKSCORE[]>()
+
     useEffect(() => {
         userData ? setOverworkScore(userData.overworkScore) : ''
     }, [userData])
@@ -101,86 +108,92 @@ const OverWorkTableScreen = () => {
                     setLoading(true)
                 })
     }
+
     return (
         overworkScore && (
-            <SafeAreaView>
-                <View
-                    className={
-                        'flex justify-center items-center' +
-                        (chartToggle
-                            ? 'bg-gray-400 opacity-40 ease-in-out'
-                            : 'ease-in-out')
-                    }
-                >
-                    <Header title="Overwork Assessment" />
-                    <View className="w-[90vw] flex flex-row justify-end items-center m-[20px] space-x-3">
-                        <Pressable
-                            className="flex justify-center items-center h-[4vh] w-[20vw] border rounded"
-                            onPress={() => {
-                                setChartKey(chartKey + 1)
-                                setChartToggle(!chartToggle)
-                            }}
-                        >
-                            <Text className="text-[17.5px]">Trend</Text>
-                        </Pressable>
-                        {tableToggle ? (
+            <SafeAreaView className="flex-1 bg-gray-200">
+                <Header title="Assessment" />
+                <View className="flex-1">
+                    <View className="flex-row justify-between items-center mx-5 my-5">
+                        <Text className="text-xl font-medium">
+                            {tableToggle ? 'New Assessment' : ''}
+                        </Text>
+                        <View className="flex-row gap-3">
                             <Pressable
-                                className="flex justify-center items-center h-[4vh] w-[25vw] border rounded"
-                                onPress={() => setTableToggle(!tableToggle)}
+                                className="h-8 px-4 rounded-lg border border-gray-300 items-center justify-center bg-white active:bg-gray-500"
+                                onPress={() => {
+                                    setChartKey(chartKey + 1)
+                                    setChartToggle(!chartToggle)
+                                }}
                             >
-                                <Text className="text-[17.5px]">History</Text>
+                                <Text className="text-base">Trend</Text>
                             </Pressable>
-                        ) : (
-                            <Pressable
-                                className="flex justify-center items-center h-[4vh] w-[25vw] border rounded"
-                                onPress={() => setTableToggle(!tableToggle)}
-                            >
-                                <Text className="text-[17.5px]">Add</Text>
-                            </Pressable>
-                        )}
-                    </View>
-                    {tableToggle ? (
-                        <View>
-                            <OverworkTable
-                                questionIndex={questionIndex}
-                                setQuestionIndex={setQuestionIndex}
-                                selectedAnswer={selectedAnswer}
-                                setSelectedAnswer={setSelectedAnswer}
-                                send={send}
-                            />
-                        </View>
-                    ) : (
-                        <View>
-                            <View className="ml-[2.5vw]">
-                                <Text className="text-lg font-medium">
-                                    Recent Records (Within a Month)
-                                </Text>
-                            </View>
-                            {thisMonthRecords?.length === 0 ? (
-                                <View className="flex justify-center items-center h-[7.5vh]">
-                                    <Text className="">No Recent Records</Text>
-                                </View>
+                            {tableToggle ? (
+                                <Pressable
+                                    className="h-8 px-4 rounded-lg bg-blue-500 items-center justify-center active:bg-blue-600"
+                                    onPress={() => setTableToggle(false)}
+                                >
+                                    <Text className="text-white font-bold">
+                                        Cancel
+                                    </Text>
+                                </Pressable>
                             ) : (
-                                <View className="h-[23vh] mb-[2vh] w-full">
-                                    <FlatList
-                                        data={thisMonthRecords}
-                                        renderItem={({ item }) => (
-                                            <OverworkRecordListItem
-                                                title={item.createDate}
-                                                personal={item.personal}
-                                                working={item.working}
-                                            />
-                                        )}
+                                <Pressable
+                                    className="h-8 px-4 rounded-lg border border-gray-300 items-center justify-center bg-white active:bg-gray-500"
+                                    onPress={() => setTableToggle(true)}
+                                >
+                                    <Text className="text-base">+ Add</Text>
+                                </Pressable>
+                            )}
+                        </View>
+                    </View>
+
+                    <View className="flex-1 px-3">
+                        {tableToggle ? (
+                            <View className="flex-1 rounded-t-3xl bg-gray-50">
+                                <View className="p-4">
+                                    <OverworkTable
+                                        questionIndex={questionIndex}
+                                        setQuestionIndex={setQuestionIndex}
+                                        selectedAnswer={selectedAnswer}
+                                        setSelectedAnswer={setSelectedAnswer}
+                                        send={send}
                                     />
                                 </View>
-                            )}
-                            <View className="ml-[2.5vw]">
-                                <Text className="text-lg font-medium">
+                            </View>
+                        ) : (
+                            <View className="flex-1">
+                                <View className="mb-4">
+                                    <Text className="text-lg font-medium mb-2">
+                                        Recent Records (Within a Month)
+                                    </Text>
+                                    {thisMonthRecords?.length === 0 ? (
+                                        <View className="h-16 justify-center items-center bg-white rounded-xl">
+                                            <Text className="text-gray-500">
+                                                No Recent Records
+                                            </Text>
+                                        </View>
+                                    ) : (
+                                        <View className="max-h-[23vh]">
+                                            <FlatList
+                                                data={thisMonthRecords}
+                                                renderItem={({ item }) => (
+                                                    <OverworkRecordListItem
+                                                        title={item.createDate}
+                                                        personal={item.personal}
+                                                        working={item.working}
+                                                    />
+                                                )}
+                                            />
+                                        </View>
+                                    )}
+                                </View>
+
+                                <Text className="text-lg font-medium mb-2">
                                     Historical Records
                                 </Text>
-                            </View>
-                            <View className="h-[35vh]">
                                 <FlatList
+                                    className="flex-1"
                                     data={overworkScore}
                                     renderItem={({ item }) => (
                                         <OverworkRecordListItem
@@ -191,8 +204,8 @@ const OverWorkTableScreen = () => {
                                     )}
                                 />
                             </View>
-                        </View>
-                    )}
+                        )}
+                    </View>
                 </View>
                 <ChartModal
                     whosCall="workTable"

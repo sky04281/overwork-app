@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 
 export default function RatingBattery({ score }: { score: number }) {
     const colorClasses = [
@@ -19,7 +19,7 @@ export default function RatingBattery({ score }: { score: number }) {
     const classedScore = score > 10 ? Math.floor(score / 10) + 1 : 1
 
     return (
-        <View className="flex justify-center items-center w-[25vw]">
+        <View className="flex justify-center items-center w-[25vw] h-[32.5vh] rounded-lg bg-white/90 shadow-md">
             <View className="flex justify-center items-center w-[21vw] p-[0.75vw] border border-dashed rounded">
                 {colorClasses
                     .map((color, index) => {

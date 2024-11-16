@@ -11,45 +11,48 @@ interface BodyInfoListItemProps {
 
 const BodyInfoListItem = ({ bodyInfo, ...props }: BodyInfoListItemProps) => {
     const [show, setShow] = React.useState(false)
+
+    const infoFields = [
+        { label: 'Heart Rate', value: bodyInfo.heartRate, unit: 'bpm' },
+        { label: 'Systolic BP', value: bodyInfo.SBP, unit: 'mmHg' },
+        { label: 'Diastolic BP', value: bodyInfo.DBP, unit: 'mmHg' },
+        { label: 'Blood Sugar', value: bodyInfo.bloodSugar, unit: 'mg/dL' },
+        { label: 'Height', value: bodyInfo.height, unit: 'cm' },
+        { label: 'Weight', value: bodyInfo.weight, unit: 'kg' },
+        { label: 'BMI', value: bodyInfo.BMI, unit: '' },
+        { label: 'Steps', value: bodyInfo.steps, unit: 'steps' },
+        { label: 'Sleep Time', value: bodyInfo.sleepTime, unit: 'hours' },
+    ]
+
     return (
-        <View>
-            <TouchableOpacity onPress={() => setShow(!show)}>
-                <View className="flex-row w-[90vw] items-center justify-between space-x-1 border-b-[1px] pt-1">
-                    <Text className="text-lg">{props.title}</Text>
+        <View className="bg-white rounded-lg shadow-sm mb-3 mx-1">
+            <TouchableOpacity className="p-4" onPress={() => setShow(!show)}>
+                <View className="flex-row justify-between items-center">
+                    <Text className="text-gray-700 font-bold text-base">
+                        {props.title}
+                    </Text>
                     <AntDesign
                         name={show ? 'caretup' : 'caretdown'}
                         size={16}
-                        color="black"
-                        onPress={() => setShow(!show)}
+                        color="#6B7280"
                     />
                 </View>
+
                 {show && (
-                    <View className="flex-col items-start space-y-1 mt-2 ml-1">
-                        <Text className="text-base">
-                            Average Heart Rate: {bodyInfo.heartRate} bpm
-                        </Text>
-                        <Text className="text-base">
-                            SBP: {bodyInfo.SBP} mmHg
-                        </Text>
-                        <Text className="text-base">
-                            DBP: {bodyInfo.DBP} mmHg
-                        </Text>
-                        <Text className="text-base">
-                            Blood Sugar: {bodyInfo.bloodSugar} mg/dL
-                        </Text>
-                        <Text className="text-base">
-                            Height: {bodyInfo.height} cm
-                        </Text>
-                        <Text className="text-base">
-                            Weight: {bodyInfo.weight} kg
-                        </Text>
-                        <Text className="text-base">BMI: {bodyInfo.BMI}</Text>
-                        <Text className="text-base">
-                            Steps: {bodyInfo.steps}
-                        </Text>
-                        <Text className="text-base">
-                            Sleep Duration: {bodyInfo.sleepTime} hr
-                        </Text>
+                    <View className="mt-4 space-y-3">
+                        {infoFields.map((field, index) => (
+                            <View
+                                key={index}
+                                className="flex-row justify-between items-center"
+                            >
+                                <Text className="text-gray-500">
+                                    {field.label}
+                                </Text>
+                                <Text className="font-medium">
+                                    {field.value} {field.unit}
+                                </Text>
+                            </View>
+                        ))}
                     </View>
                 )}
             </TouchableOpacity>

@@ -62,7 +62,7 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="basicInfoScreen"
                 options={{
-                    title: 'Basic Info',
+                    title: 'User Info',
                     tabBarIcon: ({ color, focused }) => (
                         <FontAwesome5
                             name={focused ? 'user' : 'user'}

@@ -5,6 +5,7 @@ import {
     SafeAreaView,
     Text,
     View,
+    ScrollView,
 } from 'react-native'
 import { useEffect, useState } from 'react'
 import Header from '@/components/tabs/Header'
@@ -13,6 +14,7 @@ import BODYINFO from '@/types/bodyInfo'
 import BodyInfoForm from '@/components/BodyInfo/BodyInfoForm'
 import { addBodyInfo } from '@/firebase/dbService'
 import BodyInfoListItem from '@/components/tabs/BodyInfoListItem'
+import ChartModal from '@/components/tabs/ChartModal'
 
 const BodyInfoScreen = () => {
     const { user, userData, setLoading } = useAuth()
@@ -36,10 +38,14 @@ const BodyInfoScreen = () => {
         sleepTime: 0,
     })
     const [bodyInfoList, setBodyInfoList] = useState<BODYINFO[]>([])
+    const [showScrollIndicator, setShowScrollIndicator] = useState(true)
+    const [chartKey, setChartKey] = useState(0)
+    const [chartToggle, setChartToggle] = useState(false)
     useEffect(() => {
         if (userData) {
-            const bodyInfo = userData.bodyInfo
-            setBodyInfoList([...bodyInfo])
+            const bodyInfo = userData.bodyInfo || []
+            console.log('bodyInfo data:', bodyInfo)
+            setBodyInfoList(Array.isArray(bodyInfo) ? bodyInfo : [])
             setForm({
                 ...form,
                 height: userData.basicInfo.height,
@@ -92,56 +98,157 @@ const BodyInfoScreen = () => {
             { cancelable: true }
         )
     }
+    const thisMonthRecords = bodyInfoList.filter((record) => {
+        return (
+            Number(record.createDate.split('-')[1]) ===
+            new Date().getMonth() + 1
+        )
+    })
     return (
-        <SafeAreaView className="h-full">
+        <SafeAreaView className="flex-1 bg-gray-200">
             <Header title="Body Information" />
-            <View className="w-full justify-center">
-                <View className="flex-row justify-between items-center my-[2.5vh] mx-[5vw]">
-                    <Text className="text-xl font-medium">Records</Text>
+            <View className="flex-1">
+                <View className="flex-row justify-between items-center mx-5 my-5">
+                    <Text className="text-xl font-medium">
+                        {formToggle ? 'Add New Record' : ''}
+                    </Text>
                     {formToggle ? (
                         <View className="flex-row gap-3">
                             <Pressable
-                                className="flex justify-center items-center h-[4vh] w-[15vw] border rounded bg-blue-400"
+                                className="h-8 px-4 rounded-lg bg-blue-500 items-center justify-center active:bg-blue-600"
                                 onPress={() => setFormToggle(false)}
                             >
-                                <Text className="text-white text-[17.5px] font-bold">
-                                    Back
+                                <Text className="text-white font-bold">
+                                    Cancel
                                 </Text>
                             </Pressable>
                             <Pressable
-                                className="flex justify-center items-center h-[4vh] w-[15vw] border rounded bg-red-500"
+                                className="h-8 px-4 rounded-lg bg-red-500 items-center justify-center active:bg-red-600"
                                 onPress={() => onFormSubmit()}
                             >
-                                <Text className="text-white text-[17.5px] font-bold">
+                                <Text className="text-white font-bold">
                                     Submit
                                 </Text>
                             </Pressable>
                         </View>
                     ) : (
-                        <Pressable
-                            className="flex justify-center items-center h-[4vh] w-[32.5vw] border rounded"
-                            onPress={() => setFormToggle(true)}
-                        >
-                            <Text className="text-[17.5px]">Add</Text>
-                        </Pressable>
+                        <View className="flex-row gap-3">
+                            <Pressable
+                                className="h-8 px-4 rounded-lg border border-gray-300 items-center justify-center bg-white active:bg-gray-500"
+                                onPress={() => {
+                                    setChartKey(chartKey + 1)
+                                    setChartToggle(!chartToggle)
+                                }}
+                            >
+                                <Text className="text-base">Trend</Text>
+                            </Pressable>
+                            <Pressable
+                                className="h-8 px-4 rounded-lg border border-gray-300 items-center justify-center bg-white active:bg-gray-500"
+                                onPress={() => setFormToggle(true)}
+                            >
+                                {({ pressed }) => (
+                                    <Text
+                                        className={`text-base flex-row items-center ${
+                                            pressed
+                                                ? 'text-white font-bold'
+                                                : ''
+                                        }`}
+                                    >
+                                        <Text>+ </Text>
+                                        <Text>Add</Text>
+                                    </Text>
+                                )}
+                            </Pressable>
+                        </View>
                     )}
                 </View>
-                <View className="h-[65vh] items-center justify-center">
+                <View className="flex-1 px-4">
                     {formToggle ? (
-                        <BodyInfoForm form={form} setForm={setForm} />
-                    ) : (
-                        <FlatList
-                            data={bodyInfoList}
-                            renderItem={({ item, index }) => (
-                                <BodyInfoListItem
-                                    title={item.createDate}
-                                    bodyInfo={item}
-                                    key={index}
-                                />
+                        <View className="flex-1 rounded-t-3xl bg-gray-50">
+                            <ScrollView
+                                className="flex-1"
+                                showsVerticalScrollIndicator={false}
+                                onScroll={({ nativeEvent }) => {
+                                    const { contentOffset } = nativeEvent
+                                    if (contentOffset.y > 0) {
+                                        setShowScrollIndicator(false)
+                                    } else {
+                                        setShowScrollIndicator(true)
+                                    }
+                                }}
+                                scrollEventThrottle={16}
+                            >
+                                <View className="p-4">
+                                    <BodyInfoForm
+                                        form={form}
+                                        setForm={setForm}
+                                    />
+                                </View>
+                            </ScrollView>
+
+                            {showScrollIndicator && (
+                                <View className="absolute bottom-4 left-0 right-0 items-center">
+                                    <View className="bg-gray-200/90 px-4 py-2 rounded-full shadow-md">
+                                        <Text className="text-gray-600 text-sm font-medium">
+                                            Scroll for more ↓
+                                        </Text>
+                                    </View>
+                                </View>
                             )}
-                        />
+                        </View>
+                    ) : (
+                        <View className="flex-1">
+                            <View className="mb-4">
+                                <Text className="text-lg font-medium mb-2">
+                                    Recent Records (Within a Month)
+                                </Text>
+                                {thisMonthRecords?.length === 0 ? (
+                                    <View className="h-16 justify-center items-center bg-white rounded-xl">
+                                        <Text className="text-gray-500">
+                                            No Recent Records
+                                        </Text>
+                                    </View>
+                                ) : (
+                                    <View className="h-[23vh]">
+                                        <FlatList
+                                            data={thisMonthRecords}
+                                            keyExtractor={(item, index) =>
+                                                index.toString()
+                                            }
+                                            renderItem={({ item }) => (
+                                                <BodyInfoListItem
+                                                    title={item.createDate}
+                                                    bodyInfo={item}
+                                                />
+                                            )}
+                                        />
+                                    </View>
+                                )}
+                            </View>
+
+                            <Text className="text-lg font-medium mb-2">
+                                Historical Records
+                            </Text>
+                            <FlatList
+                                className="flex-1"
+                                data={bodyInfoList}
+                                keyExtractor={(item, index) => index.toString()}
+                                renderItem={({ item }) => (
+                                    <BodyInfoListItem
+                                        title={item.createDate}
+                                        bodyInfo={item}
+                                    />
+                                )}
+                            />
+                        </View>
                     )}
                 </View>
+                <ChartModal
+                    whosCall="bodyInfo"
+                    chartToggle={chartToggle}
+                    setChartToggle={setChartToggle}
+                    key={chartKey}
+                />
             </View>
         </SafeAreaView>
     )
