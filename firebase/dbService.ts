@@ -116,7 +116,7 @@ export const addOverworkScore = async (
  * @throws {Error} If the overwork table document does not exist.
  */
 export const getOverworkTable = async () => {
-    const overworkTableRef = doc(serverDataCollection, 'overworkTable')
+    const overworkTableRef = doc(serverDataCollection, 'overworkTableEng')
     const overworkTableDoc = await getDoc(overworkTableRef)
     if (!overworkTableDoc.exists()) {
         throw new Error('overworkTable not found')

@@ -18,7 +18,6 @@ const OverWorkTableScreen = () => {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ])
 
-    // 你可以拿 overworkScore 來做紀錄顯示
     const { user, userData, setLoading } = useAuth()
 
     const [overworkScore, setOverworkScore] = useState<OVERWORKSCORE[]>()
@@ -113,7 +112,7 @@ const OverWorkTableScreen = () => {
                             : 'ease-in-out')
                     }
                 >
-                    <Header title="過負荷量表" />
+                    <Header title="Overwork Assessment" />
                     <View className="w-[90vw] flex flex-row justify-end items-center m-[20px] space-x-3">
                         <Pressable
                             className="flex justify-center items-center h-[4vh] w-[20vw] border rounded"
@@ -122,23 +121,21 @@ const OverWorkTableScreen = () => {
                                 setChartToggle(!chartToggle)
                             }}
                         >
-                            <Text className="text-[17.5px]">走勢圖</Text>
+                            <Text className="text-[17.5px]">Trend</Text>
                         </Pressable>
                         {tableToggle ? (
                             <Pressable
-                                className="flex justify-center items-center h-[4vh] w-[32.5vw] border rounded"
+                                className="flex justify-center items-center h-[4vh] w-[25vw] border rounded"
                                 onPress={() => setTableToggle(!tableToggle)}
                             >
-                                <Text className="text-[17.5px]">
-                                    返回歷史紀錄
-                                </Text>
+                                <Text className="text-[17.5px]">History</Text>
                             </Pressable>
                         ) : (
                             <Pressable
                                 className="flex justify-center items-center h-[4vh] w-[25vw] border rounded"
                                 onPress={() => setTableToggle(!tableToggle)}
                             >
-                                <Text className="text-[17.5px]">新增量表</Text>
+                                <Text className="text-[17.5px]">Add</Text>
                             </Pressable>
                         )}
                     </View>
@@ -156,12 +153,12 @@ const OverWorkTableScreen = () => {
                         <View>
                             <View className="ml-[2.5vw]">
                                 <Text className="text-lg font-medium">
-                                    近期紀錄（一個月內）
+                                    Recent Records (Within a Month)
                                 </Text>
                             </View>
                             {thisMonthRecords?.length === 0 ? (
                                 <View className="flex justify-center items-center h-[7.5vh]">
-                                    <Text className="">無近期紀錄</Text>
+                                    <Text className="">No Recent Records</Text>
                                 </View>
                             ) : (
                                 <View className="h-[23vh] mb-[2vh] w-full">
@@ -179,7 +176,7 @@ const OverWorkTableScreen = () => {
                             )}
                             <View className="ml-[2.5vw]">
                                 <Text className="text-lg font-medium">
-                                    歷史紀錄
+                                    Historical Records
                                 </Text>
                             </View>
                             <View className="h-[35vh]">

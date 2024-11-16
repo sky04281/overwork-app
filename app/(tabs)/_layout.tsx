@@ -24,7 +24,7 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="index"
                 options={{
-                    title: '健康儀表板',
+                    title: 'Dashboard',
                     tabBarIcon: ({ color, focused }) => (
                         <TabBarIcon
                             name={focused ? 'home' : 'home-outline'}
@@ -36,7 +36,7 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="overWorkTableScreen"
                 options={{
-                    title: '過負荷量表',
+                    title: 'Assessment',
                     tabBarIcon: ({ color, focused }) => (
                         <FontAwesome5
                             name={focused ? 'clipboard-list' : 'clipboard-list'}
@@ -49,7 +49,7 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="bodyInfoScreen"
                 options={{
-                    title: '生理資訊',
+                    title: 'Body Info',
                     tabBarIcon: ({ color, focused }) => (
                         <FontAwesome5
                             name={focused ? 'heartbeat' : 'heartbeat'}
@@ -62,7 +62,7 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="basicInfoScreen"
                 options={{
-                    title: '基本資料',
+                    title: 'Basic Info',
                     tabBarIcon: ({ color, focused }) => (
                         <FontAwesome5
                             name={focused ? 'user' : 'user'}

@@ -49,16 +49,16 @@ const BodyInfoScreen = () => {
     }, [userData])
     const onFormSubmit = () => {
         Alert.alert(
-            '送出',
-            '確定要送出嗎?',
+            'Submit',
+            'Are you sure you want to submit?',
             [
                 {
-                    text: '取消',
+                    text: 'Cancel',
                     onPress: () => console.log('Cancel Pressed'),
                     style: 'cancel',
                 },
                 {
-                    text: '確定',
+                    text: 'Confirm',
                     onPress: () => {
                         console.log('OK Pressed')
                         addBodyInfo(user!.uid, form)
@@ -94,12 +94,10 @@ const BodyInfoScreen = () => {
     }
     return (
         <SafeAreaView className="h-full">
-            <Header title="生理資訊" />
+            <Header title="Body Information" />
             <View className="w-full justify-center">
                 <View className="flex-row justify-between items-center my-[2.5vh] mx-[5vw]">
-                    <Text className="text-xl font-medium">
-                        個人生理資訊紀錄
-                    </Text>
+                    <Text className="text-xl font-medium">Records</Text>
                     {formToggle ? (
                         <View className="flex-row gap-3">
                             <Pressable
@@ -107,7 +105,7 @@ const BodyInfoScreen = () => {
                                 onPress={() => setFormToggle(false)}
                             >
                                 <Text className="text-white text-[17.5px] font-bold">
-                                    返回
+                                    Back
                                 </Text>
                             </Pressable>
                             <Pressable
@@ -115,7 +113,7 @@ const BodyInfoScreen = () => {
                                 onPress={() => onFormSubmit()}
                             >
                                 <Text className="text-white text-[17.5px] font-bold">
-                                    送出
+                                    Submit
                                 </Text>
                             </Pressable>
                         </View>
@@ -124,7 +122,7 @@ const BodyInfoScreen = () => {
                             className="flex justify-center items-center h-[4vh] w-[32.5vw] border rounded"
                             onPress={() => setFormToggle(true)}
                         >
-                            <Text className="text-[17.5px]">新增生理資訊</Text>
+                            <Text className="text-[17.5px]">Add</Text>
                         </Pressable>
                     )}
                 </View>

@@ -25,7 +25,6 @@ export default function OverworkTable({
         getOverworkTable()
             .then((data) => {
                 setOverworkTable(data)
-                console.log('overwork table:', data)
             })
             .catch((error) => {
                 console.error('Error getting overwork table:', error.message)
@@ -94,7 +93,7 @@ export default function OverworkTable({
                         className="p-2 border rounded"
                         onPress={() => send()}
                     >
-                        <Text>送出</Text>
+                        <Text>Submit</Text>
                     </Pressable>
                 )}
                 <Pressable

@@ -36,40 +36,43 @@ export default function HomeScreen() {
     useFocusEffect(
         useCallback(() => {
             fetchData()
-        }, [fetchData]) // 使用 fetchData 作為依賴
+        }, [fetchData])
     )
-    // 你可以用這個 lastestOverworkScore 來做新的顯示
+
     useEffect(() => {
         if (userData?.overworkScore) {
             setLatestOverworkScore(userData?.overworkScore.slice(-1)[0])
-            // 這邊是拿到全部衛教資訊
             getHealthEducationInfo().then((data) => {
                 setHealthEducationInfo(data)
             })
         }
     }, [userData])
 
-    // 點擊 info icon 時的 index
     const [infoModalIndex, setInfoModalIndex] = useState(0)
     const handlePressInfo = (index: number) => {
         setInfoModalIndex(index)
         setInfoModalVisible(true)
     }
 
-    // 開會有提到 低於 60 是低風險 其他還不確定
     const workingRate =
         latestOverworkScore.working > 45
             ? latestOverworkScore.working > 60
-                ? { style: 'text-[#e30019] font-bold italic', level: ' 高 ' }
-                : { style: 'text-[#f1a00b] font-bold italic', level: ' 中 ' }
-            : { style: 'text-[#52c902] font-bold italic', level: ' 低 ' }
+                ? { style: 'text-[#e30019] font-bold italic', level: ' High ' }
+                : {
+                      style: 'text-[#f1a00b] font-bold italic',
+                      level: ' Medium ',
+                  }
+            : { style: 'text-[#52c902] font-bold italic', level: ' Low ' }
 
     const personalRate =
         latestOverworkScore.personal > 50
             ? latestOverworkScore.personal > 70
-                ? { style: 'text-[#e30019] font-bold italic', level: ' 高 ' }
-                : { style: 'text-[#f1a00b] font-bold italic', level: ' 中 ' }
-            : { style: 'text-[#52c902] font-bold italic', level: ' 低 ' }
+                ? { style: 'text-[#e30019] font-bold italic', level: ' High ' }
+                : {
+                      style: 'text-[#f1a00b] font-bold italic',
+                      level: ' Medium ',
+                  }
+            : { style: 'text-[#52c902] font-bold italic', level: ' Low ' }
 
     return (
         <SafeAreaView>
@@ -81,7 +84,7 @@ export default function HomeScreen() {
                             : 'ease-in-out'
                     }
                 >
-                    <Header title="過負荷評量" />
+                    <Header title="Overwork Rating" />
                     <View className="flex flex-row">
                         <View>
                             <View className="flex flex-row justify-center items-center h-[35vh] w-[50vw]">
@@ -98,11 +101,11 @@ export default function HomeScreen() {
                                 />
                             </View>
                             <View className="flex flex-row justify-center items-center w-[50vw] h-[5vh]">
-                                <Text>個人評分為</Text>
+                                <Text>Personal rating is</Text>
                                 <Text className={personalRate.style}>
                                     {personalRate.level}
                                 </Text>
-                                <Text>風險</Text>
+                                <Text>risk</Text>
                             </View>
                         </View>
                         <View>
@@ -120,21 +123,25 @@ export default function HomeScreen() {
                                 </View>
                             </View>
                             <View className="flex flex-row justify-center items-center w-[50vw] h-[5vh]">
-                                <Text>工作評分為</Text>
+                                <Text>Work rating is</Text>
                                 <Text className={workingRate.style}>
                                     {workingRate.level}
                                 </Text>
-                                <Text>風險</Text>
+                                <Text>risk</Text>
                             </View>
                         </View>
                     </View>
                     <View className="flex justify-center items-center h-[15vh]">
-                        <Text className="text-xl font-semibold">衛教資訊</Text>
+                        <Text className="text-xl font-semibold">
+                            Health Education
+                        </Text>
                         <Text className="text-s pt-[1vh]">
-                            根據您的過負荷評分，提供以下資訊參考
+                            Based on your overwork assessment score, the
+                            following information is provided for reference
                         </Text>
                         <Text className="text-s">
-                            若您的過負荷評分風險較高，請儘速尋求專業醫療協助
+                            If your overwork risk level is high, please seek
+                            professional medical assistance promptly
                         </Text>
                     </View>
                     <View className="flex justify-center">
@@ -172,23 +179,7 @@ export default function HomeScreen() {
                             />
                         )}
                     </View>
-
-                    {/* {healthEducationInfo && healthEducationInfo.mild && (
-                        <HealthInfo
-                            healthEducationInfo={healthEducationInfo.mild}
-                            handlePressInfo={handlePressInfo}
-                        />
-                    )} */}
                 </View>
-                {/* {healthEducationInfo && (
-                    <InfoModal
-                        healthEducationInfo={
-                            healthEducationInfo.mild[infoModalIndex]
-                        }
-                        infoModalVisible={infoModalVisible}
-                        setInfoModalVisible={setInfoModalVisible}
-                    />
-                )} */}
             </ScrollView>
         </SafeAreaView>
     )
