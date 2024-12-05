@@ -19,16 +19,16 @@ export const sendEmailToCarer = async (
                 },
                 body: JSON.stringify({
                     to: carerEmail,
-                    subject: 'Overwork App - Personal Stress Alert',
+                    subject: 'PIOAS - Personal Stress Alert',
                     text: `Dear Relative,
-                    ${name} recently completed the Overwork Assessment in the Overwork App.
+                    ${name} recently completed the Overwork Assessment in the PIOAS.
                     His/Her personal stress index shows potential risks. Below are the details:
-                    Personal Stress Index: ${personal} (0-100)
-                    Work Stress Index: ${work} (0-100)
-                    Please consider reducing their life load and providing assistance.
+                    Personal Stress rating: ${personal} (0-100)
+                    Work Stress rating: ${work} (0-100)
+                    Please consider reducing His/Her life load and providing assistance.
                     
                     Sincerely,
-                    The Overwork App Team`,
+                    The PIOAS Team`,
                     imgUrl: url,
                 }),
             }
@@ -57,16 +57,16 @@ export const sendEmailToManager = async (
                 },
                 body: JSON.stringify({
                     to: managerEmail,
-                    subject: 'Overwork App - Work Stress Alert',
+                    subject: 'PIOAS - Work Stress Alert',
                     text: `Dear Manager,
-                    Your employee ${name} recently completed the Overwork Assessment in the Overwork App.
-                    Their work stress index shows potential risks. Below are the details:
-                    Work Stress Index: ${work} (0-100)
-                    Personal Stress Index: ${personal} (0-100)
-                    Please consider reducing their work load and providing assistance.
+                    Your employee ${name} recently completed the Overwork Assessment in the PIOAS.
+                    His/Her work stress index shows potential risks. Below are the details:
+                    Work Stress rating: ${work} (0-100)
+                    Personal Stress rating: ${personal} (0-100)
+                    Please consider reducing His/Her work load and providing assistance.
                     
                     Sincerely,
-                    The Overwork App Team`,
+                    The PIOAS Team`,
                     imgUrl: url,
                 }),
             }

@@ -29,14 +29,16 @@ const OverWorkTableScreen = () => {
     const [overworkScore, setOverworkScore] = useState<OVERWORKSCORE[]>()
 
     useEffect(() => {
-        userData ? setOverworkScore(userData.overworkScore) : ''
+        const overworkScoreRecord = userData ? userData.overworkScore : []
+        overworkScoreRecord.reverse()
+        setOverworkScore(overworkScoreRecord)
     }, [userData])
 
     const thisMonthRecords = overworkScore?.filter((record) => {
-        return (
-            Number(record.createDate.split('-')[1]) ===
-            new Date().getMonth() + 1
-        )
+        const recordDate = new Date(record.createDate)
+        const thirtyDaysAgo = new Date()
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+        return recordDate >= thirtyDaysAgo
     })
 
     const countScore = (selectedAnswer: number[]): OVERWORKSCORE => {
@@ -105,6 +107,7 @@ const OverWorkTableScreen = () => {
                 .finally(() => {
                     setTableToggle(!tableToggle)
                     setSelectedAnswer([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+                    setQuestionIndex(0)
                     setLoading(true)
                 })
     }

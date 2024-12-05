@@ -1,5 +1,5 @@
 import { View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import BasicInfoField from '../tabs/BasicInfoField'
 import BODYINFO from '@/types/bodyInfo'
 
@@ -78,6 +78,14 @@ const BodyInfoForm = ({ setForm, form }: bodyInfoFormProps) => {
     const BMI = form.weight / (form.height / 100) ** 2
     const roundedBMI = Math.round(BMI * 100) / 100
 
+    useEffect(() => {
+        setForm({
+            ...form,
+            BMI:
+                Math.round((form.weight / (form.height / 100) ** 2) * 100) /
+                100,
+        })
+    }, [])
     return (
         <View className="p-4">
             {formData.map((data, index) => (

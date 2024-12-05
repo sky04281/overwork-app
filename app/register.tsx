@@ -77,7 +77,7 @@ const RegisterScreen = () => {
                 <View className="w-full h-full flex items-center">
                     <View className="h-[25%] justify-center items-center">
                         <Text className="p-5 text-5xl font-bold dark:text-white">
-                            Overwork App
+                            Register
                         </Text>
                     </View>
                     <View className="w-full px-4">

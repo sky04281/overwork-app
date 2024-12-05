@@ -44,7 +44,7 @@ const BodyInfoScreen = () => {
     useEffect(() => {
         if (userData) {
             const bodyInfo = userData.bodyInfo || []
-            console.log('bodyInfo data:', bodyInfo)
+            bodyInfo.reverse()
             setBodyInfoList(Array.isArray(bodyInfo) ? bodyInfo : [])
             setForm({
                 ...form,
@@ -71,7 +71,13 @@ const BodyInfoScreen = () => {
                             .then(() => {
                                 setFormToggle(false)
                                 setForm({
-                                    createDate: new Date().toLocaleDateString(),
+                                    createDate: new Date()
+                                        .toLocaleDateString('zh-TW', {
+                                            year: 'numeric',
+                                            month: '2-digit',
+                                            day: '2-digit',
+                                        })
+                                        .replaceAll('/', '-'),
                                     heartRate: 0,
                                     SBP: 0,
                                     DBP: 0,
@@ -81,6 +87,15 @@ const BodyInfoScreen = () => {
                                     BMI: 0,
                                     steps: 0,
                                     sleepTime: 0,
+                                })
+                                setForm({
+                                    ...form,
+                                    BMI:
+                                        Math.round(
+                                            (form.weight /
+                                                (form.height / 100) ** 2) *
+                                                100
+                                        ) / 100,
                                 })
                             })
                             .catch((error) => {
@@ -98,11 +113,11 @@ const BodyInfoScreen = () => {
             { cancelable: true }
         )
     }
-    const thisMonthRecords = bodyInfoList.filter((record) => {
-        return (
-            Number(record.createDate.split('-')[1]) ===
-            new Date().getMonth() + 1
-        )
+    const thisMonthRecords = bodyInfoList?.filter((record) => {
+        const recordDate = new Date(record.createDate)
+        const thirtyDaysAgo = new Date()
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+        return recordDate >= thirtyDaysAgo
     })
     return (
         <SafeAreaView className="flex-1 bg-gray-200">

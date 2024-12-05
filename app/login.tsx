@@ -26,8 +26,8 @@ const LoginScreen = () => {
             <ScrollView contentContainerStyle={{ height: '100%' }}>
                 <View className="w-full h-full flex items-center">
                     <View className="h-[25%] justify-center items-center">
-                        <Text className="p-5 text-5xl font-bold">
-                            Overwork APP
+                        <Text className="p-5 text-5xl font-bold text-center">
+                            Log In
                         </Text>
                     </View>
                     <View className="w-full px-4">

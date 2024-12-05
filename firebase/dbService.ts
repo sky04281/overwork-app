@@ -67,6 +67,25 @@ export const addBodyInfo = async (uid: string, bodyInfo: BODYINFO) => {
         console.log('body info added')
     }
 
+    // check if the user's health is at risk
+    if (healthCheck(currentBodyInfo)) {
+        const currentOverworkScore = userData.data().overworkScore as [
+            OVERWORKSCORE
+        ]
+        if (currentOverworkScore) {
+            let lastOverworkScore =
+                currentOverworkScore[currentOverworkScore.length - 1]
+            lastOverworkScore.personal * 1.25 > 100
+                ? (lastOverworkScore.personal = 100)
+                : (lastOverworkScore.personal *= 1.25)
+            lastOverworkScore.working * 1.25 > 100
+                ? (lastOverworkScore.working = 100)
+                : (lastOverworkScore.working *= 1.25)
+            console.log('lastOverworkScore', lastOverworkScore)
+            await addOverworkScore(uid, lastOverworkScore)
+        }
+    }
+
     return await setDoc(userRef, { bodyInfo: currentBodyInfo }, { merge: true })
 }
 
@@ -137,5 +156,45 @@ export const getHealthEducationInfo = async () => {
         return healthInfoDoc.data() as HEALTHEDUCATIONINFO
     } else {
         throw new Error('healthInfo not found')
+    }
+}
+
+const checkBMI = (BMI: number) => {
+    if (BMI > 24 || BMI <= 18.5) {
+        console.log('BMI check ', true)
+        return true
+    }
+}
+
+const checkBloodPressure = (SBP: number, DBP: number) => {
+    if (SBP >= 140 || DBP >= 90) {
+        console.log('BP check ', true)
+        return true
+    }
+}
+
+const checkAvgSleepTime = (avgSleepTime: number) => {
+    if (avgSleepTime < 6) {
+        console.log('slepp time check ', true)
+        return true
+    }
+}
+
+const getAvgSleepTimeLastWeek = (bodyInfo: BODYINFO[]) => {
+    const sleepTimeList = bodyInfo.map((info) => info.sleepTime)
+    const lastWeekSleepTime = sleepTimeList.slice(-7)
+    return (
+        lastWeekSleepTime.reduce((a, b) => a + b, 0) / lastWeekSleepTime.length
+    )
+}
+
+const healthCheck = (bodyInfo: BODYINFO[]) => {
+    const lastBodyInfo = bodyInfo[bodyInfo.length - 1]
+    if (
+        checkBMI(lastBodyInfo.BMI) ||
+        checkBloodPressure(lastBodyInfo.SBP, lastBodyInfo.DBP) ||
+        checkAvgSleepTime(getAvgSleepTimeLastWeek(bodyInfo))
+    ) {
+        return true
     }
 }
